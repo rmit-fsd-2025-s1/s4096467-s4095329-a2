@@ -1,5 +1,6 @@
 import Image from "next/image";
 import {Header} from "../components/Header/Header";
+import {Footer} from "../components/Footer/Footer";
 import { Geist, Geist_Mono } from "next/font/google";
 
 const geistSans = Geist({
@@ -17,6 +18,8 @@ export default function Home() {
     <>
       <title>Index</title>
       <Header isLoggedIn={true} />
+      <p> Text Here </p>
+      <Footer isLoggedIn={true}/>
     </>
   );
 }
