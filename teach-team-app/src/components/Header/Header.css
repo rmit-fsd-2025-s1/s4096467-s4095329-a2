@@ -1,0 +1,37 @@
+.header-container
+{
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding:10px 10px 10px 10px;
+}
+
+.header-container img
+{
+    width: 3em;
+}
+
+.header-container h1
+{
+    font-size: 2em;
+}
+
+.header-section
+{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.header-container .profile-picture
+{
+    width: 3em;
+    height: 3em;
+    object-fit: cover;
+    border-radius: 100vw;
+    border: 2px solid white;
+}
