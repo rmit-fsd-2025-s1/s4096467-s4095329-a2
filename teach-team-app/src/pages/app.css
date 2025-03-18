@@ -1,0 +1,10 @@
+.flex-sbs
+{
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-gap
+{
+    gap: 15px;
+}
