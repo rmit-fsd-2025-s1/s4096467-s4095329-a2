@@ -1,7 +1,8 @@
 import {Header} from "../components/Header/Header";
 import {Footer} from "../components/Footer/Footer";
+import Link from 'next/link'
 
-import "./login.css";
+import "./sign-in.css";
 
 export default function loginScreen()
 {
@@ -9,7 +10,7 @@ export default function loginScreen()
         <>
             <title>Login</title>
             <Header isLoggedIn={true} />
-            <form className="login-form">
+            <form>
                 <label>
                     Email:
                     <input type="text" name="email"/>
@@ -18,8 +19,10 @@ export default function loginScreen()
                     Password:
                     <input type="password" name="password"/>
                 </label>
-
-                <button></button>
+            <div className="flex-sbs flex-gap">
+                <button>Log In</button>
+                <Link href="./register"><button>Register</button></Link>
+            </div>
             </form>
             <Footer isLoggedIn={true} type=""/>
         </>
