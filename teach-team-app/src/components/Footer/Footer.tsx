@@ -6,10 +6,10 @@ interface FooterProps
     type: String;
 }
 
-export function Footer(props: FooterProps)
+export function Footer({isLoggedIn, type}: FooterProps)
 {
     let logOut;
-    if(props.isLoggedIn)
+    if(isLoggedIn)
     {
         logOut = <a><p>Log Out</p></a>
     }
@@ -18,13 +18,13 @@ export function Footer(props: FooterProps)
         <div className="footer-container">
             <span>
                 <h3>Quick Links</h3>
-                <a href=""><p>Home</p></a>
+                <a href="/"><p>Home</p></a>
                 <a href=""><p>About Us</p></a>
                 <a href=""><p>FAQ</p></a>
                 <a href=""><p>Privacy Policy</p></a>
                 <a href=""><p>Terms of Service</p></a>
-                <a href=""><p>Log In</p></a>
-                <a href=""><p>Register</p></a>
+                <a href="/login"><p>Log In</p></a>
+                <a href="/register"><p>Register</p></a>
                 {logOut}
             </span>
             <span>
