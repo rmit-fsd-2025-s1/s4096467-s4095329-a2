@@ -19,7 +19,7 @@ export default function Home() {
       <title>Index</title>
       <Header isLoggedIn={true} />
       <p> Text Here </p>
-      <Footer isLoggedIn={true}/>
+      <Footer isLoggedIn={true} type=""/>
     </>
   );
 }
