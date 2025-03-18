@@ -31,6 +31,7 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
 export function HomeContent({isLoggedIn, accountType}: EducatorProps)
 {
     return(
+        accountType === "lecturer" ? 
         <div className="home-content">
             <div className="home-grid">
                 <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
@@ -40,6 +41,10 @@ export function HomeContent({isLoggedIn, accountType}: EducatorProps)
                 <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
                 <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
             </div>
+        </div>
+        :
+        <div>
+            <p>Damn, you're a tutor now</p>
         </div>
     )
 }
