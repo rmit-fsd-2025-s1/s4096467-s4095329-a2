@@ -6,10 +6,10 @@ interface FooterProps
     type: String;
 }
 
-export function Footer(props: FooterProps)
+export function Footer({isLoggedIn, type}: FooterProps)
 {
     let logOut;
-    if(props.isLoggedIn)
+    if(isLoggedIn)
     {
         logOut = <a><p>Log Out</p></a>
     }
