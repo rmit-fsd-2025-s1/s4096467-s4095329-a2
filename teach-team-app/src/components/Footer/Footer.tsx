@@ -2,7 +2,8 @@ import "./Footer.css";
 
 interface FooterProps
 {
-    isLoggedIn: Boolean;
+    isLoggedIn: Boolean,
+    type: String;
 }
 
 export function Footer(props: FooterProps)
