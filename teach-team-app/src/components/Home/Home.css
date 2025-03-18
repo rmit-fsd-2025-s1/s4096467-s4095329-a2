@@ -1,0 +1,32 @@
+/* Overall area for content on the home page */
+.home-content
+{
+    margin: 10px;
+}
+
+
+/* Lecturer Formatting */
+
+/* Grid that displays subjects */
+.home-grid
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Container for each subject */
+.subject-container
+{
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 15em;
+    min-height: 5em;
+    text-align: center;
+    text-wrap: wrap;
+    background-color: rgb(228, 228, 228);
+    border: 2px solid black;
+}
