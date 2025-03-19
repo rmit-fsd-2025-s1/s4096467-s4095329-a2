@@ -1,7 +1,92 @@
-form
-{
+/* sign-in.css */
+
+form {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-}
+    justify-content: center;
+    gap: 30px;
+    background-color: #151515;
+    font-weight: bold;
+  }
+  
+  label {
+    color: #ffffff;
+    font-size: 20px;
+  }
+  
+  input {
+    width: 450px; 
+    height: 45px; /*Will change these two later to make them adaptable*/
+    padding: 8px;
+    margin-top: 5px;
+    border: 2px solid #535353;
+    background-color: rgb(52, 52, 52);
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: lighter;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  input:focus {
+    outline: 3px solid #0070f3;
+    background-color: rgb(68, 68, 68);
+  }
+
+  h1 {
+    font-size: 30px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+  }
+
+  .flex-sbs {
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .forgot {
+    text-align: left;
+    color: #0070f3;
+    width: 100%; 
+  }
+  
+  button {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 400px;
+  }
+    
+  button:first-child {
+    background-color: #0070f3;
+    opacity: 0.8;
+    color: white;
+  }
+
+  button:hover {
+    opacity: 1;
+  }
+  
+  button:last-child {
+    background-color: #555;
+    color: white;
+  }
+
+  .ac {
+    padding: 20px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+
+  

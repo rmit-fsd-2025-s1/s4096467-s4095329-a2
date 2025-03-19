@@ -9,22 +9,27 @@ export default function loginScreen()
     return(
         <>
             <title>Login</title>
-            <Header isLoggedIn={true} />
+            {/* <Header isLoggedIn={true} /> */}
             <form>
+                <h1>Welcome to the TeachTeam</h1>
                 <label>
-                    Email:
+                    Email
                     <input type="text" name="email"/>
                 </label>
                 <label>
-                    Password:
+                    Password
                     <input type="password" name="password"/>
                 </label>
+                <div className="forgot"/*Extra stuff*/> 
+                    Forgot Password? 
+                </div>
             <div className="flex-sbs flex-gap">
-                <button>Log In</button>
+                <button>Sign In</button>
+                <div className="ac">Don't have an Account?</div>
                 <Link href="./register"><button>Register</button></Link>
             </div>
             </form>
-            <Footer isLoggedIn={true} type=""/>
+            {/* <Footer isLoggedIn={true} type=""/> */}
         </>
     );
     
