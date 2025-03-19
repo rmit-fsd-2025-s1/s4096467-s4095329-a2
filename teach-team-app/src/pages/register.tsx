@@ -9,18 +9,18 @@ export default function registerScreen()
     return(
         <>
             <title>Login</title>
-            <Header isLoggedIn={true} />
+            {/* <Header isLoggedIn={true} /> */}
             <form className="login-form">
                 <label>
-                    Email:
+                    Email
                     <input type="text" name="email"/>
                 </label>
                 <label>
-                    Password:
+                    Password
                     <input type="password" name="password"/>
                 </label>
                 <label>
-                    Confirm Password:
+                    Confirm Password
                     <input type="password" name="password"/>
                 </label>
             <div className="flex-sbs flex-gap">
@@ -28,7 +28,7 @@ export default function registerScreen()
                 <Link href="./login"><button>Back to login</button></Link>
             </div>
             </form>
-            <Footer isLoggedIn={true} type=""/>
+            {/* <Footer isLoggedIn={true} type=""/> */}
         </>
     );
     
