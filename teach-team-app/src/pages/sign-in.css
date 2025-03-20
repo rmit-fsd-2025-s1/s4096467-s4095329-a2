@@ -15,6 +15,7 @@ form {
   justify-content: center;
   gap: 30px;
   background-color: #151515;
+  /* border: 1px solid white; */
   font-weight: bold;
 }
 
@@ -47,6 +48,7 @@ form {
     font-size: 33px;
     margin-top: 20px;
     margin-bottom: 50px;
+    color: white;
   }
 
   .flex-sbs {
@@ -69,25 +71,27 @@ form {
     font-size: 16px;
     width: 400px;
   }
-    
-  button:first-child {
+
+  button:hover {
+    opacity: 1;
+  }
+
+  .login {
     background-color: #0070f3;
     opacity: 0.8;
     color: white;
   }
 
-  button:hover {
-    opacity: 1;
-  }
-  
-  button:last-child {
-    background-color: #555;
+  .register {
+    background-color: #363636;
+    opacity: 0.8;
     color: white;
   }
 
   .ac {
     padding: 20px;
     font-size: 14px;
+    color: white;
     text-align: center;
   }
 

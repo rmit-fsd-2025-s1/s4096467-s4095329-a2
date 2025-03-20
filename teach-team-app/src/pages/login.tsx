@@ -27,9 +27,9 @@ export default function loginScreen()
                     Forgot Password? 
                 </div>
             <div className="flex-sbs flex-gap">
-                <button>Sign In</button>
+                <button className="login">Sign In</button>
                 <div className="ac">Don't have an Account?</div>
-                <Link href="./register"><button>Register</button></Link>
+                <Link href="./register"><button className="register">Register</button></Link>
             </div>
             </form>
             {/* <Footer isLoggedIn={true} type=""/> */}
