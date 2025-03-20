@@ -9,12 +9,12 @@ export default function registerScreen()
     return(
         <>
             <div className="video-background">
-                <video src="/test1.mp4" autoPlay loop muted playsInline />
+                <video src="/test2.mp4" autoPlay loop muted playsInline />
             </div>
             <title>Login</title>
             {/* <Header isLoggedIn={true} /> */}
             <form className="login-form">
-            <h1>Create an Account</h1>
+            <h2>Create an Account</h2>
                 <label>
                     Email
                     <input type="text" name="email"/>

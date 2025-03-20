@@ -9,12 +9,12 @@ export default function loginScreen()
     return(
         <>  
             <div className="video-background">
-                <video src="/test1.mp4" autoPlay loop muted playsInline />
+                <video src="/test2.mp4" autoPlay loop muted playsInline />
             </div>
-            <title>Login</title>
+            {/* <title>Login</title> */}
             {/* <Header isLoggedIn={true} /> */}
             <form>
-                <h1>Welcome to the TeachTeam</h1>
+                <h1>Teach<span className="green">Team</span></h1>
                 <label>
                     Email
                     <input type="text" name="email"/>
@@ -24,11 +24,11 @@ export default function loginScreen()
                     <input type="password" name="password"/>
                 </label>
                 <div className="forgot"/*Extra stuff*/> 
-                    Forgot Password? 
+                    <Link href="./login">Forgot Password?</Link> 
                 </div>
             <div className="flex-sbs flex-gap">
                 <button className="login">Sign In</button>
-                <div className="ac">Don't have an Account?</div>
+                <div className="ac">──────────── New to TeachTeam? ────────────</div>
                 <Link href="./register"><button className="register">Register</button></Link>
             </div>
             </form>
