@@ -8,9 +8,13 @@ export default function registerScreen()
 {
     return(
         <>
+            <div className="video-background">
+                <video src="/test1.mp4" autoPlay loop muted playsInline />
+            </div>
             <title>Login</title>
             {/* <Header isLoggedIn={true} /> */}
             <form className="login-form">
+            <h1>Create an Account</h1>
                 <label>
                     Email
                     <input type="text" name="email"/>
@@ -24,8 +28,8 @@ export default function registerScreen()
                     <input type="password" name="password"/>
                 </label>
             <div className="flex-sbs flex-gap">
-                <a href="./register"><button>Register</button></a>
-                <Link href="./login"><button>Back to login</button></Link>
+                <a href="./register"><button className="login">Register</button></a>
+                <Link href="./login"><button className="register">Back to login</button></Link>
             </div>
             </form>
             {/* <Footer isLoggedIn={true} type=""/> */}

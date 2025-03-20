@@ -45,7 +45,10 @@ export default function loginScreen()
     }
 
     return(
-        <>
+        <>  
+            <div className="video-background">
+                <video src="/test1.mp4" autoPlay loop muted playsInline />
+            </div>
             <title>Login</title>
             {/* <Header isLoggedIn={true} /> */}
             <form onSubmit={attemptLogin}>
@@ -71,9 +74,9 @@ export default function loginScreen()
                     Forgot Password? 
                 </div>
             <div className="flex-sbs flex-gap">
-                <button>Sign In</button>
+                <button className="login">Sign In</button>
                 <div className="ac">Don't have an Account?</div>
-                <Link href="./register"><button>Register</button></Link>
+                <Link href="./register"><button className="register">Register</button></Link>
             </div>
             </form>
             {/* <Footer isLoggedIn={true} type=""/> */}
