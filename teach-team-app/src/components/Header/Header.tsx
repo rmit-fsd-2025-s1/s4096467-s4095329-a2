@@ -19,7 +19,7 @@ export function Header({isLoggedIn}: HeaderProps)
 
     return(
         <div className="header-container">
-            <a href={isLoggedIn?"/lecturer/lecturer-home":"/"}>
+            <a href={isLoggedIn?"/educator/educator":"/"}>
             <span className="header-section">
                 <img src="https://gumtreeau-res.cloudinary.com/image/private/t_$_75/gumtree/8adfb076-8f0f-4a22-befe-d225b5ccfca3.jpg" alt="Annoying Cat"/>
                     <h1>TeachTeam Management</h1>
