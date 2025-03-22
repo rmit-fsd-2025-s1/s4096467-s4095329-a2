@@ -1,18 +1,25 @@
 import {Header} from "../components/Header/Header";
 import {Footer} from "../components/Footer/Footer";
-import {useState, FormEvent} from "react";
+import {useState, FormEvent, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import { isPasswordValid, userCred, getPasswordForUser } from "../helpers/validate";
 import Link from 'next/link'
 
 import "./sign-in.css";
 
-
-
-;
-
+//Page loading for the login screen at /login
 export default function loginScreen()
 {
+    //Gets localStorage for localEmail, if it is not set, get ""
+    useEffect(() => {
+        const localEmail = localStorage.getItem("localEmail")||"";
+      }, []);
+
+    //Gets localStorage for localPassword, if it is not set, get ""
+    useEffect(() => {
+      const localPassword = localStorage.getItem("localPassword")||"";
+    }, []);
+
     //Create form data using state hook
     const [formData, setFormData] = useState({
         email: "",
@@ -36,6 +43,8 @@ export default function loginScreen()
         //Redirect
         if(isPasswordValid(userVal))
         {
+            localStorage.setItem("localEmail", email);
+            localStorage.setItem("localPassword", password);
             router.push('/educator/educator');
         }
         else
