@@ -24,13 +24,29 @@ export function getPasswordForUser({email, password}: userCred)
     //If the name is found in the Map
     if(db.has(email))
     {
-        //Yeah this looks like it is throwing errors, however it works somehow
-        const hashPass: string = db.get(email)?.password;
+        const hashPass: string = db.get(email)?.password ?? "";
         return(password=== hashPass?true:false);
     }
     else
     {
         return(false);
+    }
+}
+
+//Returns whether the user is a lecturer, tutor or none
+export function getUserType(email: string)
+{
+    // Populates the Map, this will be done with a DB later
+    let db: Map<string, userState> = generateUsers();
+
+    //If the name is found in the map
+    if(db.has(email))
+    {
+        return(db.get(email)?.role);
+    }
+    else
+    {
+        return "none";
     }
 }
 
@@ -48,14 +64,14 @@ export function generateUsers()
     {
         email: "connor@gmail.com",
         password: "P@ssword1",
-        role: "lecture"
+        role: "lecturer"
     }
 
     const user3: userState = 
     {
         email: "will@gmail.com",
         password: "P@ssword2",
-        role: "lecture"
+        role: "lecturer"
     }
 
     let returnMap = new Map<string, userState>();
