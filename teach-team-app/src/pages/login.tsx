@@ -2,7 +2,7 @@ import {Header} from "../components/Header/Header";
 import {Footer} from "../components/Footer/Footer";
 import {useState, FormEvent} from "react";
 import {useRouter} from "next/navigation";
-import { isPasswordValid, userState, getPasswordForUser } from "../helpers/validate";
+import { isPasswordValid, userCred, getPasswordForUser } from "../helpers/validate";
 import Link from 'next/link'
 
 import "./sign-in.css";
@@ -30,7 +30,7 @@ export default function loginScreen()
         console.log(formData);
         const email = formData.email;
         const password = formData.password;
-        const userVal: userState = {email, password};
+        const userVal: userCred = {email, password};
         console.log(isPasswordValid(userVal));
 
         //Redirect
@@ -56,7 +56,7 @@ export default function loginScreen()
                 <label>
                     Email
                     {/* On Update, set the values in formData for email */}
-                    <input type="text" name="email" 
+                    <input type="text" name="email"
                         value={formData.email}
                         onChange={(e)=>setFormData({...formData, email: e.target.value})}
                         placeholder="Enter Email"
