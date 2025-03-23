@@ -42,7 +42,7 @@ export function getUserType(email: string)
     //If the name is found in the map
     if(db.has(email))
     {
-        return(db.get(email)?.role);
+        return(db.get(email)?.role??"");
     }
     else
     {
