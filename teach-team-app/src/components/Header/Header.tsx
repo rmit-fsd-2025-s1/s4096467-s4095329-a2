@@ -15,14 +15,15 @@ export function Header({isLoggedIn}: HeaderProps)
     }
     else
     {
-        profile = <>
-        <Link href="/login">
-            <button className="loginButton">Log In</button>
-        </Link>
-        <Link href="/register">
-        <button className="registerButton">Register</button>
-        </Link>
-        </>;
+        // //is this necessary if we are gonna have this displayed only when the user is logged in?
+        // profile = <>
+        // <Link href="/login">
+        //     <button className="loginButton">Log In</button>
+        // </Link>
+        // <Link href="/register">
+        // <button className="registerButton">Register</button>
+        // </Link>
+        // </>;
     }
 
     return(
