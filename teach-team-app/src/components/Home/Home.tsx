@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
 import "./Home.css";
+import { Card } from "@chakra-ui/react";
 
 interface EducatorProps
 {
@@ -20,11 +21,10 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
 {
     return(
         <Link href={"./subjectManager"}>
-            <div className="subject-container">
-                <h2>{subjectCode}</h2>
-                <h2>{subjectName}</h2>
-                <h2>New Applicants: {subjectApplicants}</h2>
-            </div>
+            <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"}>
+                <Card.Header>{subjectCode}</Card.Header>
+                <Card.Body>{subjectName}<br/>New Applicants: {subjectApplicants}</Card.Body>
+            </Card.Root>
         </Link>
     );
 }
