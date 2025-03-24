@@ -1,23 +1,25 @@
 .header-container
 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: rgb(26, 26, 26);
-    color: white;
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    border-bottom: 2px rgb(179, 179, 179) solid;
+    border-top: 5px var(--accent-color) solid;
     align-items: center;
     width: 100%;
-    padding:10px 10px 10px 10px;
+    font-size: 30px
 }
 
 .header-container img
 {
     width: 3em;
+    height: 3em;
 }
 
 .header-container h1
-{
+{   
     font-size: 2em;
     font-weight: bold;
 }
@@ -37,3 +39,192 @@
     border-radius: 100vw;
     border: 2px solid white;
 }
+
+.user {
+    margin-left: auto;
+}
+
+.user:hover {
+    background-color: rgb(201, 201, 201);
+}
+
+.user:hover h3 {
+    color: var(--accent-color);
+}
+
+.user-profile img {
+    gap: 0 0 5px 0;
+}
+
+.user-profile {
+    border-left: 2px grey solid;
+    border-right: 2px grey solid;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px 10px 20px;
+    font-weight: bold;   
+}
+
+.user-profile img {
+    object-fit: cover;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+}
+
+.user-profile h3 {
+    margin: 0;
+}
+
+.green {
+    color: var(--accent-color);
+}
+
+:root {
+    --color-1: rgb(39, 38, 57);
+    --text_color: white;
+    --accent-color: rgb(59, 189, 91);
+}
+
+*{
+    margin:0;
+    padding:0;
+}
+
+nav {
+    height: 60px;
+    background-color: var(--color-1);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.links-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: bold;
+}
+
+nav a {
+    height: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text_color);
+}
+
+nav a:hover {
+    background-color: var(--accent-color);
+}
+
+nav .home {
+    margin-right: auto;
+}
+
+.close svg:hover {
+    fill: red;
+}
+
+.open{
+    width: 3em;
+    height: 3em;
+    background-color: white;
+    fill: black;
+}
+
+.open svg {
+    width: 45px;
+    height: 45px;
+}
+
+.open svg:hover {
+    fill:rgb(59, 189, 91);
+}
+
+#sidebar-active {
+    display: none;
+}
+
+.links-container {
+    flex-direction: column;
+    align-items: flex-start;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    z-index: 10;
+    width: 300px;
+    background-color: var(--color-1);
+    box-shadow: -5px 0 5px rgba(0,0,0,0.25);
+    transition: 0.75s ease;
+}
+
+.links-container span{
+    padding: 0 20px 0 0px;
+    font-size: 40px;
+}
+
+.bottom {
+    margin-top: auto;
+    width: 100%;
+}
+
+.bottom a {
+    background-color: var(--color-1);
+}
+
+nav a {
+    box-sizing: border-box;
+    height: auto;
+    width: 100%;
+    padding: 20px 30px;
+    justify-content: flex-start;
+
+}
+
+.open, .close {
+    padding: 20px;
+    display: block;
+}
+
+#sidebar-active:checked ~ .links-container {
+    right: 0;
+}
+
+#sidebar-active:checked ~ #overlay {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.links-container a {
+  position: relative;
+  display: flex;
+}
+
+.links-container a::after,
+.links-container a::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, rgb(59, 189, 91), #00ffff);
+  bottom: -5px;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease-out;
+}
+
+.links-container a:hover::after,
+.links-container a:hover::before {
+  transform: scaleX(1);
+}
+

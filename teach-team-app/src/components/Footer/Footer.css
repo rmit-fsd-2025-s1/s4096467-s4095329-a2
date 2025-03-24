@@ -4,11 +4,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 100%;
-    bottom: 0;
-    background-color: rgb(26, 26, 26);
-    color: white;
-    padding: 10px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    padding: 50px 0 0 0;
+    border-top: 2px rgb(179, 179, 179) solid;
+    margin-top: auto;
 }
 
 .footer-container h3
@@ -18,7 +18,7 @@
 }
 
 .footer-container a {
-    color: rgb(254, 254, 254);
+    color: rgb(0, 0, 0);
     opacity: 0.6;
 }
 

@@ -31,12 +31,46 @@ export function Header({isLoggedIn}: HeaderProps)
             <Link href={isLoggedIn?"/educator/educator":"/"}>
                 <span className="header-section">
                     <img src="https://gumtreeau-res.cloudinary.com/image/private/t_$_75/gumtree/8adfb076-8f0f-4a22-befe-d225b5ccfca3.jpg" alt="Annoying Cat"/>
-                        <h1>TeachTeam Management</h1>
+                        <h1>Teach<span className="green">Team</span> Management</h1>
                 </span>
             </Link>
-            <span>
+            {/* <span>
                 {profile}
-            </span>
+            </span> */}
+            <div className="user">
+                <Link href="">
+                    <span className="user-profile">
+                        <img src="userpfp.png"/>
+                            <h3>UserName</h3>
+                    </span>                    
+                </Link>
+            </div>
+            <nav>
+                <input type="checkbox" id="sidebar-active"/>
+                <label htmlFor="sidebar-active" className="open">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="32x" viewBox="0 -960 960 960" width="32px" fill="black">
+                        <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/>
+                    </svg>
+                </label>
+                
+                <label id="overlay" htmlFor="sidebar-active"></label>
+                <div className="links-container">
+                    <label htmlFor="sidebar-active" className="close">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="white">
+                            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                        </svg>
+                    </label>
+
+                    <Link className ="home" href=""><span className="material-symbols-outlined">home</span>Home</Link>
+                    <Link href=""><span className="material-symbols-outlined">Help</span>PlaceHolder</Link>
+                    <Link href=""><span className="material-symbols-outlined">Help</span>PlaceHolder</Link>
+                    <Link href=""><span className="material-symbols-outlined">Help</span>PlaceHolder</Link>
+                    <div className="bottom">
+                        <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
+                        <Link href=""><span className="material-symbols-outlined">logout</span>Log out</Link>
+                    </div>
+                </div>
+            </nav>
         </div>
     )
 }
