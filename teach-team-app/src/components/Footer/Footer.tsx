@@ -1,5 +1,7 @@
 import Link from "next/link";
 import "./Footer.css";
+import { useEffect, useState } from "react";
+import {useRouter} from "next/navigation";
 
 interface FooterProps
 {
@@ -9,10 +11,21 @@ interface FooterProps
 
 export function Footer({isLoggedIn, type}: FooterProps)
 {
+    const router = useRouter();
+    const logOutRedirect = () => 
+        {
+            localStorage.setItem("localEmail", "");
+            localStorage.setItem("localPassword", "");
+        
+            console.log("here");
+            router.push('/login');
+            console.log("broke");
+        }
+
     let logOut;
     if(isLoggedIn)
     {
-        logOut = <Link href=""><p>Log Out</p></Link>
+        logOut = <Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><p>Log Out</p></Link>
     }
 
     return(
