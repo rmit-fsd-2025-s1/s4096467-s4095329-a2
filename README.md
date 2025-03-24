@@ -6,7 +6,7 @@ A tutor management system called TeachTeam, aiming to streamline the process of 
 - node.js v22.xx.x
 - npm 10.x.x
 ## External Components
-- ![chakra-ui](https://www.npmjs.com/package/@chakra-ui/react)
+- [chakra-ui](https://www.npmjs.com/package/@chakra-ui/react)
 ## Startup Guide
 - Download the dependencies listed above
    - node.js
