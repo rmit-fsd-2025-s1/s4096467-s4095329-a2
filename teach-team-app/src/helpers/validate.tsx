@@ -1,3 +1,5 @@
+import bcrypt from "bcryptjs";
+
 export interface userState
 {
     email: string,
@@ -25,7 +27,7 @@ export function getPasswordForUser({email, password}: userCred)
     if(db.has(email))
     {
         const hashPass: string = db.get(email)?.password ?? "";
-        return(password=== hashPass?true:false);
+        return(bcrypt.compareSync(password, db.get(email)?.password||""));
     }
     else
     {
@@ -56,21 +58,24 @@ export function generateUsers()
     const user1: userState = 
     {
         email: "test1@gmail.com",
-        password: "Password1",
+        //Password1
+        password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
         role: "tutor"
     }
 
     const user2: userState = 
     {
         email: "connor@gmail.com",
-        password: "P@ssword1",
+        //P@ssword1
+        password: "$2b$10$8C6C.0Ph4SljkgQchNCxuu/BaMwziIA3Uz66S/5rciwtUJflURPlK",
         role: "lecturer"
     }
 
     const user3: userState = 
     {
         email: "will@gmail.com",
-        password: "P@ssword2",
+        //P@ssword2
+        password: "$2b$10$IVaJqtZuG1oo6xj2lHi/4.20ZWCbYWPgtqA7r0.aBKrxvF699.skq",
         role: "lecturer"
     }
 
