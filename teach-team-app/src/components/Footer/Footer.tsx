@@ -2,6 +2,7 @@ import Link from "next/link";
 import "./Footer.css";
 import { useEffect, useState } from "react";
 import {useRouter} from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 interface FooterProps
 {
@@ -11,7 +12,7 @@ interface FooterProps
 
 export function Footer({isLoggedIn, type}: FooterProps)
 {
-    const router = useRouter();
+    const router:AppRouterInstance = useRouter();
 
     //When ran, it will log the user out
     const logOutRedirect = () => 
