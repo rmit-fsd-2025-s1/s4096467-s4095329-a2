@@ -39,7 +39,7 @@ export default function Home() {
     <>
       <title>Index</title>
       <Header isLoggedIn={passwordValid} />
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <p> Text Here </p>
       <Footer isLoggedIn={passwordValid} type={loginType}/>
     </>
