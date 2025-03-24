@@ -12,14 +12,16 @@ interface FooterProps
 export function Footer({isLoggedIn, type}: FooterProps)
 {
     const router = useRouter();
+
+    //When ran, it will log the user out
     const logOutRedirect = () => 
         {
+            //Clear localStorage, logging out the user
             localStorage.setItem("localEmail", "");
             localStorage.setItem("localPassword", "");
         
-            console.log("here");
+            //Redirect to login page
             router.push('/login');
-            console.log("broke");
         }
 
     let logOut;
