@@ -28,7 +28,7 @@ export default function registerScreen()
                     <input type="password" name="password"/>
                 </label>
             <div className="flex-sbs flex-gap">
-                <a href="./register"><button className="login">Register</button></a>
+                <Link href="./register"><button className="login">Register</button></Link>
                 <Link href="./login"><button className="register">Back to login</button></Link>
             </div>
             </form>
