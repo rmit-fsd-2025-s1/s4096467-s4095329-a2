@@ -2,11 +2,13 @@ import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
 import "./Home.css";
 import { Card } from "@chakra-ui/react";
+import { getLectureClasses, subject } from "@/helpers/validate";
 
 interface EducatorProps
 {
     isLoggedIn: boolean, //Boolean to track if the user is logged in
     accountType: string; //String that determines if it loads Lecturer or Tutor version of the page
+    educatorEmail?: string;
 }
 
 interface SubjectProps
@@ -31,8 +33,15 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
     );
 }
 
-export function HomeContent({isLoggedIn, accountType}: EducatorProps)
+export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorProps)
 {
+    let classes: subject[] = [];
+
+    if(educatorEmail)
+        {
+            classes = getLectureClasses(educatorEmail);
+        }
+            
     //If the user is logged in
     if(isLoggedIn)
     {
@@ -41,12 +50,9 @@ export function HomeContent({isLoggedIn, accountType}: EducatorProps)
             accountType === "lecturer" ? 
             <div className="home-content">
                 <div className="home-grid">
-                    <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1122"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1123"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1124"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1125"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1126"} subjectName={"Database Applications"} subjectApplicants={30}/>
+                    {classes.map((classVar) => (
+                        <CreateSubject subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
+                    ))}
                 </div>
             </div>
             : //Else, they are a tutor
