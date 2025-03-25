@@ -14,6 +14,13 @@ export interface userCred
     password: string
 }
 
+export interface subject
+{
+    code: string,
+    subjectName: string,
+    candidates: string[]
+}
+
 export function isPasswordValid(user: userCred)
 {
     return(getPasswordForUser(user));
@@ -78,6 +85,22 @@ export function generateUsers()
         role: "tutor"
     }
 
+    const user4: userState = 
+    {
+        email: "test2@gmail.com",
+        //Password1
+        password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
+        role: "tutor"
+    }
+
+    const user5: userState = 
+    {
+        email: "test3@gmail.com",
+        //Password1
+        password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
+        role: "tutor"
+    }
+
     const user2: userState = 
     {
         email: "connor@gmail.com",
@@ -101,6 +124,39 @@ export function generateUsers()
     returnMap.set("test1@gmail.com", user1);
     returnMap.set("connor@gmail.com", user2);
     returnMap.set("will@gmail.com", user3);
+    returnMap.set("test2@gmail.com", user4);
+    returnMap.set("test3@gmail.com", user5);
 
     return returnMap;
+}
+
+export function generateSubjects()
+{
+    const subject1: subject =
+    {
+        code:"COSC1121",
+        subjectName: "Database Applications",
+        candidates: ["test1@gmail.com", "test2@gmail.com"]
+    }
+
+    const subject2: subject =
+    {
+        code:"COSC1122",
+        subjectName: "Database Applesandorangus",
+        candidates: ["test1@gmail.com", "test3@gmail.com"]
+    }
+
+    const subject3: subject =
+    {
+        code:"COSC1123",
+        subjectName: "Database Applicashuns",
+        candidates: ["test2@gmail.com", "test3@gmail.com"]
+    }
+
+    let returnMap = new Map<string, subject>();
+    returnMap.set("COSC1121", subject1);
+    returnMap.set("COSC1122", subject2);
+    returnMap.set("COSC1123", subject3);
+    
+    return(returnMap);
 }
