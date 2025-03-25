@@ -3,7 +3,7 @@ import {Footer} from "../components/Footer/Footer";
 import {useState, FormEvent, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import { isPasswordValid, userCred, getPasswordForUser } from "../helpers/validate";
-import Link from 'next/link'
+import Link from 'next/link';
 
 import "./sign-in.css";
 
@@ -56,7 +56,7 @@ export default function loginScreen()
     return(
         <>  
             <div className="video-background">
-                <video src="/test2.mp4" autoPlay loop muted playsInline />
+                <video src="/test2.mp4" autoPlay loop muted playsInline/>
             </div>
             {/* <title>Login</title> */}
             {/* <Header isLoggedIn={true} /> */}

@@ -40,6 +40,10 @@
     border: 2px solid white;
 }
 
+.header-scetion span {
+    border: none;
+}
+
 .user {
     margin-left: auto;
 }

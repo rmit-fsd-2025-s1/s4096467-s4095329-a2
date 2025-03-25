@@ -32,7 +32,9 @@ export function Footer({isLoggedIn, type}: FooterProps)
     }
 
     return(
+        <>
         <div className="footer-container">
+        <h1><u>Teach<span className="green1">Team</span>.</u></h1>
             <span>
                 <h3>Quick Links</h3>
                 <Link href="/"><p>Home</p></Link>
@@ -55,5 +57,6 @@ export function Footer({isLoggedIn, type}: FooterProps)
                 <Link href="/educator/educator"><p>Educator Dashboard</p></Link>
             </span>
         </div>
+        </>
     );
 }
