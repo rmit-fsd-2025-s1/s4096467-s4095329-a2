@@ -13,7 +13,7 @@ export function TutorSubjectTable(subjectName: string)
     if(dbSubj.has(subjectName))
         {
             dbSubj.get(subjectName)?.candidates.forEach((it) => {
-                const tutor = dbTut.get(it);
+                const tutor: userState | undefined = dbTut.get(it);
                 if (tutor) {
                     tutors.push(tutor);
                 }
