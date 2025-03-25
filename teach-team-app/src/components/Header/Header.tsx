@@ -60,12 +60,17 @@ export function Header({isLoggedIn}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-
+                    
                     <Link className ="home" href=""><span className="material-symbols-outlined">home</span>Home</Link>
-                    <Link href=""><span className="material-symbols-outlined">Help</span>PlaceHolder</Link>
-                    <Link href=""><span className="material-symbols-outlined">Help</span>PlaceHolder</Link>
-                    <Link href=""><span className="material-symbols-outlined">Help</span>PlaceHolder</Link>
+                    {/* Conditinol rendering. Add Tutor side stuff here*/}
+                    <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
+                    {/* Conditial rendering. Add lecture side stuff here*/}
+                    <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
+                    <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
+                    {/*Both*/}
+                    <Link href=""><span className="material-symbols-outlined">Help</span>Help</Link>
                     <div className="bottom">
+                        <Link href=""><span className="material-symbols-outlined">account_circle</span>Profile</Link>
                         <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
                         <Link href=""><span className="material-symbols-outlined">logout</span>Log out</Link>
                     </div>
