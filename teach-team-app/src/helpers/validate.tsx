@@ -74,6 +74,26 @@ export function isLecturerForClass(email: string, classCode: string)
         return false;
 }
 
+export function getLectureClasses(email: string)
+{
+    let dbedu: Map<string, userState> = generateUsers();
+    let dbsub: Map<string, subject> = generateSubjects();
+
+    let lecturerClasses: subject[] = [];
+
+    if(dbedu.has(email))
+        {
+            dbedu.get(email)?.classes?.forEach((subName) => {
+                const classObj: subject | undefined = dbsub.get(subName);
+                if (classObj) {
+                    lecturerClasses.push(classObj);
+                }
+            })
+        }
+
+    return lecturerClasses;
+}
+
 //Function to generate users, will use DB later
 export function generateUsers()
 {
@@ -153,10 +173,34 @@ export function generateSubjects()
         candidates: ["test2@gmail.com", "test3@gmail.com"]
     }
 
+    const subject4: subject =
+    {
+        code:"COSC1124",
+        subjectName: "Jartabase Applicarter",
+        candidates: ["test2@gmail.com", "test3@gmail.com"]
+    }
+
+    const subject5: subject =
+    {
+        code:"COSC1125",
+        subjectName: "Excelspreadsheet Macrocations",
+        candidates: ["test2@gmail.com", "test3@gmail.com"]
+    }
+
+    const subject6: subject =
+    {
+        code:"COSC1126",
+        subjectName: "Gumtree Cat Management",
+        candidates: ["test2@gmail.com", "test3@gmail.com"]
+    }
+
     let returnMap = new Map<string, subject>();
     returnMap.set("COSC1121", subject1);
     returnMap.set("COSC1122", subject2);
     returnMap.set("COSC1123", subject3);
+    returnMap.set("COSC1124", subject4);
+    returnMap.set("COSC1125", subject5);
+    returnMap.set("COSC1126", subject6);
     
     return(returnMap);
 }
