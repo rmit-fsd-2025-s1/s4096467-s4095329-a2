@@ -1,5 +1,5 @@
 import { generateSubjects, generateUsers, subject, userState } from "@/helpers/validate";
-import { Table } from "@chakra-ui/react";
+import { Table, HoverCard, Portal } from "@chakra-ui/react";
 
 export function TutorSubjectTable(subjectName: string)
 {
@@ -19,7 +19,7 @@ export function TutorSubjectTable(subjectName: string)
                 }
             })
         }
-
+    //Create the table
     return(<Table.Root borderWidth="1px" rounded="md" interactive>
         <Table.Header>
             <Table.ColumnHeader>Tutor Name</Table.ColumnHeader>
@@ -27,14 +27,31 @@ export function TutorSubjectTable(subjectName: string)
         </Table.Header>
         <Table.Body>
             {tutors.map((tut) => (
-                <Table.Row key={tut.email}>
-                    <Table.Cell>{tut.email}</Table.Cell>
-                    <Table.Cell>{tut.role}</Table.Cell>
-                </Table.Row>
+                <HoverCard.Root openDelay={500} closeDelay={100}>
+                    <HoverCard.Trigger asChild>
+                        <Table.Row key={tut.email}>
+                            <Table.Cell>{tut.email}</Table.Cell>
+                            <Table.Cell>{tut.role}</Table.Cell>
+                        </Table.Row>
+                    </HoverCard.Trigger>
+                    <Portal>
+                        <HoverCard.Positioner>
+                            <HoverCard.Content>
+                                <HoverCard.Arrow/>
+                                <div>
+                                    <h3>Email: {tut.email}</h3>
+                                    <h3>Role: {tut.role}</h3>
+                                </div>
+                            </HoverCard.Content>
+                        </HoverCard.Positioner>
+                    </Portal>
+                </HoverCard.Root>
+                
             ))}
         </Table.Body>
     </Table.Root>);
 }
+
 
 
 
