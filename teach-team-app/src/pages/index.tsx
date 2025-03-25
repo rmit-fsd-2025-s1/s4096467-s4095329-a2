@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <>
       <title>Index</title>
-      <Header isLoggedIn={passwordValid} />
+      <Header isLoggedIn={passwordValid}/>
       {/* <Sidebar/> */}
       <p> Text Here </p>
       <Footer isLoggedIn={passwordValid} type={loginType}/>

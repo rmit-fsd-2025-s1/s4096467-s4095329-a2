@@ -115,12 +115,18 @@ nav {
 
 nav a {
     height: 100%;
+    font-size: 20px;
     padding: 0 20px;
     display: flex;
     align-items: center;
     text-decoration: none;
     color: var(--text_color);
 }
+
+nav a span {
+    font-size: 20px;
+}
+
 
 nav a:hover {
     background-color: var(--accent-color);
@@ -169,7 +175,7 @@ nav .home {
 
 .links-container span{
     padding: 0 20px 0 0px;
-    font-size: 40px;
+    font-size: 30px;
 }
 
 .bottom {
