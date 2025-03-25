@@ -20,7 +20,9 @@ interface SubjectProps
 function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectProps)
 {
     return(
-        <Link href={"./subjectManager"}>
+        <Link href={{pathname: "./subjectManager",
+                     query: {data: subjectCode}
+        }}>
             <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"}>
                 <Card.Header>{subjectCode}</Card.Header>
                 <Card.Body>{subjectName}<br/>New Applicants: {subjectApplicants}</Card.Body>
@@ -40,11 +42,11 @@ export function HomeContent({isLoggedIn, accountType}: EducatorProps)
             <div className="home-content">
                 <div className="home-grid">
                     <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
-                    <CreateSubject subjectCode={"COSC1121"} subjectName={"Database Applications"} subjectApplicants={30}/>
+                    <CreateSubject subjectCode={"COSC1122"} subjectName={"Database Applications"} subjectApplicants={30}/>
+                    <CreateSubject subjectCode={"COSC1123"} subjectName={"Database Applications"} subjectApplicants={30}/>
+                    <CreateSubject subjectCode={"COSC1124"} subjectName={"Database Applications"} subjectApplicants={30}/>
+                    <CreateSubject subjectCode={"COSC1125"} subjectName={"Database Applications"} subjectApplicants={30}/>
+                    <CreateSubject subjectCode={"COSC1126"} subjectName={"Database Applications"} subjectApplicants={30}/>
                 </div>
             </div>
             : //Else, they are a tutor
