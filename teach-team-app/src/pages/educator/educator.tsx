@@ -28,7 +28,7 @@ export default function loginScreen()
         <>
             <title>Lecturer Home</title>
             <Header isLoggedIn={passwordValid} />
-            <HomeContent isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
+            <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
             <Footer isLoggedIn={passwordValid} type=""/>
         </>
     );
