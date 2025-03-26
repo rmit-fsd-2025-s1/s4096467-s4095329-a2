@@ -74,14 +74,15 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-                    
+                    {/* TODO home will redirect them to first page when they login */}
                     <Link className ="home" href=""><span className="material-symbols-outlined">home</span>Home</Link>
                     {/* Conditional rendering*/}
+                    {/* TODO Add Apply to courses page?? */}
                     {accountType === "tutor" ? (
-                        <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
+                        <Link href="/educator/educator"><span className="material-symbols-outlined">File_copy</span>Apply</Link>
                     ) : null}
                     {accountType === "lecturer" ? (
-                        <Link href=""><span className="material-symbols-outlined">menu_book</span>Courses</Link>
+                        <Link href="/educator/educator"><span className="material-symbols-outlined">menu_book</span>Courses</Link>
                     ) : null}                
                     <Link href=""><span className="material-symbols-outlined">Help</span>Help</Link>
 

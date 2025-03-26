@@ -87,13 +87,13 @@ export default function loginScreen()
                 </label>
 
                 {!loginState ? (
-                    <Alert.Root status="error">
-                    <Alert.Indicator />
-                    <Alert.Content>
-                      <Alert.Title>Invalid Username or Password. Please try again.</Alert.Title>
-                      <Alert.Description />
-                    </Alert.Content>
-                  </Alert.Root>
+                  <Alert.Root status="error">
+                  <Alert.Indicator />
+                  <Alert.Content>
+                    <Alert.Title>Invalid Username or Password. Please try again.</Alert.Title>
+                    <Alert.Description />
+                  </Alert.Content>
+                </Alert.Root>
                 ) : null }
 
                 <div className="forgot"/*Extra stuff*/> 
