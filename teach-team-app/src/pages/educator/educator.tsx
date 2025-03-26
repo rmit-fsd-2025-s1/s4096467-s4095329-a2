@@ -23,11 +23,12 @@ export default function loginScreen()
 
     let user: userCred = {email: localEmail, password:localPassword};
     let passwordValid = isPasswordValid(user);
+    let loginType = getUserType(user.email);
 
     return(
         <>
             <title>Lecturer Home</title>
-            <Header isLoggedIn={passwordValid} />
+            <Header isLoggedIn={passwordValid} accountType={loginType}/>
             <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
             <Footer isLoggedIn={passwordValid} type=""/>
         </>
