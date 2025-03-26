@@ -1,32 +1,46 @@
 import "./Header.css";
 import Link from 'next/link';
+import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
+import { redirect } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {useRouter} from "next/navigation";
 
 interface HeaderProps
 {
     isLoggedIn: Boolean;
+    accountType: string; //Acc Type, tutor, lecturer
 }
 
-export function Header({isLoggedIn}: HeaderProps)
-{
+export function Header({isLoggedIn, accountType}: HeaderProps)
+{   
     let profile;
+    const router:AppRouterInstance = useRouter();
+
+    const logOutRedirect = () => 
+        {
+            localStorage.setItem("localEmail", "");
+            localStorage.setItem("localPassword", "");
+            router.push('/login');
+        }
+
     if(isLoggedIn)
-    {
+    {   
+        console.log("Log", isLoggedIn);
+        console.log("ACC", accountType);
         profile = <img src="https://saturn.csit.rmit.edu.au/~s4096467/RMITCats/virus.png" alt="User Profile Picture" className="profile-picture"/>;
     }
-    else
-    {
-        // //is this necessary if we are gonna have this displayed only when the user is logged in?
-        // profile = <>
-        // <Link href="/login">
-        //     <button className="loginButton">Log In</button>
-        // </Link>
-        // <Link href="/register">
-        // <button className="registerButton">Register</button>
-        // </Link>
-        // </>;
+    else {
+        // Redirect to login page if not signed in. Not working weird behaviour
+        // useEffect(() => {
+        //     if (!isLoggedIn) {
+        //         router.push('/login'); 
+        //     }
+        // }, []);
     }
 
     return(
+        
         <div className="header-container">
             <Link href={isLoggedIn?"/educator/educator":"/"}>
                 <span className="header-section">
@@ -62,17 +76,19 @@ export function Header({isLoggedIn}: HeaderProps)
                     </label>
                     
                     <Link className ="home" href=""><span className="material-symbols-outlined">home</span>Home</Link>
-                    {/* Conditinol rendering. Add Tutor side stuff here*/}
-                    <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
-                    {/* Conditial rendering. Add lecture side stuff here*/}
-                    <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
-                    <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
-                    {/*Both*/}
+                    {/* Conditional rendering*/}
+                    {accountType === "tutor" ? (
+                        <Link href=""><span className="material-symbols-outlined">File_copy</span>Apply</Link>
+                    ) : null}
+                    {accountType === "lecturer" ? (
+                        <Link href=""><span className="material-symbols-outlined">menu_book</span>Courses</Link>
+                    ) : null}                
                     <Link href=""><span className="material-symbols-outlined">Help</span>Help</Link>
+
                     <div className="bottom">
                         <Link href=""><span className="material-symbols-outlined">account_circle</span>Profile</Link>
                         <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
-                        <Link href=""><span className="material-symbols-outlined">logout</span>Log out</Link>
+                        <Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</Link>
                     </div>
                 </div>
             </nav>

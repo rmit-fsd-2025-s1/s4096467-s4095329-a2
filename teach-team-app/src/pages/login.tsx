@@ -77,6 +77,7 @@ export default function loginScreen()
                     <input type="password" name="password"
                         value={formData.password}
                         onChange={(e)=>setFormData({...formData, password: e.target.value})}
+                        placeholder="Enter Password"
                     />
                 </label>
                 <div className="forgot"/*Extra stuff*/> 
