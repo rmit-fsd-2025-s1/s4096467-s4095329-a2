@@ -86,7 +86,7 @@ export default function loginScreen()
                     />
                 </label>
 
-                {!loginState ? (
+                {!loginState ? ( //TODO FIx this ui issue
                   <Alert.Root status="error">
                   <Alert.Indicator />
                   <Alert.Content>
