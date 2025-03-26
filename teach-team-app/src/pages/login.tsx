@@ -4,12 +4,17 @@ import {useState, FormEvent, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import { isPasswordValid, userCred, getPasswordForUser } from "../helpers/validate";
 import Link from 'next/link';
+import { Alert } from "@chakra-ui/react"
 
 import "./sign-in.css";
+import { TbFlagSearch } from "react-icons/tb";
 
 //Page loading for the login screen at /login
 export default function loginScreen()
-{
+{   
+    //if false means invalid
+    const [loginState, setLoginState] = useState(true);
+
     //Gets localStorage for localEmail, if it is not set, get ""
     useEffect(() => {
         const localEmail = localStorage.getItem("localEmail")||"";
@@ -48,8 +53,8 @@ export default function loginScreen()
             router.push('/educator/educator');
         }
         else
-        {
-            //Password is invalid
+        {   
+            setLoginState(false);
         }
     }
 
@@ -80,8 +85,19 @@ export default function loginScreen()
                         placeholder="Enter Password"
                     />
                 </label>
+
+                {!loginState ? (
+                    <Alert.Root status="error">
+                    <Alert.Indicator />
+                    <Alert.Content>
+                      <Alert.Title>Invalid Username or Password. Please try again.</Alert.Title>
+                      <Alert.Description />
+                    </Alert.Content>
+                  </Alert.Root>
+                ) : null }
+
                 <div className="forgot"/*Extra stuff*/> 
-                    <Link href="./login">Forgot Password?</Link> 
+                    <Link href="">Forgot Password?</Link> 
                 </div>
             <div className="flex-sbs flex-gap">
                 <button className="login">Sign In</button>
