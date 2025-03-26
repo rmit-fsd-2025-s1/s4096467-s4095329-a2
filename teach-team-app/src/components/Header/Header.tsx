@@ -86,7 +86,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                     <Link href=""><span className="material-symbols-outlined">Help</span>Help</Link>
 
                     <div className="bottom">
-                        <Link href=""><span className="material-symbols-outlined">account_circle</span>Profile</Link>
+                        <Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>
                         <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
                         <Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</Link>
                     </div>
