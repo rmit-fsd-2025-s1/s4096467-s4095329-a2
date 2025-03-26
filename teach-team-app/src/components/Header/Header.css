@@ -127,9 +127,9 @@ nav a span {
     font-size: 20px;
 }
 
-
 nav a:hover {
-    background-color: var(--accent-color);
+    /* background-color: var(--accent-color); */
+    color: var(--accent-color);
 }
 
 nav .home {
@@ -224,7 +224,7 @@ nav a {
   content: '';
   position: absolute;
   width: 100%;
-  height: 2px;
+  height: 5px;
   background: linear-gradient(to right, rgb(59, 189, 91), #00ffff);
   bottom: -5px;
   left: 0;
@@ -238,3 +238,26 @@ nav a {
   transform: scaleX(1);
 }
 
+.bottom a {
+    position: relative;
+    display: flex;
+}
+  
+.bottom a::after,
+.bottom a::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background: linear-gradient(to right, rgb(59, 189, 91), #00ffff);
+    bottom: -5px;
+    left: 0;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s ease-out;
+}
+  
+.bottom a:hover::after,
+.bottom a:hover::before {
+    transform: scaleX(1);
+}

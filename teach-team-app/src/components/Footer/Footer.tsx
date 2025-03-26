@@ -34,27 +34,25 @@ export function Footer({isLoggedIn, type}: FooterProps)
     return(
         <>
         <div className="footer-container">
-        <h1><u>Teach<span className="green1">Team</span>.</u></h1>
+        <h1><span className="material-symbols-outlined">school</span><u>Teach<span className="green1">Team</span>.</u></h1>
             <span>
-                <h3>Quick Links</h3>
-                <Link href="/"><p>Home</p></Link>
-                <Link href=""><p>About Us</p></Link>
+                <h3>Community</h3>
+                <Link href=""><p>About us</p></Link>
                 <Link href=""><p>FAQ</p></Link>
-                <Link href=""><p>Privacy Policy</p></Link>
-                <Link href=""><p>Terms of Service</p></Link>
-                <Link href="/login"><p>Log In</p></Link>
                 <Link href="/register"><p>Register</p></Link>
-                {logOut}
             </span>
             <span>
-                <h3>Contact Us</h3>
+                <h3>Support</h3>
                 <Link href=""><p>Email</p></Link>
                 <Link href=""><p>Phone</p></Link>
+                <Link href=""><p>Help</p></Link>
             </span>
             <span>
-                <h3>Navigation</h3>
-                <Link href="/"><p>Home</p></Link>
+                <h3>Site</h3>
                 <Link href="/educator/educator"><p>Educator Dashboard</p></Link>
+                <Link href=""><p>Privacy Policy</p></Link>
+                <Link href=""><p>Terms of Service</p></Link>
+                {logOut}
             </span>
         </div>
         </>
