@@ -47,3 +47,10 @@
 .green1 {
     color: rgb(140, 212, 135);
 }
+
+h1 .material-symbols-outlined {
+    color: rgb(1, 92, 1);
+    font-size: 50px;
+    text-align: center;
+    align-items: center;
+}
