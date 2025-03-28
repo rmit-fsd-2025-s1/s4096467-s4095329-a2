@@ -36,7 +36,7 @@ export default function subjectManager()
     //Password Checking
     let user: userCred = {email: localEmail, password:localPassword};
     let passwordValid = isPasswordValid(user);
-
+    let loginType = getUserType(user.email);
     let content;
 
     const[candidateList, setCandidateList] = useState<userState>();
@@ -62,7 +62,7 @@ export default function subjectManager()
     return(
         <>
             <title>Class Name Here</title>
-            <Header isLoggedIn={passwordValid} />
+            <Header isLoggedIn={passwordValid} accountType={loginType}/>
             {content}
             <Footer isLoggedIn={passwordValid} type=""/>
         </>

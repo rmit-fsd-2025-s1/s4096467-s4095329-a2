@@ -6,6 +6,8 @@ import { isPasswordValid, userCred, getPasswordForUser, getUserType} from "../..
 import "../../styles/user-home.css";
 import { useEffect, useState } from "react";
 
+//some function to get username form their email before character '@';
+
 export default function loginScreen()
 {
     const[localEmail, setLocalEmail] = useState<string>("");
@@ -29,7 +31,8 @@ export default function loginScreen()
         <>
             <title>Lecturer Home</title>
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
-            <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
+            <h1>Hi, {user.email} you are a {loginType}</h1>
+            <img src = "/userpfp.png" height="500px" width="500px"></img>
             <Footer isLoggedIn={passwordValid} type=""/>
         </>
     );
