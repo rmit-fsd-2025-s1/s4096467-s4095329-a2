@@ -39,6 +39,9 @@ export default function subjectManager()
 
     let content;
 
+    const[candidateList, setCandidateList] = useState<userState>();
+    const[selectedList, setSelectedList] = useState<userState>();
+
     //Generate content based on logged in status
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
         {
