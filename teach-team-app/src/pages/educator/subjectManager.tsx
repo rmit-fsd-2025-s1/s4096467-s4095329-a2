@@ -64,15 +64,13 @@ export default function subjectManager()
     //Generate content based on logged in status
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
         {
-            //Generate props to be passed into the table generators.
-            let table1Props: dualTableProps = {table1: candidateList, setTable1: setCandidateList, table2: selectedList, setTable2: setSelectedList}
-            let table2Props: dualTableProps = {table2: candidateList, setTable2: setCandidateList, table1: selectedList, setTable1: setSelectedList}
-
             content = <>
                 <h2>{subject}</h2>
                 <div className="flex-sbs flex-gap">
-                    {TutorSubjectTable(table1Props??"")}
-                    {TutorSubjectTable(table2Props??"")}
+                    {/* Generate left table */}
+                    <TutorSubjectTable table1={candidateList} table2={selectedList} setTable1={setCandidateList} setTable2={setSelectedList}/>
+                    {/* Generate right table */}
+                    <TutorSubjectTable table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
                 </div>
             </>
             ;
