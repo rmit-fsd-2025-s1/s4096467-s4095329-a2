@@ -10,6 +10,18 @@ export interface dualTableProps
     setTable2: (value: SetStateAction<userState[]>) => void;
 }
 
+function swapTables(index: number,table1: userState[], sTable1:(value: SetStateAction<userState[]>) => void, table2: userState[], sTable2:(value: SetStateAction<userState[]>) => void)
+{
+    //https://www.seanmcp.com/articles/remove-an-item-at-a-given-index-in-javascript/
+    //Filter where index => index != indexVar
+    const tempTable1 = table1.filter((e, i) => i !== index); // Remove item at index from table1
+    const tempTable2 = [...table2, table1[index]]; // Add the item to the top of table 2
+
+    //Update using the hooks
+    sTable1(tempTable1);
+    sTable2(tempTable2);
+}
+
 export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTableProps)
 {
 
@@ -23,12 +35,15 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
         {/* Body of the table */}
         <Table.Body>
             {/* Table Row Factory */}
-            {table1.map((tut) => (
+            {table1.map((tut, index) => (
                 // On hover display tutor information
                 // <HoverCard.Root openDelay={500} closeDelay={100}>
                 //     <HoverCard.Trigger asChild>
                         //Table Row Declaration
-                        <Table.Row key={tut.email} onClick={(e)=>{console.log("ae")}}>
+                        <Table.Row key={tut.email} onClick={(e)=>{
+                            console.log("ae");
+                            swapTables(index, table1, setTable1, table2, setTable2);
+                            }}>
                             {/* Display other information in body */}
                             <Table.Cell>{tut.email}</Table.Cell>
                             <Table.Cell>{tut.role}</Table.Cell>
