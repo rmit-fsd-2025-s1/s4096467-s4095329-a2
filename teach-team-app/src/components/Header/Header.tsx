@@ -17,6 +17,14 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
     let profile;
     const router:AppRouterInstance = useRouter();
 
+    //Get the email from storage and display as username
+    const[localEmail, setLocalEmail] = useState<string>("");
+    useEffect(() => 
+        {
+            setLocalEmail(localStorage.getItem("localEmail")||"");
+        }, []);
+    let userName = localEmail.substring(0, localEmail.indexOf("@"));
+
     const logOutRedirect = () => 
         {
             localStorage.setItem("localEmail", "");
@@ -26,6 +34,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
 
     if(isLoggedIn)
     {   
+        //TODO User pfp obtained from the database
         profile = <img src="https://saturn.csit.rmit.edu.au/~s4096467/RMITCats/virus.png" alt="User Profile Picture" className="profile-picture"/>;
     }
 
@@ -34,7 +43,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
         <div className="header-container">
             <Link href={isLoggedIn?"/educator/educator":"/"}>
                 <span className="header-section">
-                    <img src="https://gumtreeau-res.cloudinary.com/image/private/t_$_75/gumtree/8adfb076-8f0f-4a22-befe-d225b5ccfca3.jpg" alt="Annoying Cat"/>
+                    <img src="/graduation-cap.svg"/>
                         <h1>Teach<span className="green">Team</span> Management</h1>
                 </span>
             </Link>
@@ -45,7 +54,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                 <Link href="">
                     <span className="user-profile">
                         <img src="userpfp.png"/>
-                            <h3>UserName</h3>
+                            <h3>{userName}</h3>
                     </span>                    
                 </Link>
             </div>:<></>}
