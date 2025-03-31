@@ -1,5 +1,5 @@
 import { generateSubjects, generateUsers, subject, userState } from "@/helpers/validate";
-import { Table, HoverCard, Portal, Checkbox } from "@chakra-ui/react";
+import { Table, HoverCard, Portal, Checkbox, Box } from "@chakra-ui/react";
 
 export function TutorSubjectTable(subjectName: string)
 {
@@ -44,10 +44,10 @@ export function TutorSubjectTable(subjectName: string)
                         <HoverCard.Positioner>
                             <HoverCard.Content>
                                 <HoverCard.Arrow/>
-                                <div>
+                                <Box p="4">
                                     <h3>Email: {tut.email}</h3>
                                     <h3>Role: {tut.role}</h3>
-                                </div>
+                                </Box>
                             </HoverCard.Content>
                         </HoverCard.Positioner>
                     </Portal>
