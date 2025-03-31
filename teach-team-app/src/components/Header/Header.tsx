@@ -26,21 +26,11 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
 
     if(isLoggedIn)
     {   
-        console.log("Log", isLoggedIn);
-        console.log("ACC", accountType);
         profile = <img src="https://saturn.csit.rmit.edu.au/~s4096467/RMITCats/virus.png" alt="User Profile Picture" className="profile-picture"/>;
     }
-    else {
-        // Redirect to login page if not signed in. Not working weird behaviour
-        // useEffect(() => {
-        //     if (!isLoggedIn) {
-        //         router.push('/login'); 
-        //     }
-        // }, []);
-    }
+
 
     return(
-        
         <div className="header-container">
             <Link href={isLoggedIn?"/educator/educator":"/"}>
                 <span className="header-section">
@@ -75,10 +65,10 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-                    <Link className ="home" href=""><span className="material-symbols-outlined">home</span>Home</Link>
+                    <Link className ="home" href="/educator/userProfile"><span className="material-symbols-outlined">home</span>Home</Link>
                     {/* Conditional rendering*/}
                     {accountType === "tutor" ? (
-                        <Link href="/educator/educator"><span className="material-symbols-outlined">File_copy</span>Apply</Link>
+                        <Link href="/educator/apply"><span className="material-symbols-outlined">file_copy</span>Apply</Link>
                     ) : null}
                     {accountType === "lecturer" ? (
                         <Link href="/educator/educator"><span className="material-symbols-outlined">menu_book</span>Courses</Link>
