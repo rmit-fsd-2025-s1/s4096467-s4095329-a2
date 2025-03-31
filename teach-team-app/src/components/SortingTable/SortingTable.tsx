@@ -37,9 +37,9 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
             {/* Table Row Factory */}
             {table1.map((tut, index) => (
                 // On hover display tutor information
-                // <HoverCard.Root openDelay={500} closeDelay={100}>
-                //     <HoverCard.Trigger asChild>
-                        //Table Row Declaration
+                <HoverCard.Root openDelay={500} closeDelay={100}>
+                    <HoverCard.Trigger asChild>
+                        
                         <Table.Row key={tut.email} onClick={(e)=>{
                             console.log("ae");
                             swapTables(index, table1, setTable1, table2, setTable2);
@@ -48,20 +48,19 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
                             <Table.Cell>{tut.email}</Table.Cell>
                             <Table.Cell>{tut.role}</Table.Cell>
                         </Table.Row>
-                //     </HoverCard.Trigger>
-                //     <Portal>
-                //         <HoverCard.Positioner>
-                //             <HoverCard.Content>
-                //                 <HoverCard.Arrow/>
-                //                 <div>
-                //                     <h3>Email: {tut.email}</h3>
-                //                     <h3>Role: {tut.role}</h3>
-                //                 </div>
-                //             </HoverCard.Content>
-                //         </HoverCard.Positioner>
-                //     </Portal>
-                // </HoverCard.Root>
-                
+                    </HoverCard.Trigger>
+                    <Portal>
+                        <HoverCard.Positioner>
+                            <HoverCard.Content>
+                                <HoverCard.Arrow/>
+                                <div>
+                                    <h3>Email: {tut.email}</h3>
+                                    <h3>Role: {tut.role}</h3>
+                                </div>
+                            </HoverCard.Content>
+                        </HoverCard.Positioner>
+                    </Portal>
+                </HoverCard.Root>
             ))}
         </Table.Body>
     </Table.Root>);
