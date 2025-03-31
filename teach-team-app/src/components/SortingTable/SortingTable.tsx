@@ -39,9 +39,7 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
                 // On hover display tutor information
                 <HoverCard.Root openDelay={500} closeDelay={100}>
                     <HoverCard.Trigger asChild>
-                        
-                        <Table.Row key={tut.email} onClick={(e)=>{
-                            console.log("ae");
+                        <Table.Row key={tut.email} onClick={(e)=>{ 
                             swapTables(index, table1, setTable1, table2, setTable2);
                             }}>
                             {/* Display other information in body */}
@@ -65,7 +63,3 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
         </Table.Body>
     </Table.Root>);
 }
-
-
-
-
