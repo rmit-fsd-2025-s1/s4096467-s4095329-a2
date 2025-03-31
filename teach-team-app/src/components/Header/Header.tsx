@@ -51,14 +51,15 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
             {/* <span>
                 {profile}
             </span> */}
-            <div className="user">
+            {isLoggedIn?<div className="user">
                 <Link href="">
                     <span className="user-profile">
                         <img src="userpfp.png"/>
                             <h3>UserName</h3>
                     </span>                    
                 </Link>
-            </div>
+            </div>:<></>}
+            
             <nav>
                 <input type="checkbox" id="sidebar-active"/>
                 <label htmlFor="sidebar-active" className="open">
@@ -74,10 +75,8 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-                    {/* TODO home will redirect them to first page when they login */}
                     <Link className ="home" href=""><span className="material-symbols-outlined">home</span>Home</Link>
                     {/* Conditional rendering*/}
-                    {/* TODO Add Apply to courses page?? */}
                     {accountType === "tutor" ? (
                         <Link href="/educator/educator"><span className="material-symbols-outlined">File_copy</span>Apply</Link>
                     ) : null}
@@ -87,9 +86,13 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                     <Link href=""><span className="material-symbols-outlined">Help</span>Help</Link>
 
                     <div className="bottom">
-                        <Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>
+                        {isLoggedIn?<Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>:<></>}
+                        
                         <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
-                        <Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</Link>
+                        {isLoggedIn?
+                        (<Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</Link>):
+                        (<Link href="/login"><span className="material-symbols-outlined">login</span>Log in</Link>)}
+                        
                     </div>
                 </div>
             </nav>
