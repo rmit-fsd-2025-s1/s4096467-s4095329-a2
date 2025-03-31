@@ -1,6 +1,8 @@
 import { generateSubjects, generateUsers, subject, userState } from "@/helpers/validate";
-import { Table, HoverCard, Portal, Checkbox } from "@chakra-ui/react";
+
 import { SetStateAction } from "react";
+import { Table, HoverCard, Portal, Checkbox, Box } from "@chakra-ui/react";
+
 
 export interface dualTableProps
 {
@@ -51,10 +53,10 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
                         <HoverCard.Positioner>
                             <HoverCard.Content>
                                 <HoverCard.Arrow/>
-                                <div>
+                                <Box p="4">
                                     <h3>Email: {tut.email}</h3>
                                     <h3>Role: {tut.role}</h3>
-                                </div>
+                                </Box>
                             </HoverCard.Content>
                         </HoverCard.Positioner>
                     </Portal>
