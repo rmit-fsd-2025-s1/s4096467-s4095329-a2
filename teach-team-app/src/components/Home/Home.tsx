@@ -25,7 +25,7 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
         <Link href={{pathname: "./subjectManager",
                      query: {data: subjectCode}
         }}>
-            <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"}>
+            <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
                 <Card.Header>{subjectCode}</Card.Header>
                 <Card.Body>{subjectName}<br/>New Applicants: {subjectApplicants}</Card.Body>
             </Card.Root>
