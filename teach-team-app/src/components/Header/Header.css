@@ -169,6 +169,7 @@ nav .home {
     z-index: 10;
     width: 300px;
     background-color: var(--color-1);
+    opacity: 0.97;
     box-shadow: -5px 0 5px rgba(0,0,0,0.25);
     transition: 0.75s ease;
 }
