@@ -8,7 +8,7 @@
 /* Lecturer Formatting */
 
 /* Grid that displays subjects */
-.home-grid
+.home-grid, .tutor-grid
 {
     display: flex;
     flex-direction: row;

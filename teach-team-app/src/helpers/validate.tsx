@@ -94,6 +94,20 @@ export function getLectureClasses(email: string)
     return lecturerClasses;
 }
 
+export function getTutorCourses()
+{
+    let dbsub: Map<string, subject> = generateSubjects();
+    let tutorCourses: subject[] = [];
+
+            dbsub.forEach((courseObj) => {
+                if (courseObj) {
+                    tutorCourses.push(courseObj);
+                }
+            })
+
+    return tutorCourses;
+}
+
 //Function to generate users, will use DB later
 export function generateUsers()
 {
