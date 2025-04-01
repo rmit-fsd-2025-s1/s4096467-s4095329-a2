@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 
 export interface userState
 {
+    name?: string,
     email: string,
     password: string,
     role: string,
@@ -19,6 +20,7 @@ export interface subject
     code: string,
     subjectName: string,
     candidates: string[]
+    accepted: string[]
 }
 
 export function isPasswordValid(user: userCred)
@@ -113,6 +115,7 @@ export function generateUsers()
 {
     const user1: userState = 
     {
+        name: "Robert",
         email: "test1@gmail.com",
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
@@ -121,6 +124,7 @@ export function generateUsers()
 
     const user4: userState = 
     {
+        name: "Dorothy",
         email: "test2@gmail.com",
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
@@ -129,6 +133,7 @@ export function generateUsers()
 
     const user5: userState = 
     {
+        name: "Frank",
         email: "test3@gmail.com",
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
@@ -137,6 +142,7 @@ export function generateUsers()
 
     const user2: userState = 
     {
+        name: "Connor",
         email: "connor@gmail.com",
         //P@ssword1
         password: "$2b$10$8C6C.0Ph4SljkgQchNCxuu/BaMwziIA3Uz66S/5rciwtUJflURPlK",
@@ -146,6 +152,7 @@ export function generateUsers()
 
     const user3: userState = 
     {
+        name: "Will",
         email: "will@gmail.com",
         //P@ssword2
         password: "$2b$10$IVaJqtZuG1oo6xj2lHi/4.20ZWCbYWPgtqA7r0.aBKrxvF699.skq",
@@ -170,42 +177,48 @@ export function generateSubjects()
     {
         code:"COSC1121",
         subjectName: "Database Applications",
-        candidates: ["test1@gmail.com", "test2@gmail.com"]
+        candidates: ["test1@gmail.com", "test2@gmail.com"],
+        accepted: []
     }
 
     const subject2: subject =
     {
         code:"COSC1122",
         subjectName: "Database Applesandorangus",
-        candidates: ["test1@gmail.com", "test3@gmail.com"]
+        candidates: ["test1@gmail.com", "test3@gmail.com"],
+        accepted: []
     }
 
     const subject3: subject =
     {
         code:"COSC1123",
         subjectName: "Database Applicashuns",
-        candidates: ["test2@gmail.com", "test3@gmail.com"]
+        candidates: ["test2@gmail.com", "test3@gmail.com"],
+        accepted: []
     }
 
     const subject4: subject =
     {
         code:"COSC1124",
         subjectName: "Jartabase Applicarter",
-        candidates: ["test2@gmail.com", "test3@gmail.com"]
+        candidates: ["test2@gmail.com", "test3@gmail.com"],
+        accepted: []
     }
 
     const subject5: subject =
     {
         code:"COSC1125",
         subjectName: "Excelspreadsheet Macrocations",
-        candidates: ["test2@gmail.com", "test3@gmail.com"]
+        candidates: ["test2@gmail.com", "test3@gmail.com"],
+        accepted: []
     }
 
     const subject6: subject =
     {
         code:"COSC1126",
         subjectName: "Gumtree Cat Management",
-        candidates: ["test2@gmail.com", "test3@gmail.com"]
+        candidates: ["test2@gmail.com", "test3@gmail.com"],
+        accepted: []
     }
 
     let returnMap = new Map<string, subject>();
