@@ -7,6 +7,12 @@ export interface userState
     password: string,
     role: string,
     classes?: string[]
+    summary?: string,
+    prevRoles?: string,
+    avail?: string,
+    certifications?: string,
+    skills?: string,
+    languages?: string,
 }
 
 export interface userCred
@@ -23,8 +29,10 @@ export interface subject
     accepted: string[]
 }
 
+//TODO Minimum character. 1 upper case. 1 symbol
+
 export function isPasswordValid(user: userCred)
-{
+{  
     return(getPasswordForUser(user));
 }
 
@@ -96,6 +104,61 @@ export function getLectureClasses(email: string)
     return lecturerClasses;
 }
 
+export function getSummary(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let summ;
+    if (db.has(email)) {
+        summ = db.get(email)?.summary??""
+    }
+    return summ;
+}
+
+export function getPrevRoles(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let roles;
+    if (db.has(email)) {
+        roles = db.get(email)?.prevRoles??""
+    }
+    return roles;
+}
+
+export function getAvail(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let avail;
+    if (db.has(email)) {
+        avail = db.get(email)?.avail??""
+    }
+    return avail;
+}
+
+export function getCertifications(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let cert;
+    if (db.has(email)) {
+        cert = db.get(email)?.certifications??""
+    }
+    return cert;
+}
+
+export function getSkills(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let skills;
+    if (db.has(email)) {
+        skills = db.get(email)?.skills??""
+    }
+    return skills;
+}
+
+export function getLanguages(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let language;
+    if (db.has(email)) {
+        language = db.get(email)?.languages??""
+    }
+    return language;
+}
+
+
 export function getTutorCourses()
 {
     let dbsub: Map<string, subject> = generateSubjects();
@@ -119,7 +182,13 @@ export function generateUsers()
         email: "test1@gmail.com",
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
-        role: "tutor"
+        role: "tutor",
+        summary: "Hi I am robert I am an npc",
+        prevRoles: "Started off as a gta 5 npc then went on to become an irl npc",
+        avail: "Weekdays",
+        certifications: "Cert III in guess who",
+        skills: "Npc walk\nBenched the solar system",
+        languages: "bot language, ingwrish",
     }
 
     const user4: userState = 

@@ -38,7 +38,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
         profile = <img src="https://saturn.csit.rmit.edu.au/~s4096467/RMITCats/virus.png" alt="User Profile Picture" className="profile-picture"/>;
     }
 
-
+    //TODO UNIT TESTING
     return(
         <div className="header-container">
             <a href={isLoggedIn?"/educator/educator":"/"}>
@@ -54,7 +54,6 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                 <a href="/">
 
                     <span className="user-profile">
-                        <img src="userpfp.png"/>
                             <h3>{userName}</h3>
                     </span>                    
                 </a>
