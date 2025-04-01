@@ -16,6 +16,7 @@
 {
     width: 3em;
     height: 3em;
+    margin-left: 10px;
 }
 
 .header-container h1
@@ -49,7 +50,7 @@
 }
 
 .user:hover {
-    background-color: rgb(201, 201, 201);
+    color: var(--accent-color);
 }
 
 .user:hover h3 {
@@ -148,6 +149,8 @@ nav .home {
 }
 
 .open svg {
+    align-items: center;
+    text-align: center;
     width: 45px;
     height: 45px;
 }
@@ -169,6 +172,7 @@ nav .home {
     z-index: 10;
     width: 300px;
     background-color: var(--color-1);
+    opacity: 0.97;
     box-shadow: -5px 0 5px rgba(0,0,0,0.25);
     transition: 0.75s ease;
 }

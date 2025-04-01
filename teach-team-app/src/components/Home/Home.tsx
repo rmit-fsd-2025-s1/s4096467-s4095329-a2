@@ -2,7 +2,7 @@ import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
 import "./Home.css";
 import { Card } from "@chakra-ui/react";
-import { getLectureClasses, subject } from "@/helpers/validate";
+import { getLectureClasses, subject, getTutorCourses } from "@/helpers/validate";
 
 interface EducatorProps
 {
@@ -33,31 +33,51 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
     );
 }
 
+function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectProps)
+{   
+    return(
+        //Hover to apply or something like that. Shows course details and apply button
+        <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"}>
+            <Card.Header>{subjectCode}</Card.Header>
+            <Card.Body>{subjectName}<br/></Card.Body>
+        </Card.Root>
+    );
+}
+
 export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorProps)
 {
     let classes: subject[] = [];
+    let courses: subject[] = [];
 
-    if(educatorEmail)
-        {
+    if(educatorEmail) {
             classes = getLectureClasses(educatorEmail);
-        }
-            
+    }
+    
+    if (accountType === "tutor") {
+        courses = getTutorCourses();
+        console.log("Courses", courses);
+    }
+    
     //If the user is logged in
     if(isLoggedIn)
     {
         return(
             // If the account is a lecturer
-            accountType === "lecturer" ? 
             <div className="home-content">
                 <div className="home-grid">
-                    {classes.map((classVar) => (
+                    {accountType === "lecturer" ? (
+                        classes.map((classVar) => (
                         <CreateSubject subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
-                    ))}
+                        ))) 
+                    : /*Else a tutor*/( 
+                        <div className ="tutor-grid">
+                            <p>Damn, you're a tutor now</p>
+                            {courses.map((courseVar) => (
+                                <CreateCourses subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
+                            ))}
+                        </div>
+                    )}
                 </div>
-            </div>
-            : //Else, they are a tutor
-            <div>
-                <p>Damn, you're a tutor now</p>
             </div>
         );
     }
