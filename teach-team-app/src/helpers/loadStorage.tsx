@@ -7,8 +7,8 @@ export interface localDBInt
     subjects: Map<string, subject>
 }
 
-export function loadDB()
+export function loadDB(): localDBInt
 {
     let localStorageBD: localDBInt = {users: generateUsers(), subjects: generateSubjects()};
-    const [localDB, setLocalDB] = useLocalStorage("localDB", localStorageBD);
+    return localStorageBD;
 }
