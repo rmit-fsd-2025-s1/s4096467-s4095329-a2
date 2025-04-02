@@ -37,7 +37,7 @@ function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectPro
 {   
     return(
         //Hover to apply or something like that. Shows course details and apply button
-        <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"}>
+        <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
             <Card.Header>{subjectCode}</Card.Header>
             <Card.Body>{subjectName}<br/></Card.Body>
         </Card.Root>
@@ -71,7 +71,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                         ))) 
                     : /*Else a tutor*/( 
                         <div className ="tutor-grid">
-                            <p>Damn, you're a tutor now</p>
+                            {/* <p>Damn, you're a tutor now</p> */}
                             {courses.map((courseVar) => (
                                 <CreateCourses subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
                             ))}

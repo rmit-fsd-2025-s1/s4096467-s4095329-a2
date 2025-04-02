@@ -65,8 +65,10 @@ export default function subjectManager()
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
         {
             content = <>
-                <h2>{subject}</h2>
-                <div className="flex-sbs flex-gap">
+                <div className="subjectName">
+                    {subject}
+                </div>
+                <div className="subMflex-sbs">
                     {/* Generate left table */}
                     <TutorSubjectTable table1={candidateList} table2={selectedList} setTable1={setCandidateList} setTable2={setSelectedList}/>
                     {/* Generate right table */}

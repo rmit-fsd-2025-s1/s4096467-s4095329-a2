@@ -1,0 +1,28 @@
+.userHeader {
+    padding: 50px;
+    background-color: rgb(240, 240, 233);
+    align-items: center;
+    text-align: left;
+    width: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+}
+
+.userHeader h1 {
+    font-size: 60px;
+
+}
+
+.userHeader p{
+    font-size: 20px;
+}
+
+.about {
+    display: block;
+    background-color: azure;
+}
+
+.prevRoles {
+   display: block; 
+   background-color: rgb(255, 240, 240);
+}
