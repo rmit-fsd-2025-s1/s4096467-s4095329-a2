@@ -41,22 +41,18 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
     //TODO UNIT TESTING
     return(
         <div className="header-container">
-            <a href={isLoggedIn?"/educator/educator":"/"}>
+            <Link href={isLoggedIn?"/educator/educator":"/"}>
                 <span className="header-section">
                     <img src="/graduation-cap.svg"/>
                         <h1>Teach<span className="green">Team</span> Management</h1>
                 </span>
-            </a>
-            {/* <span>
-                {profile}
-            </span> */}
+            </Link>
             {isLoggedIn?<div className="user">
-                <a href="/">
-
+                <Link href="/educator/userProfile">
                     <span className="user-profile">
-                            <h3>{userName}</h3>
+                        <h3>{userName}</h3>
                     </span>                    
-                </a>
+                </Link>
             </div>:<></>}
             
             <nav>
@@ -74,23 +70,23 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-                    <a className ="home" href="/educator/userProfile"><span className="material-symbols-outlined">home</span>Home</a>
+                    <Link className ="home" href="/educator/userProfile"><span className="material-symbols-outlined">home</span>Home</Link>
                     {/* Conditional rendering*/}
                     {accountType === "tutor" ? (
-                        <a href="/educator/apply"><span className="material-symbols-outlined">file_copy</span>Apply</a>
+                        <Link href="/educator/apply"><span className="material-symbols-outlined">file_copy</span>Apply</Link>
                     ) : null}
                     {accountType === "lecturer" ? (
-                        <a href="/educator/educator"><span className="material-symbols-outlined">menu_book</span>Courses</a>
+                        <Link href="/educator/educator"><span className="material-symbols-outlined">menu_book</span>Courses</Link>
                     ) : null}                
                     <a href=""><span className="material-symbols-outlined">Help</span>Help</a>
 
                     <div className="bottom">
-                        {isLoggedIn?<a href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</a>:<></>}
+                        {isLoggedIn?<Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>:<></>}
                         
-                        <a href=""><span className="material-symbols-outlined">settings</span>Settings</a>
+                        <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
                         {isLoggedIn?
-                        (<a href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</a>):
-                        (<a href="/login"><span className="material-symbols-outlined">login</span>Log in</a>)}
+                        (<Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</Link>):
+                        (<Link href="/login"><span className="material-symbols-outlined">login</span>Log in</Link>)}
                         
                     </div>
                 </div>

@@ -104,6 +104,15 @@ export function getLectureClasses(email: string)
     return lecturerClasses;
 }
 
+export function getName(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let name;
+    if (db.has(email)) {
+        name = db.get(email)?.name??""
+    }
+    return name;
+}
+
 export function getSummary(email: string) {
     let db: Map<string, userState> = generateUsers();
     let summ;
