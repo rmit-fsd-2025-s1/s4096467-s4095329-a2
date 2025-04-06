@@ -8,12 +8,22 @@ import { Alert } from "@chakra-ui/react"
 
 import "./sign-in.css";
 import { TbFlagSearch } from "react-icons/tb";
+import { hadUnsupportedValue } from "next/dist/build/analysis/get-page-static-info";
 
 //Page loading for the login screen at /login
 export default function loginScreen()
 {   
     //if false means invalid
     const [loginState, setLoginState] = useState(true);
+    //A password is strong enough ie 1+ Uppercase, 1+ Special char, 12+ chars
+    //True if strong, false if weak
+    const [strength, setStrength] = useState(true);
+    const [passCheck, setPassCheck] = useState({
+        length: 0,
+        hasUpper: false,
+        hasSymbol: false,
+        hasLetter: false,
+    });
 
     //Gets localStorage for localEmail, if it is not set, get ""
     useEffect(() => {
@@ -44,6 +54,19 @@ export default function loginScreen()
         const password = formData.password;
         const userVal: userCred = {email, password};
         console.log(isPasswordValid(userVal));
+        
+        //Source https://onecompiler.com/questions/3xnp9df38/-javascript-how-to-check-for-special-characters-present-in-a-string
+        let specialChars = /[\\|,.<>\/?~ `!@#$%^&*(){}_\-+=:;"'\[\]]/;
+        let letters = /[a-zA-Z]/;
+        //Returns true if containing letters etc.
+        let hasLetter = letters.test(password);
+        let hasUpper = /[A-Z]/.test(password);
+        let hasSymbol = specialChars.test(password);
+        let length = password.length;
+        setPassCheck({ length, hasUpper, hasSymbol, hasLetter });
+
+        const isStrong = length >= 12 && hasSymbol && hasUpper && hasLetter;
+        setStrength(isStrong);
 
         //Redirect
         if(isPasswordValid(userVal))
@@ -94,7 +117,20 @@ export default function loginScreen()
                     <Alert.Description />
                   </Alert.Content>
                 </Alert.Root>
-                ) : null }
+                ) : "" }
+                
+                {!strength ? ( //In the actual register implementation prevent the user from registering
+                  <Alert.Root status="warning">
+                  <Alert.Indicator />
+                  <Alert.Content>
+                        {passCheck.length < 12 && (<Alert.Title>Password must contain at least 12 Characters</Alert.Title>)}
+                        {!passCheck.hasLetter && (<Alert.Title>Password must contain at least 1 Letter</Alert.Title>)}
+                        {!passCheck.hasUpper && (<Alert.Title>Password must contain at least 1 Uppercase</Alert.Title>)}
+                        {!passCheck.hasSymbol && (<Alert.Title>Password must contain at least 1 Special Character</Alert.Title>)}
+                    <Alert.Description />
+                  </Alert.Content>
+                </Alert.Root>
+                ) : "" }
 
                 <div className="forgot"/*Extra stuff*/> 
                     <Link href="">Forgot Password?</Link> 
