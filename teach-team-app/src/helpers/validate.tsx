@@ -166,7 +166,21 @@ export function getLanguages(email: string) {
     }
     return language;
 }
+//TODO will combine all these functions
 
+export function getCandidates(email: string) {
+    // Get the subjects of the user
+    let classes: subject[] = [];
+    classes = getLectureClasses(email);
+
+    // Then calculate candidates
+    let cand = 0;
+    for (let i of classes.values()) {
+        cand += i.candidates.length;
+    } 
+
+    return cand;
+}
 
 export function getTutorCourses()
 {
