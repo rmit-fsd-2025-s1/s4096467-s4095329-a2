@@ -45,7 +45,7 @@ form {
     background-color: rgb(227, 227, 227);
   }
 
-  h1 {
+  .login-title h1 {
     font-size: 80px;
     margin-top: 20px;
     margin-bottom: 20px;

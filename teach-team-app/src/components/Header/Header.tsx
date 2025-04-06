@@ -70,7 +70,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-                    <Link className ="home" href="/educator/userProfile"><span className="material-symbols-outlined">home</span>Home</Link>
+                    <Link className ="home" href="/educator/educator"><span className="material-symbols-outlined">home</span>Home</Link>
                     {/* Conditional rendering*/}
                     {accountType === "tutor" ? (
                         <Link href="/educator/apply"><span className="material-symbols-outlined">file_copy</span>Apply</Link>
