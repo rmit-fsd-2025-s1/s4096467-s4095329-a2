@@ -3,13 +3,15 @@ import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getPasswordForUser, getUserType, isLecturerForClass, generateSubjects, userState, subject, generateUsers} from "../../helpers/validate";
 import { useRouter } from 'next/router';
-import { For, Stack, Table } from "@chakra-ui/react";
+import { Button, For, Stack, Table } from "@chakra-ui/react";
 
 import "../../styles/user-home.css";
 import { useEffect, useState } from "react";
 import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import { TutorSubjectTable, dualTableProps } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { loadDB, localDBInt } from "@/helpers/loadStorage";
+import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 
 
 
@@ -43,6 +45,7 @@ export default function subjectManager()
     //Pull sample values
     let dbSubj: Map<string, subject> = generateSubjects();
     let dbTut: Map<string, userState> = generateUsers();
+
     //Create tutors array
     let tutors: userState[] = [];
 
@@ -57,9 +60,28 @@ export default function subjectManager()
             })
         }
 
+
+        
         //Create hooks to update the tables
-    const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
-    const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", []);
+        const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
+        const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", []);
+        const [localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB);
+
+        
+        const saveChanges = ()=>{
+            let tempDB: localDBInt = loadDB();
+
+            let acceptedTutor: string[] = selectedList.map(a=>a.email);
+            let candidateTutor: string[] = candidateList.map(a=>a.email);
+
+            new Map(tempDB.subjects).get(subject??"").accepted = acceptedTutor;
+            new Map(tempDB.subjects).get(subject??"").candidates = candidateTutor;
+
+            setLocalDB(() => tempDB);
+
+            console.log(acceptedTutor);
+            console.log(candidateTutor);
+        };
 
     //Generate content based on logged in status
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
@@ -72,6 +94,7 @@ export default function subjectManager()
                     {/* Generate right table */}
                     <TutorSubjectTable table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
                 </div>
+                <Button colorPalette={"blue"} p="4" onClick={saveChanges}>Save Changes</Button>
             </>
             ;
         }
