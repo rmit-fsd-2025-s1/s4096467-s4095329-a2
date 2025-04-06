@@ -89,7 +89,7 @@ export default function loginScreen()
             {/* <title>Login</title> */}
             {/* <Header isLoggedIn={true} /> */}
             <form onSubmit={attemptLogin}>
-                <h1>Teach<span className="green">Team</span></h1>
+                <div className="login-title"><h1>Teach<span className="green">Team</span></h1></div>
                 <label>
                     Email
                     {/* On Update, set the values in formData for email */}
