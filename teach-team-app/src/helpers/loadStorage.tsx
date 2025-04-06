@@ -3,12 +3,17 @@ import { userState, subject, generateSubjects, generateUsers } from "@/helpers/v
 
 export interface localDBInt
 {
-    users: Map<string, userState>,
-    subjects: Map<string, subject>
+    users: [string, userState][],
+    subjects: [string, subject][]
 }
 
 export function loadDB(): localDBInt
 {
-    let localStorageBD: localDBInt = {users: generateUsers(), subjects: generateSubjects()};
+    const userData: [string, userState][] = Array.from(generateUsers());
+    const subjectData: [string, subject][] = Array.from(generateSubjects());
+    console.log("dingus");
+    console.log(userData);
+    console.log(subjectData);
+    let localStorageBD: localDBInt = {users: userData, subjects: subjectData};
     return localStorageBD;
 }
