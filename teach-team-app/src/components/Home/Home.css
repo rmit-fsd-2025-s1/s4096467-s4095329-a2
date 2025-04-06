@@ -11,9 +11,44 @@
 .home-grid, .tutor-grid
 {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    gap: 10px;
+    /* flex-direction: column; */
+    gap: 30px;
+    font-size: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.button-apply {
+    padding: 20 5 5 5;
+    width: 100%;
+}
+
+.chakra-button {
+    width: 100%;
+}
+
+.chakra-button:hover {
+    background-color: rgb(59, 189, 91);
+    color: white;
+}
+
+.home-grid a, .chakra-card__root {
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
+    transition: 0.3s ease;
+    border: 2px solid grey;
+    border-radius: 8px;
+    width: 45%;
+}
+
+.chakra-card__root:hover {
+    transition: 0.3s ease;
+    transform: scale(1.02);
+}
+
+.home-grid a:hover {
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
+    transform: scale(1.03);
 }
 
 /* Container for each subject */

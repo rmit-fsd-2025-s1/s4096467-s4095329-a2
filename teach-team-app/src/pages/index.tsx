@@ -1,7 +1,6 @@
 import Image from "next/image";
 import {Header} from "../components/Header/Header";
 import {Footer} from "../components/Footer/Footer";
-import {Sidebar} from "../components/Sidebar/Sidebar";
 import { Geist, Geist_Mono } from "next/font/google";
 import { useEffect, useState } from "react";
 import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";

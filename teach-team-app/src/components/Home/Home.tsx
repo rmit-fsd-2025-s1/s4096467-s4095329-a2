@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
 import "./Home.css";
-import { Card } from "@chakra-ui/react";
+import { Card ,Button} from "@chakra-ui/react";
 import { getLectureClasses, subject, getTutorCourses } from "@/helpers/validate";
 
 interface EducatorProps
@@ -27,19 +27,29 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
         }}>
             <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
                 <Card.Header>{subjectCode}</Card.Header>
-                <Card.Body>{subjectName}<br/>New Applicants: {subjectApplicants}</Card.Body>
+                <Card.Body color="grey">{subjectName}<br/>New Applicants: {subjectApplicants}</Card.Body>
             </Card.Root>
         </Link>
     );
 }
 
-function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectProps)
-{   
+function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectProps) {
+    
+    const clickApply = () => {
+        console.log("You have applied"); 
+        //Some function to delete or remove the card.
+    };
+ 
     return(
         //Hover to apply or something like that. Shows course details and apply button
         <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
             <Card.Header>{subjectCode}</Card.Header>
             <Card.Body>{subjectName}<br/></Card.Body>
+            <Card.Footer justifyContent="flex-end">
+                <div className="button-apply">
+                <Button variant='subtle' onClick={clickApply}>Apply</Button>
+                </div>
+            </Card.Footer>
         </Card.Root>
     );
 }
@@ -62,20 +72,27 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
     if(isLoggedIn)
     {
         return(
-            // If the account is a lecturer
             <div className="home-content">
                 <div className="home-grid">
-                    {accountType === "lecturer" ? (
-                        classes.map((classVar) => (
-                        <CreateSubject subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
-                        ))) 
-                    : /*Else a tutor*/( 
-                        <div className ="tutor-grid">
-                            {/* <p>Damn, you're a tutor now</p> */}
-                            {courses.map((courseVar) => (
-                                <CreateCourses subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
-                            ))}
-                        </div>
+                    {accountType === "lecturer" && (
+                        <>
+                        {classes.map((classVar) => (
+                            <CreateSubject subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
+                        ))}
+                        </>
+                    )}
+                    {accountType === "tutor" && (
+                        <>
+                            <div className="tutor-grid">
+                                {courses.map((courseVar) => (
+                                    <CreateCourses subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                    {accountType !== "tutor" && accountType === "lecturer" &&(
+                        <>
+                        </>
                     )}
                 </div>
             </div>
