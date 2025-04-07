@@ -11,6 +11,7 @@ export interface userState
     prevRoles?: string,
     avail?: string,
     certifications?: string,
+    education?: string,
     skills?: string,
     languages?: string,
 }
@@ -166,6 +167,15 @@ export function getLanguages(email: string) {
     }
     return language;
 }
+
+export function getEducation(email: string) {
+    let db: Map<string, userState> = generateUsers();
+    let edu;
+    if (db.has(email)) {
+        edu = db.get(email)?.education??""
+    }
+    return edu;
+}
 //TODO will combine all these functions
 
 export function getCandidates(email: string) {
@@ -210,6 +220,7 @@ export function generateUsers()
         prevRoles: "Started off as a gta 5 npc then went on to become an irl npc",
         avail: "Weekdays",
         certifications: "Cert III in guess who",
+        education: "Masters degree in NPC arts",
         skills: "Npc walk\nBenched the solar system",
         languages: "bot language, ingwrish",
     }

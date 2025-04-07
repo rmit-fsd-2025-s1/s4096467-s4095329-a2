@@ -47,7 +47,8 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                         <h1>Teach<span className="green">Team</span> Management</h1>
                 </span>
             </Link>
-            {isLoggedIn?<div className="user">
+            {/* Remove accounttype === tutor if needed later in other assignments */}
+            {isLoggedIn && accountType === "tutor"?<div className="user">
                 <Link href="/educator/userProfile">
                     <span className="user-profile">
                         <h3>{userName}</h3>
@@ -81,7 +82,8 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                     <a href=""><span className="material-symbols-outlined">Help</span>Help</a>
 
                     <div className="bottom">
-                        {isLoggedIn?<Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>:<></>}
+                        {/* Remove accounttype === tutor if needed later in other assignments */}
+                        {isLoggedIn && accountType === "tutor"?<Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>:<></>}
                         
                         <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
                         {isLoggedIn?

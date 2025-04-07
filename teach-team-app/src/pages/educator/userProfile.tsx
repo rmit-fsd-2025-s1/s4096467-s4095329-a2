@@ -2,11 +2,12 @@ import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getPasswordForUser, getUserType, getSummary, 
-    getPrevRoles, getAvail, getCertifications, getSkills, getLanguages, getName} from "../../helpers/validate";
+    getPrevRoles, getAvail, getCertifications, getSkills, getLanguages, getName, getEducation} from "../../helpers/validate";
 
 import "./userProfile.css";
 import "../../styles/user-home.css";
 import { useEffect, useState } from "react";
+import { Button, Card} from "@chakra-ui/react"
 
 //some function to get username form their email before character '@';
 
@@ -36,38 +37,78 @@ export default function loginScreen()
     let cert = getCertifications(user.email);
     let skills = getSkills(user.email);
     let languages = getLanguages(user.email);
+    let education = getEducation(user.email);
 
     return(
         <>
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
-            <div className="profle">
+            <div className="profile">
                 <div className="userHeader">
                     <h1>Hello {name}</h1>
                     <p>Here you can update your details and see your messages</p>
                 </div>
-                <div className="about">            
-                    <p>About me</p>
-                    <p>{summary}</p>
+                {/* TODO Add functionality like input box then save using the button */}
+                <div className="details">
+                    <div className="box1">
+                        <div className="about">            
+                            <h2>Summary</h2>
+                            <p>{summary}</p>
+                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Summary</Button>
+                            <br/>
+                        </div>
+                        <div className="prevRoles">
+                            <h2>Career History</h2>
+                            <p>{roles}</p>
+                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Roles</Button>
+                            <br/>
+                        </div>
+                        <div className="education">
+                            <h2>Education</h2>
+                            <p>{education}</p>
+                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Educations</Button>
+                            <br/>
+                        </div>
+                        <div className="skills">
+                            <h2>Skills</h2>
+                            <p>{skills}</p>
+                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit skills</Button>
+                        </div>
+                    </div>
+                    <div className="box2">
+                        <div className="cert">
+                            <h2>Certifications</h2>
+                            <p>{cert}</p>
+                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Certifications</Button>
+                            <hr className="divider"/>
+                        </div>
+                        <div className="avail">
+                            <h2>Availability</h2>
+                            <p>{availability}</p>
+                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Availability</Button>
+                            <hr className="divider"/>
+                        </div>
+                        <div className="languages">
+                            <h2>Languages</h2>
+                            <p>{languages}</p>
+                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Languages</Button>
+                        </div>
+                    </div>
                 </div>
-                <div className="prevRoles">
-                    <p>Career History</p>
-                    <p>{roles}</p>
+                <div className="comments">
+                    <h2>Lecturer Comments:</h2><br/>
+                    {/* if not comments... show you have no comments */}
+                    <Card.Root font-size="30" p="4">
+                        <Card.Header>This is just a sample. May or may not use a card here</Card.Header>
+                        <Card.Body>Get lecturer comments and put them here.</Card.Body>
+                        <Card.Footer />
+                    </Card.Root>
+                    <br/>
+                    <Card.Root font-size="30" p="4">
+                        <Card.Header>This is just a sample. May or may not use a card here</Card.Header>
+                        <Card.Body>Get lecturer comments and put them here.</Card.Body>
+                        <Card.Footer />
+                    </Card.Root>
                 </div>
-                <p>Availability</p>
-                <p>{availability}</p>
-                <br></br>
-                <p>Certifications</p>
-                <p>{cert}</p>
-                <br></br>
-                <p>Skills</p>
-                <p>{skills}</p>
-                <br></br>
-                <p>Languages</p>
-                <p>{languages}</p>
-                <br></br>
-                <p>Lecturer Comments</p>
-                {/* Get user pfp from database */}
-                {/* <img src = "/userpfp.png" height="500px" width="500px"></img> */}
             </div>
             <Footer isLoggedIn={passwordValid} type=""/>
         </>
