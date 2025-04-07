@@ -80,16 +80,12 @@ export default function subjectManager()
             let acceptedTutor: string[] = selectedList.map(a=>a.email);
             let candidateTutor: string[] = candidateList.map(a=>a.email);
             
-            console.log(tempDB.subjects);
-            
-            console.log(tempDB.subjects.filter((willard) => willard[0] === subject)[0][1]);
-            
             // Set the value of the subject accepted
-            tempDB.subjects.filter((willard) => willard[0] === subject)[0][1].accepted = acceptedTutor;
+            tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].accepted = acceptedTutor;
             // Set the value of the subject candidates
-            tempDB.subjects.filter((willard) => willard[0] === subject)[0][1].candidates = candidateTutor;
+            tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].candidates = candidateTutor;
             
-
+            // Save to localStorage
             setLocalDB(tempDB);
 
             // console.log(acceptedTutor);
