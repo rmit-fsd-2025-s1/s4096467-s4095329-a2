@@ -65,23 +65,36 @@ export default function subjectManager()
         //Create hooks to update the tables
         const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
         const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", []);
-        const [localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB);
+        const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
 
-        
-        const saveChanges = ()=>{
-            let tempDB: localDBInt = loadDB();
+        // Saves changes to the DIY database
+        // const saveChanges = ()=>{
+            
+        // };
 
+        function saveChanges()
+        {
+            let tempDB:localDBInt = { ...localDB };
+
+            // Setting accepted and candidate tutors using type/javascript spaghetti 
             let acceptedTutor: string[] = selectedList.map(a=>a.email);
             let candidateTutor: string[] = candidateList.map(a=>a.email);
+            
+            console.log(tempDB.subjects);
+            
+            console.log(tempDB.subjects.filter((willard) => willard[0] === subject)[0][1]);
+            
+            // Set the value of the subject accepted
+            tempDB.subjects.filter((willard) => willard[0] === subject)[0][1].accepted = acceptedTutor;
+            // Set the value of the subject candidates
+            tempDB.subjects.filter((willard) => willard[0] === subject)[0][1].candidates = candidateTutor;
+            
 
-            new Map(tempDB.subjects).get(subject??"").accepted = acceptedTutor;
-            new Map(tempDB.subjects).get(subject??"").candidates = candidateTutor;
+            setLocalDB(tempDB);
 
-            setLocalDB(() => tempDB);
-
-            console.log(acceptedTutor);
-            console.log(candidateTutor);
-        };
+            // console.log(acceptedTutor);
+            // console.log(candidateTutor);
+        }
 
     //Generate content based on logged in status
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
@@ -92,8 +105,10 @@ export default function subjectManager()
                 </div>
                 <div className="subMflex-sbs">
                     {/* Generate left table */}
+                    <h3>Candidates</h3>
                     <TutorSubjectTable table1={candidateList} table2={selectedList} setTable1={setCandidateList} setTable2={setSelectedList}/>
                     {/* Generate right table */}
+                    <h3>Accepted</h3>
                     <TutorSubjectTable table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
                 </div>
                 <Button colorPalette={"blue"} p="4" onClick={saveChanges}>Save Changes</Button>
