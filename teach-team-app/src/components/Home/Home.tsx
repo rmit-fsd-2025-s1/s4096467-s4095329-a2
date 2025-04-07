@@ -76,9 +76,11 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                 <div className="home-grid">
                     {accountType === "lecturer" && (
                         <>
-                        {classes.map((classVar) => (
-                            <CreateSubject subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
-                        ))}
+                            <div className="lecture-grid">
+                                {classes.map((classVar) => (
+                                    <CreateSubject subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
+                                ))}
+                            </div>
                         </>
                     )}
                     {accountType === "tutor" && (

@@ -8,7 +8,7 @@
 /* Lecturer Formatting */
 
 /* Grid that displays subjects */
-.home-grid, .tutor-grid
+.home-grid, .tutor-grid, .lecture-grid
 {
     display: flex;
     flex-wrap: wrap;
@@ -33,7 +33,23 @@
     color: white;
 }
 
-.home-grid a, .chakra-card__root {
+/* can adjust */
+.lecture-grid a{
+    width: 45%;
+}
+/* 
+Be careful of comma placement */
+/* Targets both l-grid and chakracard */
+.lecture-grid a .chakra-card__root {
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
+    transition: 0.3s ease;
+    border: 2px solid grey;
+    border-radius: 8px;
+    width: 100%;
+}
+
+/* chakracard in tutor grid */
+.tutor-grid a, .chakra-card__root {
     box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
     transition: 0.3s ease;
     border: 2px solid grey;
@@ -41,7 +57,7 @@
     width: 45%;
 }
 
-.chakra-card__root:hover {
+.home-grid a, .chakra-card__root:hover {
     transition: 0.3s ease;
     transform: scale(1.02);
 }
