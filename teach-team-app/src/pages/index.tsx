@@ -5,6 +5,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { useEffect, useState } from "react";
 import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
 import {useRouter} from "next/navigation";
+import "../styles/user-home.css";
+import { Spinner } from "@chakra-ui/react"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,8 +49,10 @@ export default function Home() {
     <>
       <title>Index</title>
       <Header isLoggedIn={passwordValid} accountType={loginType}/>
-      {/* <Sidebar/> */}
-      <p> Text Here </p>
+      <div className="load">
+          <h1>Loading...</h1>
+            <Spinner color="rgb(59, 189, 91)" size="xl" borderWidth="4px"/>
+      </div>
       <Footer isLoggedIn={passwordValid} type={loginType}/>
     </>
   );
