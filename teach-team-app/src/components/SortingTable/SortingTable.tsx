@@ -1,5 +1,4 @@
 import { generateSubjects, generateUsers, subject, userState } from "@/helpers/validate";
-
 import { SetStateAction } from "react";
 import { Table, HoverCard, Portal, Checkbox, Box } from "@chakra-ui/react";
 
@@ -27,12 +26,21 @@ function swapTables(index: number,table1: userState[], sTable1:(value: SetStateA
 export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTableProps)
 {
 
-    //Create the table
-    return(<Table.Root borderWidth="1px" rounded="md" interactive>
+    //Create the tablekey 
+    return(
+        <Table.Root 
+            variant="outline" 
+            size="lg" 
+            borderWidth="1px" 
+            rounded="md"
+            width="100%" 
+            backgroundColor="white"
+            interactive
+        >
         {/* Header of the table */}
         <Table.Header>
-            <Table.ColumnHeader>Tutor Name</Table.ColumnHeader>
-            <Table.ColumnHeader>Tutor Role</Table.ColumnHeader>
+            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Tutor Name</Table.ColumnHeader>
+            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Tutor Role</Table.ColumnHeader>
         </Table.Header>
         {/* Body of the table */}
         <Table.Body>
@@ -45,8 +53,8 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
                             swapTables(index, table1, setTable1, table2, setTable2);
                             }}>
                             {/* Display other information in body */}
-                            <Table.Cell>{tut.email}</Table.Cell>
-                            <Table.Cell>{tut.role}</Table.Cell>
+                            <Table.Cell p="4" fontSize="md">{tut.email}</Table.Cell>
+                            <Table.Cell p="4" fontSize="md">{tut.role}</Table.Cell>
                         </Table.Row>
                     </HoverCard.Trigger>
                     <Portal>

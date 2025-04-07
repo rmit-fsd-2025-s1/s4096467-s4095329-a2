@@ -1,19 +1,18 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
+import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getPasswordForUser, getUserType, isLecturerForClass, generateSubjects, userState, subject, generateUsers} from "../../helpers/validate";
 import { useRouter } from 'next/router';
 import { Button, For, Stack, Table } from "@chakra-ui/react";
 
-import "../../styles/user-home.css";
+import "./subjectManager.css";
 import { useEffect, useState } from "react";
 import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import { TutorSubjectTable, dualTableProps } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { loadDB, localDBInt } from "@/helpers/loadStorage";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
-
-
 
 export default function subjectManager()
 {
@@ -91,29 +90,33 @@ export default function subjectManager()
             // console.log(acceptedTutor);
             // console.log(candidateTutor);
         }
-
+ 
     //Generate content based on logged in status
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
         {
             content = <>
-                <div className="subjectName">
-                    {subject}
+                <div className="pick-tutor-container">
+                    <div className="subjectName">
+                        {subject}
+                    </div>
+                    <div className="subMflex-sbs-subM">
+                        {/* Generate left table */}
+                        <h3>Select your candidates</h3>
+                        <TutorSubjectTable table1={candidateList} table2={selectedList} setTable1={setCandidateList} setTable2={setSelectedList}/>
+                        {/* Generate right table */}
+                        <h3>Accepted candidates</h3>
+                        <TutorSubjectTable table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
+                    </div>
+                    <div className="save-button">
+                        <Button colorPalette={"green"} p="4" onClick={saveChanges}>Save Changes</Button>
+                    </div>
                 </div>
-                <div className="subMflex-sbs">
-                    {/* Generate left table */}
-                    <h3>Candidates</h3>
-                    <TutorSubjectTable table1={candidateList} table2={selectedList} setTable1={setCandidateList} setTable2={setSelectedList}/>
-                    {/* Generate right table */}
-                    <h3>Accepted</h3>
-                    <TutorSubjectTable table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
-                </div>
-                <Button colorPalette={"blue"} p="4" onClick={saveChanges}>Save Changes</Button>
             </>
             ;
         }
         else
         {
-            content = <InvalidLogin/>
+            content = <LoadingScreen/>
         }
 
     return(
