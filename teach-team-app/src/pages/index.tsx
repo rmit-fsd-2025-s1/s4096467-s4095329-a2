@@ -7,6 +7,7 @@ import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
 import {useRouter} from "next/navigation";
 import "../styles/user-home.css";
 import { Spinner } from "@chakra-ui/react"
+import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,10 +50,7 @@ export default function Home() {
     <>
       <title>Index</title>
       <Header isLoggedIn={passwordValid} accountType={loginType}/>
-      <div className="load">
-          <h1>Loading...</h1>
-            <Spinner color="rgb(59, 189, 91)" size="xl" borderWidth="4px"/>
-      </div>
+      <LoadingScreen/>
       <Footer isLoggedIn={passwordValid} type={loginType}/>
     </>
   );

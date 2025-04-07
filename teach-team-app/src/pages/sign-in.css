@@ -78,7 +78,7 @@ form {
     width: 100%; 
   }
   
-  button {
+  .flex-sbs button {
     padding: 10px;
     border: none;
     border-radius: 20px;
@@ -87,7 +87,7 @@ form {
     width: 400px;
   }
 
-  button:hover {
+  .flex-sbs button:hover {
     opacity: 1;
   }
 
@@ -130,11 +130,7 @@ form {
     object-fit: cover;
 }
 
-.css-1tu4afu {
-  padding: 15px 20px;
-}
-
-.css-1ei1yuc {
+.chakra-alert__root {
   padding: 15px 20px;
 }
 

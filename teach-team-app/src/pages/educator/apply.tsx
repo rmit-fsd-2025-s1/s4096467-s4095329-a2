@@ -7,6 +7,7 @@ import { Spinner } from "@chakra-ui/react"
 import "../../styles/user-home.css";
 import "../../components/Home/Home.css";
 import { useEffect, useState } from "react";
+import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 
 export default function loginScreen()
 {
@@ -43,10 +44,7 @@ export default function loginScreen()
             {/* Loading area to prevent empty page */}
             {loginType !== "tutor" && (
                 <>
-                <div className="load">
-                    <h1>Loading...</h1>
-                    <Spinner color="rgb(59, 189, 91)" size="xl" borderWidth="4px"/>
-                </div>
+                <LoadingScreen/>
                 </>
             )}
             <Footer isLoggedIn={passwordValid} type=""/>

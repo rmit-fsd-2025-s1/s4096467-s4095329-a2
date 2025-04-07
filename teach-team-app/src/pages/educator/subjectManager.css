@@ -1,0 +1,31 @@
+.pick-tutor-container {
+    min-height: 72.6vh;
+}
+
+.subjectName {
+    font-size: 50px;
+    background-color: rgb(59, 189, 91);
+    padding: 30px;
+    color: rgb(45, 45, 45);
+    font-weight: bold;
+}
+
+.subMflex-sbs-subM h3{
+    font-size: 30px;
+    padding: 30 30 0 0;
+    border-bottom: 5px solid rgb(59, 189, 91);
+}
+
+.subMflex-sbs-subM {
+    padding: 0 50 0 50;
+}
+
+.save-button {
+    padding: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* .chakra-button {
+} */
