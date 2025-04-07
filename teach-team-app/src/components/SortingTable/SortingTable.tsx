@@ -16,8 +16,8 @@ function swapTables(index: number,table1: userState[], sTable1:(value: SetStateA
 {
     //https://www.seanmcp.com/articles/remove-an-item-at-a-given-index-in-javascript/
     //Filter where index => index != indexVar
-    const tempTable1 = table1.filter((e, i) => i !== index); // Remove item at index from table1
-    const tempTable2 = [...table2, table1[index]]; // Add the item to the top of table 2
+    const tempTable1: userState[] = table1.filter((e, i) => i !== index); // Remove item at index from table1
+    const tempTable2: userState[] = [...table2, table1[index]]; // Add the item to the top of table 2
 
     //Update using the hooks
     sTable1(tempTable1);
