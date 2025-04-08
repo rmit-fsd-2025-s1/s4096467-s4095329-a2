@@ -42,15 +42,14 @@ export default function subjectManager()
     let content;
 
     //Pull sample values
-    let dbSubj: Map<string, subject> = generateSubjects();
     let dbTut: Map<string, userState> = generateUsers();
-
 
         //Create hooks to update the tables
         const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
         
         //Create tutors array
     let tutors: userState[] = [];
+    //https://medium.com/codingbeauty-tutorials/javascript-convert-array-to-map-12907a8a334a
 
     //SELECT <values> FROM tutors as t LEFT JOIN subject as s ON t.email = s.tutor WHERE s.subject_name = ?
     if(new Map(localDB.subjects.map((obj) => [obj[0], obj[1]])).has(subject??""))
