@@ -45,10 +45,7 @@ export default function subjectManager()
     let dbSubj: Map<string, subject> = generateSubjects();
     let dbTut: Map<string, userState> = generateUsers();
 
-    
 
-
-        
         //Create hooks to update the tables
         const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
         
