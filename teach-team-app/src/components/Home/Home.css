@@ -81,3 +81,11 @@ Be careful of comma placement */
     background-color: rgb(228, 228, 228);
     border: 2px solid black;
 }
+
+.button-apply h2{
+    display: flex;
+    font-size: 25px;
+    color: rgb(59, 189, 91);
+    padding: 1px;
+    justify-content: center;
+}
