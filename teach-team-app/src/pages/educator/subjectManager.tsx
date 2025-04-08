@@ -45,13 +45,20 @@ export default function subjectManager()
     let dbSubj: Map<string, subject> = generateSubjects();
     let dbTut: Map<string, userState> = generateUsers();
 
-    //Create tutors array
+    
+
+
+        
+        //Create hooks to update the tables
+        const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
+        
+        //Create tutors array
     let tutors: userState[] = [];
 
     //SELECT <values> FROM tutors as t LEFT JOIN subject as s ON t.email = s.tutor WHERE s.subject_name = ?
-    if(dbSubj.has(subject??""))
+    if(new Map(localDB.subjects.map((obj) => [obj[0], obj[1]])).has(subject??""))
         {
-            dbSubj.get(subject??"")?.candidates.forEach((it) => {
+            localDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1]?.candidates.forEach((it) => {
                 const tutor: userState | undefined = dbTut.get(it);
                 if (tutor) {
                     tutors.push(tutor);
@@ -59,12 +66,22 @@ export default function subjectManager()
             })
         }
 
+        //Create tutors array
+        let acceptedUser: userState[] = [];
 
-        
-        //Create hooks to update the tables
+        //SELECT <values> FROM tutors as t LEFT JOIN subject as s ON t.email = s.tutor WHERE s.subject_name = ?
+        if(new Map(localDB.subjects.map((obj) => [obj[0], obj[1]])).has(subject??""))
+            {
+                localDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1]?.accepted.forEach((it) => {
+                    const acceptee: userState | undefined = dbTut.get(it);
+                    if (acceptee) {
+                        acceptedUser.push(acceptee);
+                    }
+                })
+            }
+
         const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
-        const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", []);
-        const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
+        const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", acceptedUser);
 
         // Saves changes to the DIY database
         // const saveChanges = ()=>{
