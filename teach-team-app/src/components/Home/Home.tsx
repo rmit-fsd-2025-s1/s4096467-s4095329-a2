@@ -2,7 +2,9 @@ import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
 import "./Home.css";
 import { Card ,Button} from "@chakra-ui/react";
-import { getLectureClasses, subject, getTutorCourses } from "@/helpers/validate";
+import { getLectureClasses, subject, getTutorCourses, generateUsers, userState } from "@/helpers/validate";
+import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
+import { loadDB } from "@/helpers/loadStorage";
 
 interface EducatorProps
 {
@@ -54,13 +56,38 @@ function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectPro
     );
 }
 
+function formatLocalStorageClasses(email: string, localClasses: [string, subject][])
+{
+    let dbUsers: Map<string, userState> = generateUsers();
+    let formattedMap: Map<string, subject> = new Map(localClasses.map((obj) => [obj[0], obj[1]]));
+    let lecturerClasses: subject[] = [];
+
+    if(dbUsers.has(email))
+        {
+            dbUsers.get(email)?.classes?.forEach((subName) => {
+                const classObj: subject | undefined = formattedMap.get(subName);
+                if (classObj) {
+                    lecturerClasses.push(classObj);
+                }
+            })
+        }
+    
+    return lecturerClasses;
+}
+
 export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorProps)
 {
     let classes: subject[] = [];
     let courses: subject[] = [];
 
+    //Create hooks to update the tables
+    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
+    classes = formatLocalStorageClasses(educatorEmail??"", localDB.subjects)
+
     if(educatorEmail) {
             classes = getLectureClasses(educatorEmail);
+            classes = formatLocalStorageClasses(educatorEmail, localDB.subjects);
+            localDB.subjects
     }
     
     if (accountType === "tutor") {
