@@ -3,6 +3,7 @@ import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
 import "./Home.css";
 import { Card ,Button} from "@chakra-ui/react";
 import { getLectureClasses, subject, getTutorCourses } from "@/helpers/validate";
+import React, { useState, useEffect } from 'react';
 
 interface EducatorProps
 {
@@ -35,10 +36,14 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
 
 function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectProps) {
     
+    // TODO MAKE SURE IT SAVES
+    // if false then dont show button
+    const [showButton, setShowButton] = useState(true);
+
     const clickApply = () => {
         console.log("You have applied"); 
-        //Some function to delete or remove the card.
-    };
+        setShowButton(!showButton);
+    }; 
  
     return(
         //Hover to apply or something like that. Shows course details and apply button
@@ -47,7 +52,7 @@ function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectPro
             <Card.Body>{subjectName}<br/></Card.Body>
             <Card.Footer justifyContent="flex-end">
                 <div className="button-apply">
-                <Button variant='subtle' onClick={clickApply}>Apply</Button>
+                    {showButton ? <Button variant='subtle' onClick={clickApply}>Apply</Button> : <h2>You have applied!</h2>}
                 </div>
             </Card.Footer>
         </Card.Root>
