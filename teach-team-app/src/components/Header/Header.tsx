@@ -71,21 +71,21 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-                    <Link className ="home" href="/educator/educator"><span className="material-symbols-outlined">home</span>Home</Link>
+                    {isLoggedIn && (<Link className ="home" href="/educator/educator"><span className="material-symbols-outlined">home</span>Home</Link>)}
                     {/* Conditional rendering*/}
                     {accountType === "tutor" ? (
                         <Link href="/educator/apply"><span className="material-symbols-outlined">file_copy</span>Apply</Link>
                     ) : null}
                     {accountType === "lecturer" ? (
                         <Link href="/educator/educator"><span className="material-symbols-outlined">menu_book</span>Courses</Link>
-                    ) : null}                
-                    <a href=""><span className="material-symbols-outlined">Help</span>Help</a>
+                    ) : null}
+                    {isLoggedIn && (<Link href=""><span className="material-symbols-outlined">Help</span>Help</Link>)}                
 
                     <div className="bottom">
                         {/* Remove accounttype === tutor if needed later in other assignments */}
                         {isLoggedIn && accountType === "tutor"?<Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>:<></>}
                         
-                        <Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>
+                        {isLoggedIn && (<Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>)}
                         {isLoggedIn?
                         (<Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</Link>):
                         (<Link href="/login"><span className="material-symbols-outlined">login</span>Log in</Link>)}

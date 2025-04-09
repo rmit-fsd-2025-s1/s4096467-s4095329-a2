@@ -4,6 +4,7 @@ import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getPasswordForUser, getUserType, getName, getCandidates} from "../../helpers/validate";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
+import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import "../../styles/user-home.css";
 import { useEffect, useState} from "react";
 import Link from "next/link";
@@ -64,9 +65,7 @@ export default function loginScreen()
             
             {/* Loading area to prevent empty page */}
             {loginType !== "lecturer" && loginType !== "tutor" && (
-                <>
-                    <LoadingScreen/>
-                </>
+                <LoadingScreen/>
             )}
 
             <Footer isLoggedIn={passwordValid} type=""/>

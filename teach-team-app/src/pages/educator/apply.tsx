@@ -47,6 +47,8 @@ export default function loginScreen()
                 <LoadingScreen/>
                 </>
             )}
+
+            
             <Footer isLoggedIn={passwordValid} type=""/>
 
         </>
