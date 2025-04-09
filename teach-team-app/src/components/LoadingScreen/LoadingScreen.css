@@ -9,3 +9,8 @@
     padding: 50px;
     gap: 30px;
 }
+
+.load p{
+   display: flex; 
+   font-size: 20px;
+}
