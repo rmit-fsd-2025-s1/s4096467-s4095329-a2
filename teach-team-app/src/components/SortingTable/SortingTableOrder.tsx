@@ -26,11 +26,9 @@ function swapTables(index: number,table1: userState[], sTable1:(value: SetStateA
 //Moves the user to the next index up, reordering them upwards. Does not reorder if index is 0
 function upCandidate(index: number,table1: userState[], sTable1:(value: SetStateAction<userState[]>) => void)
 {
-    console.log(index + " Uppies")
     
     if(index !== 0)
     {
-        console.log(index + " Pass")
         //BTW, if you are using spread (...) on an array, you need to do [ ...var ] or it returns an object and breaks everything
         let tempTable1: userState[] = [ ...table1 ];
         let selectTutor: userState = tempTable1[index];
@@ -39,9 +37,8 @@ function upCandidate(index: number,table1: userState[], sTable1:(value: SetState
         tempTable1.splice(index,1);
         //Insert at the index-1 (Move up in list)
         tempTable1.splice(index-1, 0, selectTutor);
-        console.log(tempTable1);
-        console.log(selectTutor);
 
+        //Save to localStorage and update the screen
         sTable1(tempTable1);
     }
     else
