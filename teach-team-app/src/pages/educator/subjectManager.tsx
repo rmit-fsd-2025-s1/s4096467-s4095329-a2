@@ -13,6 +13,7 @@ import { TutorSubjectTable, dualTableProps } from "@/components/SortingTable/Sor
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { loadDB, localDBInt } from "@/helpers/loadStorage";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
+import { TutorSubjectTableSort } from "@/components/SortingTable/SortingTableOrder";
 
 export default function subjectManager()
 {
@@ -79,11 +80,7 @@ export default function subjectManager()
         const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
         const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", acceptedUser);
 
-        // Saves changes to the DIY database
-        // const saveChanges = ()=>{
-            
-        // };
-
+        // Save List to LocalStorage. This will be replaced with A DB function later
         function saveChanges()
         {
             let tempDB:localDBInt = { ...localDB };
@@ -118,7 +115,7 @@ export default function subjectManager()
                         <TutorSubjectTable table1={candidateList} table2={selectedList} setTable1={setCandidateList} setTable2={setSelectedList}/>
                         {/* Generate right table */}
                         <h3>Accepted candidates</h3>
-                        <TutorSubjectTable table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
+                        <TutorSubjectTableSort table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
                     </div>
                     <div className="save-button">
                         <Button colorPalette={"green"} p="4" onClick={saveChanges}>Save Changes</Button>
