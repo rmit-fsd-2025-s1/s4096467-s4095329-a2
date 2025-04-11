@@ -6,6 +6,7 @@ import { getLectureClasses, subject, getTutorCourses, generateUsers, userState }
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
 import React, { useState, useEffect } from 'react';
+import { getEducatorClasses } from "@/helpers/localStorageGet";
 
 interface EducatorProps
 {
@@ -87,13 +88,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
 
     //Create hooks to update the tables
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
-    classes = formatLocalStorageClasses(educatorEmail??"", localDB.subjects)
-
-    if(educatorEmail) {
-            classes = getLectureClasses(educatorEmail);
-            classes = formatLocalStorageClasses(educatorEmail, localDB.subjects);
-            localDB.subjects
-    }
+    classes = getEducatorClasses(educatorEmail??"", localDB.subjects);
     
     if (accountType === "tutor") {
         courses = getTutorCourses();
