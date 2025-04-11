@@ -14,6 +14,7 @@ import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { loadDB, localDBInt } from "@/helpers/loadStorage";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { TutorSubjectTableSort } from "@/components/SortingTable/SortingTableOrder";
+import { getAcceptedFrom, getCandidatesFrom } from "@/helpers/localStorageGet";
 
 export default function subjectManager()
 {
@@ -45,61 +46,39 @@ export default function subjectManager()
     //Pull sample values
     let dbTut: Map<string, userState> = generateUsers();
 
-        //Create hooks to update the tables
-        const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
+    //Create hooks to update the tables
+    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
+    
+    //Create tutors array
+    let tutors: userState[] = getCandidatesFrom(subject??"", localDB);
+
+    //Create tutors array
+    let acceptedUser: userState[] = getAcceptedFrom(subject??"", localDB);
+
+    //Setup hooks for each table list
+    const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
+    const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", acceptedUser);
+
+    // Save List to LocalStorage. This will be replaced with A DB function later
+    function saveChanges()
+    {
+        let tempDB:localDBInt = { ...localDB };
+
+        // Setting accepted and candidate tutors using type/javascript spaghetti 
+        let acceptedTutor: string[] = selectedList.map(a=>a.email);
+        let candidateTutor: string[] = candidateList.map(a=>a.email);
         
-        //Create tutors array
-    let tutors: userState[] = [];
-    //https://medium.com/codingbeauty-tutorials/javascript-convert-array-to-map-12907a8a334a
+        // Set the value of the subject accepted
+        tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].accepted = acceptedTutor;
+        // Set the value of the subject candidates
+        tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].candidates = candidateTutor;
+        
+        // Save to localStorage
+        setLocalDB(tempDB);
 
-    //SELECT <values> FROM tutors as t LEFT JOIN subject as s ON t.email = s.tutor WHERE s.subject_name = ?
-    if(new Map(localDB.subjects.map((obj) => [obj[0], obj[1]])).has(subject??""))
-        {
-            localDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1]?.candidates.forEach((it) => {
-                const tutor: userState | undefined = dbTut.get(it);
-                if (tutor) {
-                    tutors.push(tutor);
-                }
-            })
-        }
-
-        //Create tutors array
-        let acceptedUser: userState[] = [];
-
-        //SELECT <values> FROM tutors as t LEFT JOIN subject as s ON t.email = s.tutor WHERE s.subject_name = ?
-        if(new Map(localDB.subjects.map((obj) => [obj[0], obj[1]])).has(subject??""))
-            {
-                localDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1]?.accepted.forEach((it) => {
-                    const acceptee: userState | undefined = dbTut.get(it);
-                    if (acceptee) {
-                        acceptedUser.push(acceptee);
-                    }
-                })
-            }
-
-        const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
-        const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", acceptedUser);
-
-        // Save List to LocalStorage. This will be replaced with A DB function later
-        function saveChanges()
-        {
-            let tempDB:localDBInt = { ...localDB };
-
-            // Setting accepted and candidate tutors using type/javascript spaghetti 
-            let acceptedTutor: string[] = selectedList.map(a=>a.email);
-            let candidateTutor: string[] = candidateList.map(a=>a.email);
-            
-            // Set the value of the subject accepted
-            tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].accepted = acceptedTutor;
-            // Set the value of the subject candidates
-            tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].candidates = candidateTutor;
-            
-            // Save to localStorage
-            setLocalDB(tempDB);
-
-            // console.log(acceptedTutor);
-            // console.log(candidateTutor);
-        }
+        // console.log(acceptedTutor);
+        // console.log(candidateTutor);
+    }
  
     //Generate content based on logged in status
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
