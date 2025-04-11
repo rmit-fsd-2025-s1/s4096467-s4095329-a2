@@ -1,5 +1,5 @@
 import { localDBInt } from "./loadStorage";
-import { generateUsers, userState } from "./validate";
+import { generateUsers, subject, userState } from "./validate";
 
 export function getCandidatesFrom(subject: string, localDB: localDBInt): userState[]
 {
@@ -37,4 +37,23 @@ export function getAcceptedFrom(subject: string, localDB: localDBInt): userState
         }
 
     return tutors;
+}
+
+export function getEducatorClasses(email: string, localClasses: [string, subject][]): subject[]
+{
+    let dbUsers: Map<string, userState> = generateUsers();
+    let formattedMap: Map<string, subject> = new Map(localClasses.map((obj) => [obj[0], obj[1]]));
+    let lecturerClasses: subject[] = [];
+
+    if(dbUsers.has(email))
+        {
+            dbUsers.get(email)?.classes?.forEach((subName) => {
+                const classObj: subject | undefined = formattedMap.get(subName);
+                if (classObj) {
+                    lecturerClasses.push(classObj);
+                }
+            })
+        }
+    
+    return lecturerClasses;
 }
