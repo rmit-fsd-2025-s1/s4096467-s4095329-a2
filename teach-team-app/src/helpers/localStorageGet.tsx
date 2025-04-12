@@ -72,3 +72,33 @@ export function getLocalCandidates(email: string, localClasses: [string, subject
 
     return cand;
 }
+
+export function getAppliedCourses(email: string, localClasses: subject[]): string[]
+{
+    let courses: string[] = [];
+
+    localClasses.forEach((e)=>{
+        e.candidates.forEach((c)=>{
+            if(c === email) {
+                courses.push(e.code);
+            }
+        })
+    });
+
+    return courses;
+}
+
+export function getAcceptedCourses(email: string, localClasses: subject[]): string[]
+{
+    let courses: string[] = [];
+
+    localClasses.forEach((e)=>{
+        e.accepted.forEach((c)=>{
+            if(c === email) {
+                courses.push(e.code);
+            }
+        })
+    });
+
+    return courses;
+}
