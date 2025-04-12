@@ -33,3 +33,13 @@ body {
   display: flex;
   flex-direction: row;
 }
+
+.flexBox
+{
+  display: flex;
+}
+
+.flex-column
+{
+  flex-direction: column;
+}
