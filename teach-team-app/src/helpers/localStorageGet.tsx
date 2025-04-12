@@ -57,3 +57,18 @@ export function getEducatorClasses(email: string, localClasses: [string, subject
     
     return lecturerClasses;
 }
+
+export function getLocalCandidates(email: string, localClasses: [string, subject][]): number
+{
+    // Get the subjects of the user
+    let classes: subject[] = [];
+    classes = getEducatorClasses(email, localClasses);
+
+    // Then calculate candidates
+    let cand = 0;
+    for (let i of classes.values()) {
+        cand += i.candidates.length;
+    } 
+
+    return cand;
+}
