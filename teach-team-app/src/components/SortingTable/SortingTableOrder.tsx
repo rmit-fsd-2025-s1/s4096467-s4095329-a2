@@ -80,7 +80,9 @@ export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: du
                             {/* Display other information in body */}
                             <Table.Cell p="4" fontSize="md">{tut.name??tut.email}</Table.Cell>
                             <Table.Cell p="4" fontSize="md" width="auto">{tut.avail??"Not Provided"}</Table.Cell>
-                            {index != 0? <Table.Cell p="4" fontSize="md" textAlign="end"><Button onClick={(e)=>{e.stopPropagation(); upCandidate(index, table1, setTable1);}}>^</Button></Table.Cell>:<Table.Cell p="4" fontSize="md" textAlign="end"></Table.Cell>}
+                            {index != 0? <Table.Cell p="4" fontSize="md" textAlign="end">
+                                            <Button onClick={(e)=>{e.stopPropagation(); upCandidate(index, table1, setTable1);}}>^</Button>
+                                         </Table.Cell>:<Table.Cell p="4" fontSize="md" textAlign="end"></Table.Cell>}
                         </Table.Row>
                     </HoverCard.Trigger>
                     <Portal>
