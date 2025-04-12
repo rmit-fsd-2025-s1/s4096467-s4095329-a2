@@ -80,16 +80,18 @@ export default function subjectManager()
         // console.log(candidateTutor);
     }
 
-    const [show, setShow] = useState(false)
+    //Same logic as in the user profile
+    const [commentEmail, setCommentEmail] = useState<string | null>(null);
     const [temp, setTemp] = useState("");
     const comment = (email: string) => {
-        setShow(true);
+        setCommentEmail(email);
+        setTemp("");
     }
     
     const send = (email: string, sender: string) => {
         const sendTo = `${email}_commentFrom_${sender}`; 
         localStorage.setItem(sendTo, temp);
-        setShow(false);
+        setCommentEmail(null);
     }
 
     //Generate content based on logged in status
@@ -112,28 +114,32 @@ export default function subjectManager()
                         <Button colorPalette={"green"} p="4" onClick={saveChanges}>Save Changes</Button>
                     </div>
                     <div className="comment-container">
-                    <h3>Accepted Candidates:</h3>
+                    <div className="ft">
+                        <h3>Comment Candidates</h3>
+                    </div>
                         {selectedList.length > 0 ? (
-                            <ul>
-                                {selectedList.map((user) => (
-                                    <li key={user.email}>{user.name ?? user.email}
-                                    {!show ? (
-                                        <Button onClick={() => comment(user.email)}>Comment here</Button>
-                                    ) : (
-                                        <>
-                                        <label>
-                                            <textarea
-                                                value={temp}
-                                                onChange={(e) => setTemp(e.target.value)}
-                                                placeholder="Comment your thoughts"
-                                            />
-                                        </label>
-                                        <Button onClick={() => send(user.email, localEmail)}>Send</Button>
-                                        </>
-                                    )}
-                                    </li>
-                                ))}
-                            </ul>
+                            <div className="comment-box">
+                                <ul>
+                                    {selectedList.map((user) => (
+                                        <li key={user.email}>{user.name ?? user.email}
+                                        {commentEmail !== user.email ? (
+                                            <Button p="4" size="lg" colorPalette="green" variant="outline" onClick={() => comment(user.email)}>Comment</Button>
+                                        ) : (
+                                            <>
+                                            <label>
+                                                <textarea
+                                                    value={temp}
+                                                    onChange={(e) => setTemp(e.target.value)}
+                                                    placeholder="Comment your thoughts"
+                                                />
+                                            </label>
+                                            <Button p="4" size="lg" colorPalette="green" variant="outline" onClick={() => send(user.email, localEmail)}>Send</Button>
+                                            </>
+                                        )}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         ) : (
                             <p>No candidates have been accepted yet.</p>
                         )}

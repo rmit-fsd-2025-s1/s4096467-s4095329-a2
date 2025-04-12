@@ -1,0 +1,13 @@
+
+.comment-card .chakra-card__root {
+    width: 100%;
+    min-width: 300px;
+}
+
+.comment-cont {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; 
+    justify-content: flex-start; 
+    width: 100%;
+}
