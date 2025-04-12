@@ -6,7 +6,6 @@ import { getLectureClasses, subject, getTutorCourses, generateUsers, userState }
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
 import React, { useState, useEffect } from 'react';
-import { getEducatorClasses } from "@/helpers/localStorageGet";
 
 interface EducatorProps
 {
@@ -38,16 +37,20 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
 }
 
 function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectProps) {
-    
-    // TODO MAKE SURE IT SAVES
     // if false then dont show button
     const [showButton, setShowButton] = useState(true);
 
     const clickApply = () => {
         console.log("You have applied"); 
         setShowButton(!showButton);
+        localStorage.setItem("applied", "true");
     }; 
- 
+
+    let saveApply;
+    if (localStorage.getItem("applied") === "true") {
+        saveApply = true;
+    }
+
     return(
         //Hover to apply or something like that. Shows course details and apply button
         <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
@@ -55,7 +58,7 @@ function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectPro
             <Card.Body>{subjectName}<br/></Card.Body>
             <Card.Footer justifyContent="flex-end">
                 <div className="button-apply">
-                    {showButton ? <Button variant='subtle' onClick={clickApply}>Apply</Button> : <h2>You have applied!</h2>}
+                    {showButton ? <Button variant='subtle' onClick={clickApply}>Apply</Button> : <h2>Application Sent!</h2>}
                 </div>
             </Card.Footer>
         </Card.Root>
@@ -88,7 +91,13 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
 
     //Create hooks to update the tables
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
-    classes = getEducatorClasses(educatorEmail??"", localDB.subjects);
+    classes = formatLocalStorageClasses(educatorEmail??"", localDB.subjects)
+
+    if(educatorEmail) {
+            classes = getLectureClasses(educatorEmail);
+            classes = formatLocalStorageClasses(educatorEmail, localDB.subjects);
+            localDB.subjects
+    }
     
     if (accountType === "tutor") {
         courses = getTutorCourses();
@@ -114,6 +123,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                         <>
                             <div className="tutor-grid">
                                 {courses.map((courseVar) => (
+                                    
                                     <CreateCourses subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
                                 ))}
                             </div>

@@ -1,7 +1,7 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType, getName, getCandidates, generateUsers} from "../../helpers/validate";
+import { isPasswordValid, userCred, getPasswordForUser, getUserType, getUserData, getCandidates, generateUsers} from "../../helpers/validate";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
@@ -30,13 +30,13 @@ export default function loginScreen()
     }, []);
 
     let user: userCred = {email: localEmail, password:localPassword};
+    const data = getUserData(user.email);
     let passwordValid = isPasswordValid(user);
     let loginType = getUserType(user.email);
-    let name = getName(user.email);
+    let name = data?.name??"";
     //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
     let candidates = getLocalCandidates(user.email, localDB.subjects);
-
 
     return(
         <>

@@ -18,6 +18,33 @@
     color: rgb(255, 255, 255);
 }
 
+pre {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+textarea {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /*Should be same width as save */
+    width: 400px; 
+    height: 100px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 20px;
+    border: 1px black solid;
+}
+
+.save .chakra-button {
+    gap: 30px;
+    width: 80px;
+    height: 40px;
+}
+
+.save {
+    position: relative;
+    left: 320px;
+    padding-top: 5px;
+}
+
 .userHeader h1 {
     font-size: 60px;
 }
@@ -50,12 +77,20 @@
     margin-left: 50px;
 }
 
+.box1 p {
+    width: 80%;
+}
+
 .box2 {
     flex-direction: column;
     /* border: 2px solid green; */
     width: 40%;
     padding: 10px;
     margin-right: 50px;
+}
+
+.box2 p {
+    width: 60%;
 }
 
 .box2 .divider {
@@ -70,6 +105,10 @@
 .about {
     padding-bottom: 50px;
     /* background-color: azure; */
+}
+
+.about input {
+    border: 1px black solid;
 }
 
 .prevRoles {

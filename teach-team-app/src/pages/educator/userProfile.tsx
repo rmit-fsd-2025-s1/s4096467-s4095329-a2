@@ -1,13 +1,25 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType, getSummary, 
-    getPrevRoles, getAvail, getCertifications, getSkills, getLanguages, getName, getEducation} from "../../helpers/validate";
+import { isPasswordValid, userCred, getPasswordForUser, getUserType, getUserData} from "../../helpers/validate";
 
+import { userState } from "../../helpers/validate"
 import "./userProfile.css";
 import "../../styles/user-home.css";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState , useMemo} from "react";
 import { Button, Card} from "@chakra-ui/react"
+
+export interface details {
+    summary: string;
+    prevRoles: string;
+    avail: string;
+    certifications: string;
+    education: string;
+    skills: string;
+    languages: string;
+}
+
+const detailsTitle = ['summary', 'prevRoles', 'avail', 'certifications', 'education', 'skills', 'languages'];
 
 //some function to get username form their email before character '@';
 
@@ -19,25 +31,79 @@ export default function loginScreen()
     useEffect(() => 
     {
         setLocalEmail(localStorage.getItem("localEmail")||"");
+        setLocalPassword(localStorage.getItem("localPassword")||"");
+
     }, []);
     
-    useEffect(() => 
-    {
-        setLocalPassword(localStorage.getItem("localPassword")||"");
-    }, []);
+    //UseMemo stops recalculation on every keypress when typing input. This removes lag.
+    const user: userCred = useMemo(() => ({
+        email: localEmail,
+        password: localPassword
+    }), [localEmail, localPassword]);
+    const data = useMemo(() => getUserData(user.email), [user.email]);
+    const passwordValid = useMemo(() => isPasswordValid(user), [user]);
+    const loginType = useMemo(() => getUserType(user.email), [user.email]);
+    let name = data?.name??"";
 
-    let user: userCred = {email: localEmail, password:localPassword};
-    let passwordValid = isPasswordValid(user);
-    let loginType = getUserType(user.email);
-    let userName = localEmail.substring(0, localEmail.indexOf("@"));
-    let name = getName(user.email);
-    let summary = getSummary(user.email);
-    let roles = getPrevRoles(user.email);
-    let availability = getAvail(user.email);
-    let cert = getCertifications(user.email);
-    let skills = getSkills(user.email);
-    let languages = getLanguages(user.email);
-    let education = getEducation(user.email);
+    // Maybe For later usuage in further assignments
+    // let userName = localEmail.substring(0, localEmail.indexOf("@"));
+    //We dont need to format the data yet maybe in further assignments
+    // let summary = data?.summary??"";
+    // let roles = data?.prevRoles??"";
+    // let availability  = data?.avail??"";
+    // let cert = data?.certifications??""; 
+    // let skills = data?.skills??"";
+    // let languages = data?.languages??"";
+    // let education = data?.education??"";    
+
+    //Create form data using state hook
+    const [formData, setFormData] = useState<details>({
+        summary: "",
+        prevRoles: "",
+        avail: "",
+        certifications: "",
+        education: "",
+        skills: "",
+        languages: "",
+    });
+    
+    // //testing for lag
+    // console.time('getUserData Execution Time');
+    // console.timeEnd('getUserData Execution Time');
+
+    //Keeps track of the button you click edit. If null then no field is being edited.
+    const [editField, setEditField] = useState<keyof details | null>(null);
+    const [temp, setTemp] = useState("");
+    
+    //Field: keyof makes this dynamic
+    //https://www.w3schools.com/typescript/typescript_keyof.php
+    const edit = (field: keyof details) => {
+        setTemp(formData[field] || "");
+        setEditField(field);
+    }
+
+    //gets the user input from local storage
+    useEffect(() => {
+        //makes all the details optional
+        const updatedData: Partial<details> = {};
+        detailsTitle.forEach((field) => {
+            //${} makes it dynamic for each user so that each user doesnt use others formdata
+            const userKey = `${field}_${user.email}`;
+            updatedData[field as keyof details] = localStorage.getItem(userKey) || "";
+        });
+        //appends the saved summary to the updated summary
+        setFormData((prev) => ({ ...prev, ...updatedData }));
+    }, [user.email]);
+
+    //Save input to local storage
+    const save = (field: keyof details) => {
+        //appends the temp string to the formdata summary
+        setFormData((prev) => ({ ...prev, [field]: temp}));   
+        const userKey = `${field}_${user.email}`;
+        //Sets temp to local storage.
+        localStorage.setItem(userKey, temp);
+        setEditField(null);
+    }    
 
     return(
         <>
@@ -47,50 +113,181 @@ export default function loginScreen()
                     <h1>Hello {name}</h1>
                     <p>Here you can update your details and see your messages</p>
                 </div>
-                {/* TODO Add functionality like input box then save using the button */}
+                {/* I could probably look to optimize this sometime but it works >.> */}
                 <div className="details">
                     <div className="box1">
                         <div className="about">            
                             <h2>Summary</h2>
-                            <p>{summary}</p>
-                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Summary</Button>
-                            <br/>
+                            <p>{/*summary !== "" && if the user already had data*/ formData.summary !== "" ? (
+                               formData.summary
+                            ) : "Add your introduction here"}</p>
+                            {editField === 'summary' ? (
+                            <label>
+                                <textarea
+                                value={temp}
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your Summary"
+                                />
+                                <div className="save">
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('summary')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                            ) : (
+                            <>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('summary')}>Edit Summary</Button>
+                                <br/>
+                            </>
+                            )}
+
                         </div>
                         <div className="prevRoles">
-                            <h2>Career History</h2>
-                            <p>{roles}</p>
-                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Roles</Button>
-                            <br/>
+                        <h2>Career History</h2>
+                            <p>{formData.prevRoles !== "" ? (
+                               formData.prevRoles
+                            ) : "Add your introduction here"}</p>
+                            {editField === 'prevRoles' ? (
+                            <label>
+                                <textarea
+                                value={temp}
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your Career History"
+                                />
+                                <div className="save">
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('prevRoles')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                            ) : (
+                            <>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('prevRoles')}>Edit Roles</Button>
+                                <br/>
+                            </>
+                            )}
                         </div>
+                        <h2>Education</h2>                        
                         <div className="education">
-                            <h2>Education</h2>
-                            <p>{education}</p>
-                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Educations</Button>
-                            <br/>
+                        <p>{formData.education !== "" ? (
+                               formData.education
+                            ) : "Add your education here"}</p>
+                            {editField === 'education' ? (
+                            <label>
+                                <textarea
+                                value={temp}
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your education"
+                                />
+                                <div className="save">
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('education')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                            ) : (
+                            <>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('education')}>Edit Education</Button>
+                                <br/>
+                            </>
+                            )}
                         </div>
                         <div className="skills">
                             <h2>Skills</h2>
-                            <p>{skills}</p>
-                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit skills</Button>
+                            <p>{formData.skills !== "" ? (
+                               formData.skills
+                            ) : "Add your skills here"}</p>
+                            {editField === 'skills' ? (
+                            <label>
+                                <textarea
+                                value={temp}
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your skills"
+                                />
+                                <div className="save">
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('skills')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                            ) : (
+                            <>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('skills')}>Edit Skills</Button>
+                                <br/>
+                            </>
+                            )}
                         </div>
                     </div>
                     <div className="box2">
                         <div className="cert">
                             <h2>Certifications</h2>
-                            <p>{cert}</p>
-                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Certifications</Button>
+                            <p>{formData.certifications !== "" ? (
+                               formData.certifications
+                            ) : "Add your certifications here"}</p>
+                            {editField === 'certifications' ? (
+                            <label>
+                                <textarea
+                                value={temp}
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your certifications"
+                                />
+                                <div className="save">
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('certifications')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                            ) : (
+                            <>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('certifications')}>Edit certifications</Button>
+                                <br/>
+                            </>
+                            )}
                             <hr className="divider"/>
                         </div>
                         <div className="avail">
                             <h2>Availability</h2>
-                            <p>{availability}</p>
-                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Availability</Button>
+                            <p>{formData.avail !== "" ? (
+                               formData.avail
+                            ) : "Add your availibility here"}</p>
+                            {editField === 'avail' ? (
+                            <label>
+                                <textarea
+                                value={temp}
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your availibility"
+                                />
+                                <div className="save">
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('avail')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                            ) : (
+                            <>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('avail')}>Edit availibility</Button>
+                                <br/>
+                            </>
+                            )}
                             <hr className="divider"/>
                         </div>
                         <div className="languages">
                             <h2>Languages</h2>
-                            <p>{languages}</p>
-                            <Button color="green" colorPalette="green" variant="outline" size="xl" p="4">Edit Languages</Button>
+                            <p>{formData.languages !== "" ? (
+                               formData.languages
+                            ) : "Add your languages here"}</p>
+                            {editField === 'languages' ? (
+                            <label>
+                                <textarea
+                                value={temp}
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your languages"
+                                />
+                                <div className="save">
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('languages')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                            ) : (
+                            <>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('languages')}>Edit languages</Button>
+                                <br/>
+                            </>
+                            )}
                         </div>
                     </div>
                 </div>
