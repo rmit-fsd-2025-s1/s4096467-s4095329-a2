@@ -46,7 +46,17 @@ export default function loginScreen()
             {loginType === "lecturer" && (
             <div className="lecturer-interface">
                 <div className="l-header">
-                    <h2>Welcome back {name}!<br/> You have <span className="numCand">{candidates}</span> new applicants</h2>
+                    <h2>Welcome back {name}!<br/> You have <span className="numCand">{candidates} </span> 
+                    {candidates > 1 ? (
+                        <>
+                         new applicants
+                        </>
+                    ) : (
+                        <>
+                         new applicant
+                        </>
+                    )}
+                    </h2>
                 </div>
                 <div className="subjects-header">
                     <h1>Courses</h1>

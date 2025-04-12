@@ -1,6 +1,7 @@
 import React, { useEffect, useState , useMemo} from "react";
 import { Button, Card} from "@chakra-ui/react"
 import { isPasswordValid, userCred, getPasswordForUser, getUserType, getUserData, userState, generateUsers} from "../../helpers/validate";
+import "./Comments.css"
 
 interface commentsFromL {
     lecturers: string;
@@ -11,10 +12,13 @@ interface commentsFromL {
 function CreateComment({lecturers, comment}: commentsFromL)
 {  
     return(
-        <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
-            <Card.Header>{comment}</Card.Header>
-            <Card.Body color="grey">From: {lecturers}</Card.Body>
-        </Card.Root>
+        <div className="comment-card">
+            <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
+                <Card.Header>{comment}</Card.Header>
+                <Card.Body color="grey">From: {lecturers}</Card.Body>
+            </Card.Root>
+        </div>
+
     );
 }
 
@@ -68,11 +72,11 @@ export default function Comments() {
     return (
         <>
         {commentFound ? (
-            <>
+            <div className="comment-cont">
             {lecturerComments.map((comment) => (
                 <CreateComment lecturers={comment.lecturers} comment={comment.comment} />
             ))}
-            </>
+            </div>
         ) : (
             <p>No comments are availble</p>
         )}
