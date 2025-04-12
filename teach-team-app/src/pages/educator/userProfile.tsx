@@ -3,11 +3,13 @@ import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getPasswordForUser, getUserType, getUserData} from "../../helpers/validate";
 
+import Comments from "@/components/SortingTable/Comments";
 import { userState } from "../../helpers/validate"
 import "./userProfile.css";
 import "../../styles/user-home.css";
 import React, { useEffect, useState , useMemo} from "react";
 import { Button, Card} from "@chakra-ui/react"
+
 
 export interface details {
     summary: string;
@@ -294,17 +296,7 @@ export default function loginScreen()
                 <div className="comments">
                     <h2>Lecturer Comments:</h2><br/>
                     {/* if not comments... show you have no comments */}
-                    <Card.Root font-size="30" p="4">
-                        <Card.Header>This is just a sample. May or may not use a card here</Card.Header>
-                        <Card.Body>Get lecturer comments and put them here.</Card.Body>
-                        <Card.Footer />
-                    </Card.Root>
-                    <br/>
-                    <Card.Root font-size="30" p="4">
-                        <Card.Header>This is just a sample. May or may not use a card here</Card.Header>
-                        <Card.Body>Get lecturer comments and put them here.</Card.Body>
-                        <Card.Footer />
-                    </Card.Root>
+                    <Comments/>
                 </div>
             </div>
             <Footer isLoggedIn={passwordValid} type=""/>

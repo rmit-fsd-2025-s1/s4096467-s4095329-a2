@@ -2,18 +2,18 @@ import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType, isLecturerForClass, generateSubjects, userState, subject, generateUsers} from "../../helpers/validate";
+import { isPasswordValid, userCred, getPasswordForUser, getUserType, isLecturerForClass, generateSubjects, userState, subject, generateUsers, getUserData} from "../../helpers/validate";
 import { useRouter } from 'next/router';
-import { Button, For, Stack, Table } from "@chakra-ui/react";
+import { Button, For, LocaleProvider, Stack, Table } from "@chakra-ui/react";
 
 import "./subjectManager.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState , useMemo} from "react";
 import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import { TutorSubjectTable, dualTableProps } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { loadDB, localDBInt } from "@/helpers/loadStorage";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
-import { TutorSubjectTableSort } from "@/components/SortingTable/SortingTableOrder";
+import { TutorSubjectTableSort} from "@/components/SortingTable/SortingTableOrder";
 import { getAcceptedFrom, getCandidatesFrom } from "@/helpers/localStorageGet";
 
 export default function subjectManager()
@@ -30,17 +30,17 @@ export default function subjectManager()
     useEffect(() => 
     {
         setLocalEmail(localStorage.getItem("localEmail")||"");
-    }, []);
-    
-    useEffect(() => 
-    {
         setLocalPassword(localStorage.getItem("localPassword")||"");
     }, []);
-
+    
     //Password Checking
-    let user: userCred = {email: localEmail, password:localPassword};
-    let passwordValid = isPasswordValid(user);
-    let loginType = getUserType(user.email);
+    //Same optimization as userProfile
+    const user: userCred = useMemo(() => ({
+        email: localEmail,
+        password: localPassword
+    }), [localEmail, localPassword]);
+    const passwordValid = useMemo(() => isPasswordValid(user), [user]);
+    const loginType = useMemo(() => getUserType(user.email), [user.email]);
     let content;
 
     //Pull sample values
@@ -79,7 +79,19 @@ export default function subjectManager()
         // console.log(acceptedTutor);
         // console.log(candidateTutor);
     }
- 
+
+    const [show, setShow] = useState(false)
+    const [temp, setTemp] = useState("");
+    const comment = (email: string) => {
+        setShow(true);
+    }
+    
+    const send = (email: string, sender: string) => {
+        const sendTo = `${email}_commentFrom_${sender}`; 
+        localStorage.setItem(sendTo, temp);
+        setShow(false);
+    }
+
     //Generate content based on logged in status
     if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
         {
@@ -98,6 +110,33 @@ export default function subjectManager()
                     </div>
                     <div className="save-button">
                         <Button colorPalette={"green"} p="4" onClick={saveChanges}>Save Changes</Button>
+                    </div>
+                    <div className="comment-container">
+                    <h3>Accepted Candidates:</h3>
+                        {selectedList.length > 0 ? (
+                            <ul>
+                                {selectedList.map((user) => (
+                                    <li key={user.email}>{user.name ?? user.email}
+                                    {!show ? (
+                                        <Button onClick={() => comment(user.email)}>Comment here</Button>
+                                    ) : (
+                                        <>
+                                        <label>
+                                            <textarea
+                                                value={temp}
+                                                onChange={(e) => setTemp(e.target.value)}
+                                                placeholder="Comment your thoughts"
+                                            />
+                                        </label>
+                                        <Button onClick={() => send(user.email, localEmail)}>Send</Button>
+                                        </>
+                                    )}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>No candidates have been accepted yet.</p>
+                        )}
                     </div>
                 </div>
             </>
