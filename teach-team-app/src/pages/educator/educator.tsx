@@ -1,14 +1,18 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType, getName, getCandidates} from "../../helpers/validate";
+import { isPasswordValid, userCred, getPasswordForUser, getUserType, getName, getCandidates, generateUsers} from "../../helpers/validate";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import "../../styles/user-home.css";
 import { useEffect, useState} from "react";
 import Link from "next/link";
-import { Spinner } from "@chakra-ui/react"
+import { Button, Input, InputGroup, Spinner } from "@chakra-ui/react"
+import { SearchTable } from "@/components/SortingTable/SearchTable";
+import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
+import { loadDB } from "@/helpers/loadStorage";
+import { getLocalCandidates } from "@/helpers/localStorageGet";
 
 export default function loginScreen()
 {
@@ -29,7 +33,10 @@ export default function loginScreen()
     let passwordValid = isPasswordValid(user);
     let loginType = getUserType(user.email);
     let name = getName(user.email);
-    let candidates = getCandidates(user.email);
+    //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
+    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
+    let candidates = getLocalCandidates(user.email, localDB.subjects);
+
 
     return(
         <>
@@ -46,6 +53,18 @@ export default function loginScreen()
                 </div>
                 <div className="subjects-box">
                     <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
+                </div>
+                <div className="lecturers-list-box">
+                    <h1>Tutor Database Search</h1>
+                    <div className="flex-sbs">
+                        <div className="flex-column flexBox"><Button>Course Name</Button><Button>Tutor Name</Button></div>
+                        <div className="flex-column flexBox"><Button>Skillset</Button><Button>Availability</Button></div>
+                    </div>
+                    <InputGroup startElement={<span className="material-symbols-outlined">search</span>}>
+                        <Input placeholder="Search" />
+                    </InputGroup>
+
+                    <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} />
                 </div>
             </div>)}
         
