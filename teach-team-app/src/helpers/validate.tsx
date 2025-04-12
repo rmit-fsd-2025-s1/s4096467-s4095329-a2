@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { GiSummits } from "react-icons/gi";
 
 export interface userState
 {
@@ -7,13 +8,13 @@ export interface userState
     password: string,
     role: string,
     classes?: string[]
-    summary?: string,
-    prevRoles?: string,
-    avail?: string,
-    certifications?: string,
-    education?: string,
-    skills?: string,
-    languages?: string,
+    summary?: string[],
+    prevRoles?: string[],
+    avail?: string[],
+    certifications?: string[],
+    education?: string[],
+    skills?: string[],
+    languages?: string[],
 }
 
 export interface userCred
@@ -105,78 +106,25 @@ export function getLectureClasses(email: string)
     return lecturerClasses;
 }
 
-export function getName(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let name;
-    if (db.has(email)) {
-        name = db.get(email)?.name??""
-    }
-    return name;
-}
+export function getUserData(email:string) {
+    const db: Map<string, userState> = generateUsers();
 
-export function getSummary(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let summ;
-    if (db.has(email)) {
-        summ = db.get(email)?.summary??""
+    if (!db.has(email)) {
+        return null;
     }
-    return summ;
-}
 
-export function getPrevRoles(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let roles;
-    if (db.has(email)) {
-        roles = db.get(email)?.prevRoles??""
-    }
-    return roles;
+    const userData = db.get(email);
+    return {
+        name: userData?.name ?? "",
+        summary: userData?.summary ?? "",
+        prevRoles: userData?.prevRoles ?? "",
+        avail: userData?.avail ?? "",
+        certifications: userData?.certifications ?? "",
+        skills: userData?.skills ?? "",
+        languages: userData?.languages ?? "",
+        education: userData?.education ?? ""
+    };
 }
-
-export function getAvail(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let avail;
-    if (db.has(email)) {
-        avail = db.get(email)?.avail??""
-    }
-    return avail;
-}
-
-export function getCertifications(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let cert;
-    if (db.has(email)) {
-        cert = db.get(email)?.certifications??""
-    }
-    return cert;
-}
-
-export function getSkills(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let skills;
-    if (db.has(email)) {
-        skills = db.get(email)?.skills??""
-    }
-    return skills;
-}
-
-export function getLanguages(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let language;
-    if (db.has(email)) {
-        language = db.get(email)?.languages??""
-    }
-    return language;
-}
-
-export function getEducation(email: string) {
-    let db: Map<string, userState> = generateUsers();
-    let edu;
-    if (db.has(email)) {
-        edu = db.get(email)?.education??""
-    }
-    return edu;
-}
-//TODO will combine all these functions
 
 export function getCandidates(email: string) {
     // Get the subjects of the user
@@ -216,13 +164,13 @@ export function generateUsers()
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
         role: "tutor",
-        summary: "Hi I am robert I am an npc",
-        prevRoles: "Started off as a gta 5 npc then went on to become an irl npc",
-        avail: "Weekdays",
-        certifications: "Cert III in guess who",
-        education: "Masters degree in NPC arts",
-        skills: "Npc walk\nBenched the solar system",
-        languages: "bot language, ingwrish",
+        summary: ["Hi I am robert I am an npc"],
+        prevRoles: ["Started off as a gta 5 npc then went on to become an irl npc"],
+        avail: ["Weekdays"],
+        certifications: ["Cert III in guess who"],
+        education: ["Masters degree in NPC arts"],
+        skills: ["Npc walk\nBenched the solar system"],
+        languages: ["bot language, ingwrish"],
     }
 
     const user4: userState = 
@@ -231,7 +179,14 @@ export function generateUsers()
         email: "test2@gmail.com",
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
-        role: "tutor"
+        role: "tutor",
+        summary: [""],
+        prevRoles: [""],
+        avail: [""],
+        certifications: [""],
+        education: [""],
+        skills: [""],
+        languages: [""],
     }
 
     const user5: userState = 

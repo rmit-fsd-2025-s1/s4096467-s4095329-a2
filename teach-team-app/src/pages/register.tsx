@@ -29,7 +29,9 @@ export default function registerScreen()
                 </label>
             <div className="flex-sbs flex-gap">
                 <Link href="./register"><button className="login">Register</button></Link>
-                <Link href="./login"><button className="register">Back to login</button></Link>
+                <div className="adjust-pos">
+                    <Link href="./login"><button className="register">Back to login</button></Link>
+                </div>
             </div>
             </form>
             {/* <Footer isLoggedIn={true} type=""/> */}
