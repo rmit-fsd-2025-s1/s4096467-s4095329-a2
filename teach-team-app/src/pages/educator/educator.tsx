@@ -39,7 +39,7 @@ export default function loginScreen()
     let candidates = getLocalCandidates(user.email, localDB.subjects);
 
     //Button manager for lecturer
-    const[currentButton, setCurrentButton] = useState<string>("Course");
+    const[currentButton, setCurrentButton] = useState<string>("Name");
     //Input Hook
     const[searchBar, setSearchBar] = useState<string>("");
 
@@ -75,10 +75,10 @@ export default function loginScreen()
                         <p>Filters</p>
                         <div className="flex-column1">
                             
-                            <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Course")}}>Course Name</Button>
                             <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Name")}}>Tutor Name</Button>
-                            <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Skill")}}>Skillset</Button>
+                            <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Course")}}>Course Name</Button>
                             <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Availability")}}>Availability</Button>
+                            <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Skill")}}>Skillset</Button>
                         </div>
                         <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
                             <Input placeholder="Search" onChange={(e)=>{setSearchBar(e.target.value)}}/>
