@@ -100,19 +100,19 @@ export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: du
                                 <Box p="4" className="lecturerBox" fontSize="lg" boxShadow="md" bg="green.50">
                                     <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Email - </Text>{tut.email ?? "None"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Summary - </Text>{getDetails('summary', tut.email, "No summary Provided")}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Summary - </Text>{tut.summary && tut.summary[0].length >= 1 ? tut.summary : "No summary Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Previous Roles - </Text>{getDetails('prevRoles', tut.email, "No roles Provided")}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Previous Roles - </Text>{tut.prevRoles && tut.prevRoles[0].length >= 1 ? tut.prevRoles : "No roles Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Availability - </Text>{getDetails('avail', tut.email, "No availability Provided")}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Availability - </Text>{tut.avail && tut.avail[0].length >= 1 ? tut.avail : "No availability Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Education - </Text>{getDetails('education', tut.email, "No education Provided")}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Education - </Text>{tut.education && tut.education[0].length >= 1 ? tut.education : "No education Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Certifications - </Text>{getDetails('certifications', tut.email, "No Certifications Provided")}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Certifications - </Text>{tut.certifications && tut.certifications[0].length >= 1 ? tut.certifications : "No Certifications Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Skills - </Text>{getDetails('skills', tut.email, "No Skills Provided")}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Skills - </Text>{tut.skills && tut.skills[0].length >= 1 ? tut.skills : "No Skills Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Languages - </Text>{getDetails('languages', tut.email, "No Languages Provided")}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Languages - </Text>{tut.languages && tut.languages[0].length >= 1 ? tut.languages : "No Languages Provided"}</Text>
                                 </Box>
                             </HoverCard.Content>
                         </HoverCard.Positioner>
