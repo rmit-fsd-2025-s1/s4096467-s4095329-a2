@@ -195,7 +195,14 @@ export function generateUsers()
         email: "test3@gmail.com",
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
-        role: "tutor"
+        role: "tutor",
+        summary: [""],
+        prevRoles: [""],
+        avail: [""],
+        certifications: [""],
+        education: [""],
+        skills: [""],
+        languages: [""],
     }
 
     const user2: userState = 
