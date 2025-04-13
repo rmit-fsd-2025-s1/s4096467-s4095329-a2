@@ -6,7 +6,7 @@ import { isPasswordValid, userCred, getPasswordForUser, getUserType, getUserData
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import "../../styles/user-home.css";
-import { useEffect, useState} from "react";
+import { useEffect, useState, useMemo} from "react";
 import Link from "next/link";
 import { Button, Input, InputGroup, Spinner } from "@chakra-ui/react"
 import { SearchTable } from "@/components/SortingTable/SearchTable";
@@ -29,10 +29,15 @@ export default function loginScreen()
         setLocalPassword(localStorage.getItem("localPassword")||"");
     }, []);
 
-    let user: userCred = {email: localEmail, password:localPassword};
-    const data = getUserData(user.email);
-    let passwordValid = isPasswordValid(user);
-    let loginType = getUserType(user.email);
+    // ttps://react.dev/reference/react/useMemo prevents lag by only getting data when fields change instead of having it fetch data every search input.
+    let user: userCred = useMemo(() => ({
+            email: localEmail,
+            password: localPassword
+        }), [localEmail, localPassword]);
+    const data = useMemo(() => getUserData(user.email), [user.email]);
+    let passwordValid = useMemo(() => isPasswordValid(user), [user]);
+    let loginType = useMemo(() => getUserType(user.email), [user.email]);
+
     let name = data?.name??"";
     //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());

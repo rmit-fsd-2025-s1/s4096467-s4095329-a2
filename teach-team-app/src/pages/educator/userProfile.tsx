@@ -40,6 +40,7 @@ export default function loginScreen()
 
     }, []);
     
+    //https://react.dev/reference/react/useMemo
     //UseMemo stops recalculation on every keypress when typing input. This removes lag.
     const user: userCred = useMemo(() => ({
         email: localEmail,
