@@ -66,7 +66,7 @@ export default function loginScreen()
                 </div>
                 <div className="lecturers-list-box">
                     <h1>Tutor Database Search</h1>
-                    <div className="flex-sbs">
+                    <div className="flex-sbs-stock">
                         <div className="flex-column flexBox"><Button>Course Name</Button><Button>Tutor Name</Button></div>
                         <div className="flex-column flexBox"><Button>Skillset</Button><Button>Availability</Button></div>
                     </div>
