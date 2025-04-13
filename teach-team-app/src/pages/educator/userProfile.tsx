@@ -1,14 +1,12 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
-import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType, getUserData} from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType, getUserData} from "../../helpers/validate";
 
 import Comments from "@/components/SortingTable/Comments";
-import { userState } from "../../helpers/validate"
 import "./userProfile.css";
 import "../../styles/user-home.css";
 import React, { useEffect, useState , useMemo} from "react";
-import { Button, Card} from "@chakra-ui/react"
+import { Button } from "@chakra-ui/react"
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
 
@@ -27,7 +25,7 @@ const detailsTitle = ['summary', 'prevRoles', 'avail', 'certifications', 'educat
 
 //some function to get username form their email before character '@';
 
-export default function loginScreen()
+export default function UserProfile()
 {
     const[localEmail, setLocalEmail] = useState<string>("");
     const[localPassword, setLocalPassword] = useState<string>("");
@@ -49,7 +47,7 @@ export default function loginScreen()
     const data = useMemo(() => getUserData(user.email), [user.email]);
     const passwordValid = useMemo(() => isPasswordValid(user), [user]);
     const loginType = useMemo(() => getUserType(user.email), [user.email]);
-    let name = data?.name??"";
+    const name = data?.name??"";
 
     // Maybe For later usuage in further assignments
     // let userName = localEmail.substring(0, localEmail.indexOf("@"));
@@ -108,7 +106,7 @@ export default function loginScreen()
         const userKey = `${field}_${user.email}`;
 
         //This is a patch fix. This may be some of the worst code I have ever written, sorry.
-        let db = { ...localDB };
+        const db = { ...localDB };
         db.users.filter((userKeyPair) => userKeyPair[0] === localEmail)[0][1][field] = [temp];
 
         setLocalDB(db);

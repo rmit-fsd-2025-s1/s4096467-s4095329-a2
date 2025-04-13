@@ -136,7 +136,7 @@ export function SearchTable({ tableArr, classes, type, keyword, sort}: searchTab
             {formatTable.map((tut) => (
                 tut.role == "tutor" ?(
                 // On hover display tutor information
-                <HoverCard.Root openDelay={500} closeDelay={100}>
+                <HoverCard.Root key={tut.email} openDelay={500} closeDelay={100}>
                     <HoverCard.Trigger asChild>
                         <Table.Row key={tut.email}>
                             {/* Display other information in body */}
@@ -144,8 +144,8 @@ export function SearchTable({ tableArr, classes, type, keyword, sort}: searchTab
                             <Table.Cell p="4" fontSize="md">{tut.email??"Not Provided"}</Table.Cell> {/*Tutor Email*/}
                             <Table.Cell p="4" fontSize="md">{getAppliedCourses(tut.email, classes).length >= 1 ? getAppliedCourses(tut.email, classes).map((x, i) => <tr key={i}>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Applied Courses*/}
                             <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).length >= 1 ? getAcceptedCourses(tut.email, classes).map((x, i) => <tr key={i}>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Accepted Courses*/}
-                            <Table.Cell p="4" fontSize="md">{tut.avail && tut.avail[0].length >= 1 ? tut.avail : ["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Availability*/}
-                            <Table.Cell p="4" fontSize="md">{tut.skills && tut.skills[0].length >= 1 ? tut.skills : ["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Skills*/}
+                            <Table.Cell p="4" fontSize="md">{tut.avail && tut.avail[0].length >= 1 ? tut.avail : ["Not Provided"].map((x)=><tr key={x}>{x}</tr>)}</Table.Cell> {/*Availability*/}
+                            <Table.Cell p="4" fontSize="md">{tut.skills && tut.skills[0].length >= 1 ? tut.skills : ["Not Provided"].map((x)=><tr key={x}>{x}</tr>)}</Table.Cell> {/*Skills*/}
                             <Table.Cell p="4" fontSize="md">{getAcceptedCount(tut.email, classes)??"# Not Calculated"}</Table.Cell> {/*Accepted*/}
                         </Table.Row>
                     </HoverCard.Trigger>

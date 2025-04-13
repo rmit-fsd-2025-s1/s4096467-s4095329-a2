@@ -17,6 +17,8 @@
 {   
     font-size: 2em;
     font-weight: bold;
+    text-wrap: nowrap;
+    overflow: hidden;
 }
 
 .header-section

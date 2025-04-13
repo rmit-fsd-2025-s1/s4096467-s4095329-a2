@@ -1,20 +1,19 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType, getUserData, getCandidates, generateUsers} from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType, getUserData } from "../../helpers/validate";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
-import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import "../../styles/user-home.css";
 import { useEffect, useState, useMemo} from "react";
 import Link from "next/link";
-import { Button, Input, InputGroup, Spinner } from "@chakra-ui/react"
+import { Button, Input, InputGroup } from "@chakra-ui/react"
 import { SearchTable } from "@/components/SortingTable/SearchTable";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
 import { getLocalCandidates } from "@/helpers/localStorageGet";
 
-export default function loginScreen()
+export default function EducatorDashboard()
 {
     const[localEmail, setLocalEmail] = useState<string>("");
     const[localPassword, setLocalPassword] = useState<string>("");
@@ -29,19 +28,19 @@ export default function loginScreen()
         setLocalPassword(localStorage.getItem("localPassword")||"");
     }, []);
 
-    // ttps://react.dev/reference/react/useMemo prevents lag by only getting data when fields change instead of having it fetch data every search input.
-    let user: userCred = useMemo(() => ({
+    // https://react.dev/reference/react/useMemo prevents lag by only getting data when fields change instead of having it fetch data every search input.
+    const user: userCred = useMemo(() => ({
             email: localEmail,
             password: localPassword
         }), [localEmail, localPassword]);
     const data = useMemo(() => getUserData(user.email), [user.email]);
-    let passwordValid = useMemo(() => isPasswordValid(user), [user]);
-    let loginType = useMemo(() => getUserType(user.email), [user.email]);
+    const passwordValid = useMemo(() => isPasswordValid(user), [user]);
+    const loginType = useMemo(() => getUserType(user.email), [user.email]);
 
-    let name = data?.name??"";
+    const name = data?.name??"";
     //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
-    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
-    let candidates = getLocalCandidates(user.email, localDB.subjects);
+    const[localDB,] = useIfLocalStorage("localDB", loadDB());
+    const candidates = getLocalCandidates(user.email, localDB.subjects);
 
     //Button manager for lecturer
     const[currentButton, setCurrentButton] = useState<string>("Name");
@@ -93,10 +92,10 @@ export default function loginScreen()
                         <div className="flex-sbs-stock">
                             <p>Filters</p>
                             <div className="flex-column1">
-                                <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Name")}}>Tutor Name</Button>
-                                <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Course")}}>Course Name</Button>
-                                <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Availability")}}>Availability</Button>
-                                <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Skill")}}>Skillset</Button>
+                                <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={()=>{setCurrentButton("Name")}}>Tutor Name</Button>
+                                <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={()=>{setCurrentButton("Course")}}>Course Name</Button>
+                                <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={()=>{setCurrentButton("Availability")}}>Availability</Button>
+                                <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={()=>{setCurrentButton("Skill")}}>Skillset</Button>
                             </div>
                             <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
                                 <Input placeholder="Search" onChange={(e)=>{setSearchBar(e.target.value)}}/>
@@ -114,8 +113,8 @@ export default function loginScreen()
                         <h1>Hi {name},<br/><span className="questions">What would you like to do today?</span></h1>
                     </div>
                     <div className="body-box">
-                        <Link href="/educator/userProfile" className="profile-box">View and Edit your profile<img src="/user.png"/></Link>
-                        <Link href="/educator/apply" className="apply-box">Apply for a course<img src="/book.png"/></Link>
+                        <Link href="/educator/userProfile" className="profile-box">View and Edit your profile<img src="/user.png" alt="User Image"/></Link>
+                        <Link href="/educator/apply" className="apply-box">Apply for a course<img src="/book.png" alt="Stack of books"/></Link>
                     </div>
                 </div>
                 </>
