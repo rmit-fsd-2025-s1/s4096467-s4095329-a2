@@ -38,6 +38,9 @@ export default function loginScreen()
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
     let candidates = getLocalCandidates(user.email, localDB.subjects);
 
+    //Button manager for lecturer
+    const[currentButton, setCurrentButton] = useState<boolean[]>([true, false, false, false]);
+
     return(
         <>
             <title>Lecturer Home</title>
@@ -68,8 +71,13 @@ export default function loginScreen()
                     <div className="bar"><p>Tutor Search</p></div>
                     <div className="flex-sbs-stock">
                         <p>Filters</p>
-                        <div className="flex-column1"><Button width="100px">Course Name</Button><Button width="100px">Tutor Name</Button></div>
-                        <div className="flex-column2"><Button width="100px">Skillset</Button><Button width="100px">Availability</Button></div>
+                        <div className="flex-column1">
+                            
+                            <Button width="100px" variant={currentButton[0] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([true, false, false, false])}}>Course Name</Button>
+                            <Button width="100px" variant={currentButton[1] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([false, true, false, false])}}>Tutor Name</Button>
+                            <Button width="100px" variant={currentButton[2] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([false, false, true, false])}}>Skillset</Button>
+                            <Button width="100px" variant={currentButton[3] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([false, false, false, true])}}>Availability</Button>
+                        </div>
                         <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
                             <Input placeholder="Search" />
                         </InputGroup>
