@@ -164,13 +164,13 @@ export function generateUsers()
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
         role: "tutor",
-        summary: ["Hi I am robert I am an npc"],
-        prevRoles: ["Started off as a gta 5 npc then went on to become an irl npc"],
+        summary: ["Hi I am robert, I study aerospace engineering"],
+        prevRoles: ["Intern at tesla for 1 year"],
         avail: ["Weekdays"],
-        certifications: ["Cert III in guess who"],
-        education: ["Masters degree in NPC arts"],
-        skills: ["Npc walk\nBenched the solar system"],
-        languages: ["bot language, ingwrish"],
+        certifications: ["Bachelors Degree in aerospace engineering"],
+        education: ["University of Melbounre"],
+        skills: ["Adaptable"],
+        languages: ["English, Spanish"],
     }
 
     const user4: userState = 
@@ -180,13 +180,13 @@ export function generateUsers()
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
         role: "tutor",
-        summary: [""],
-        prevRoles: [""],
+        summary: ["I am Dorothy I am 20 years old"],
+        prevRoles: ["None"],
         avail: ["Part Time"],
-        certifications: [""],
-        education: [""],
-        skills: [""],
-        languages: [""],
+        certifications: ["Bachelors Degree in Education"],
+        education: ["University of Victoria"],
+        skills: ["Hard-Working"],
+        languages: ["English"],
     }
 
     const user5: userState = 
@@ -196,13 +196,13 @@ export function generateUsers()
         //Password1
         password: "$2b$10$skYNjqeufCqB25xbsyU0..B3Po4NytpQb3es47Khdxsynl/biPzXO",
         role: "tutor",
-        summary: [""],
-        prevRoles: [""],
+        summary: ["Hello, I am Frank, I like programming"],
+        prevRoles: ["Intern at Microsoft"],
         avail: ["Full Time"],
-        certifications: [""],
-        education: [""],
-        skills: [""],
-        languages: [""],
+        certifications: ["Masters Degress in computer science"],
+        education: ["RMIT"],
+        skills: ["God at Leetcode"],
+        languages: ["English, C++, Chinese"],
     }
 
     const user2: userState = 
@@ -249,7 +249,7 @@ export function generateSubjects()
     const subject2: subject =
     {
         code:"COSC1122",
-        subjectName: "Database Applesandorangus",
+        subjectName: "Data Science",
         candidates: ["test1@gmail.com", "test3@gmail.com"],
         accepted: []
     }
@@ -257,7 +257,7 @@ export function generateSubjects()
     const subject3: subject =
     {
         code:"COSC1123",
-        subjectName: "Database Applicashuns",
+        subjectName: "Programming bootcamp 1",
         candidates: ["test2@gmail.com", "test3@gmail.com"],
         accepted: []
     }
@@ -265,7 +265,7 @@ export function generateSubjects()
     const subject4: subject =
     {
         code:"COSC1124",
-        subjectName: "Jartabase Applicarter",
+        subjectName: "Business and Finance",
         candidates: ["test2@gmail.com", "test3@gmail.com"],
         accepted: []
     }
@@ -273,7 +273,7 @@ export function generateSubjects()
     const subject5: subject =
     {
         code:"COSC1125",
-        subjectName: "Excelspreadsheet Macrocations",
+        subjectName: "Excelspreadsheet manager",
         candidates: ["test2@gmail.com", "test3@gmail.com"],
         accepted: []
     }
