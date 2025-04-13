@@ -2,7 +2,7 @@ import { getAcceptedCount, getAcceptedCourses, getAppliedCourses } from "@/helpe
 import { subject, userState } from "@/helpers/validate";
 import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
 
-type searchTableProps = {tableArr: userState[], classes: subject[]}
+type searchTableProps = {tableArr: userState[], classes: subject[], type: string, keyword: string, order: string}
 
 //Search for specific data in local storage
 function getDetails(searchFor: string, email :string, defaultSentence :string) {
@@ -13,7 +13,7 @@ function getDetails(searchFor: string, email :string, defaultSentence :string) {
     return detail;
 }
 
-export function SearchTable({ tableArr, classes }: searchTableProps)
+export function SearchTable({ tableArr, classes, type, keyword, order }: searchTableProps)
 {
     return(<Table.Root 
             variant="outline" 
@@ -46,10 +46,10 @@ export function SearchTable({ tableArr, classes }: searchTableProps)
                             {/* Display other information in body */}
                             <Table.Cell p="4" fontSize="md">{tut.name??"Not Provided"}</Table.Cell> {/*Tutor Name*/}
                             <Table.Cell p="4" fontSize="md">{tut.email??"Not Provided"}</Table.Cell> {/*Tutor Email*/}
-                            <Table.Cell p="4" fontSize="md">{getAppliedCourses(tut.email, classes).map((x)=><tr>{x}</tr>)??"Not Provided"}</Table.Cell> {/*Applied Courses*/}
-                            <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).map((x)=><tr>{x}</tr>)??"Not Provided"}</Table.Cell> {/*Accepted Courses*/}
-                            <Table.Cell p="4" fontSize="md">{tut.avail??["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Availability*/}
-                            <Table.Cell p="4" fontSize="md">{tut.skills??["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Skills*/}
+                            <Table.Cell p="4" fontSize="md">{getAppliedCourses(tut.email, classes).length >= 1 ? getAppliedCourses(tut.email, classes).map((x)=><tr>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Applied Courses*/}
+                            <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).length >= 1 ? getAcceptedCourses(tut.email, classes).map((x)=><tr>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Accepted Courses*/}
+                            <Table.Cell p="4" fontSize="md">{tut.avail && tut.avail[0].length >= 1 ? tut.avail : ["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Availability*/}
+                            <Table.Cell p="4" fontSize="md">{tut.skills && tut.skills[0].length >= 1 ? tut.skills : ["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Skills*/}
                             <Table.Cell p="4" fontSize="md">{getAcceptedCount(tut.email, classes)??"# Not Calculated"}</Table.Cell> {/*Accepted*/}
                         </Table.Row>
                     </HoverCard.Trigger>
