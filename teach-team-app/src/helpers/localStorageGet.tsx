@@ -85,7 +85,7 @@ export function getAppliedCourses(email: string, localClasses: subject[]): strin
     localClasses.forEach((e)=>{
         e.candidates.forEach((c)=>{
             if(c === email) {
-                courses.push(e.code);
+                courses.push(e.subjectName + " - " + e.code);
             }
         })
     });
@@ -101,7 +101,7 @@ export function getAcceptedCourses(email: string, localClasses: subject[]): stri
     localClasses.forEach((e)=>{
         e.accepted.forEach((c)=>{
             if(c === email) {
-                courses.push(e.code);
+                courses.push(e.subjectName + " - " + e.code);
             }
         })
     });
