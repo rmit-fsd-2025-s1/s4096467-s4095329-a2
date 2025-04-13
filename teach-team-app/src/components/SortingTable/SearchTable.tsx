@@ -2,10 +2,10 @@ import { getAcceptedCount, getAcceptedCourses, getAppliedCourses } from "@/helpe
 import { subject, userState } from "@/helpers/validate";
 import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
 
-type searchTableProps = {tableArr: userState[], classes: subject[], type: string, keyword: string, order: string}
+type searchTableProps = {tableArr: userState[], classes: subject[], type: string, keyword: string, order: string, sort: string}
 
 // Searches for key word based on inputted type
-function keywordFilter(keyWord: string, type: string, table: userState[], subject: subject[]) : userState[]
+function keywordFilter(keyWord: string, type: string, table: userState[], subject: subject[], sort: string) : userState[]
 {
     let tempTable = [...table];
 
@@ -73,18 +73,42 @@ function keywordFilter(keyWord: string, type: string, table: userState[], subjec
             break;
         default:
             alert("Bruh, what happened");
+        // if (sort === "none") {
+        //     tempTable = tempTable.filter((e)=>{
+        //         const acceptedCount = getAcceptedCount(e.email, classes);
+        //         return !acceptedCount || acceptedCount === 0;
+        //     });
+        // }
     }
 
     return tempTable;
 }
 
-export function SearchTable({ tableArr, classes, type, keyword}: searchTableProps)
+export function SearchTable({ tableArr, classes, type, keyword, sort}: searchTableProps)
 {
     let formatTable = [...tableArr];
 
+    //https://owlcation.com/stem/creating-a-sortable-list-in-react-js  
+    if (sort !== "none") {
+        formatTable.sort((a, b) => {
+            //Compares two elements. so if one were greater then the other than the other (by subtraction) then put that element after
+            const A = getAcceptedCount(a.email, classes) || 0;
+            const B = getAcceptedCount(b.email, classes) || 0;
+            
+            //least
+            if (sort === "ascending") {
+                return A - B;
+            } 
+            //most
+            else {
+                return B - A;
+            };
+        });
+    }
+
     if(keyword.length > 0) // If something has been written into the search box
         {
-            formatTable = keywordFilter(keyword, type, formatTable, classes);
+            formatTable = keywordFilter(keyword, type, formatTable, classes, sort);
         }
 
     return(<Table.Root 

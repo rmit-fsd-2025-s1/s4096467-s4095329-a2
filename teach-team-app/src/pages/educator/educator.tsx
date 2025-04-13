@@ -48,6 +48,13 @@ export default function loginScreen()
     //Input Hook
     const[searchBar, setSearchBar] = useState<string>("");
 
+    const[sortingMethod, setSortingMethod] = useState("none Accepted");
+    const toggleSort = () => {
+        if (sortingMethod === "none Accepted") setSortingMethod("ascending");
+        else if (sortingMethod === "ascending") setSortingMethod("descending");
+        else setSortingMethod("none Accepted");
+    };
+
     return(
         <>
             <title>Lecturer Home</title>
@@ -80,7 +87,7 @@ export default function loginScreen()
                         <div className="flex-sbs-stock">
                             <p>Sort</p>
                             <div className="flex-column2">
-                                <Button width="100px" variant={"solid"} onClick={(e)=>{alert("The 90s called")}}></Button>
+                                <Button p="4" width="300px" variant={"solid"} onClick={() => toggleSort()}>{sortingMethod === "None Accepted" ? "None Accepted" : sortingMethod === "ascending" ? "Sorted by acceptance ascending" : "Sorted by acceptance descending"}</Button>
                             </div>
                         </div>
                         <div className="flex-sbs-stock">
@@ -96,7 +103,7 @@ export default function loginScreen()
                             </InputGroup>
                         </div>
                     </div>
-                    <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} type={currentButton} keyword={searchBar} order=""/>
+                    <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} sort={sortingMethod} type={currentButton} keyword={searchBar} order=""/>
                 </div>
             </div>)}
         
