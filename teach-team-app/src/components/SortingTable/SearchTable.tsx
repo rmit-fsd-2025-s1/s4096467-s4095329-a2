@@ -2,10 +2,10 @@ import { getAcceptedCount, getAcceptedCourses, getAppliedCourses } from "@/helpe
 import { subject, userState } from "@/helpers/validate";
 import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
 
-type searchTableProps = {tableArr: userState[], classes: subject[], type: string, keyword: string, order: string, sort: string}
+type searchTableProps = {tableArr: userState[], classes: subject[], type: string, keyword: string, order: string, sort?: string}
 
 // Searches for key word based on inputted type
-function keywordFilter(keyWord: string, type: string, table: userState[], subject: subject[], sort: string) : userState[]
+function keywordFilter(keyWord: string, type: string, table: userState[], subject: subject[]) : userState[]
 {
     let tempTable = [...table];
 
@@ -108,7 +108,7 @@ export function SearchTable({ tableArr, classes, type, keyword, sort}: searchTab
 
     if(keyword.length > 0) // If something has been written into the search box
         {
-            formatTable = keywordFilter(keyword, type, formatTable, classes, sort);
+            formatTable = keywordFilter(keyword, type, formatTable, classes);
         }
 
     return(<Table.Root 
