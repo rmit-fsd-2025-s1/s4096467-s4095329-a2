@@ -9,6 +9,8 @@ import "./userProfile.css";
 import "../../styles/user-home.css";
 import React, { useEffect, useState , useMemo} from "react";
 import { Button, Card} from "@chakra-ui/react"
+import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
+import { loadDB } from "@/helpers/loadStorage";
 
 
 export interface details {
@@ -29,6 +31,7 @@ export default function loginScreen()
 {
     const[localEmail, setLocalEmail] = useState<string>("");
     const[localPassword, setLocalPassword] = useState<string>("");
+    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
     
     useEffect(() => 
     {
@@ -102,6 +105,14 @@ export default function loginScreen()
         //appends the temp string to the formdata summary
         setFormData((prev) => ({ ...prev, [field]: temp}));   
         const userKey = `${field}_${user.email}`;
+
+        //This is a patch fix. This may be some of the worst code I have ever written, sorry.
+        let db = { ...localDB };
+        db.users.filter((userKeyPair) => userKeyPair[0] === localEmail)[0][1][field] = [temp];
+
+        setLocalDB(db);
+        //END PATCH FIX
+
         //Sets temp to local storage.
         localStorage.setItem(userKey, temp);
         setEditField(null);
