@@ -89,7 +89,7 @@ export default function subjectManager()
     }
     
     const send = (email: string, sender: string) => {
-        const sendTo = `${email}_commentFrom_${sender}`; 
+        const sendTo = `${email}_commentFrom_${sender}_class${subject}`; 
         localStorage.setItem(sendTo, temp);
         setCommentEmail(null);
     }

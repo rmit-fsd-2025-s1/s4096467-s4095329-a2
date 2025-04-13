@@ -11,3 +11,8 @@
     justify-content: flex-start; 
     width: 100%;
 }
+
+.comment-card {
+    width: 100%; 
+    /* maybe change this? */
+}
