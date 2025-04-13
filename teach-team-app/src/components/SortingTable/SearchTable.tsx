@@ -14,7 +14,7 @@ function getDetails(searchFor: string, email :string, defaultSentence :string) {
 }
 
 // Searches for key word based on inputted type
-function keywordFilter(keyWord: string, type: string, table: userState[], subject?: subject[]) : userState[]
+function keywordFilter(keyWord: string, type: string, table: userState[], subject: subject[]) : userState[]
 {
     let tempTable = [...table];
 
@@ -27,6 +27,42 @@ function keywordFilter(keyWord: string, type: string, table: userState[], subjec
     {
             //Check by courses
         case "Course":
+            //Getting the list of tutors returned from the lookup
+            let tutKey: string[] = [];
+
+            let tempKey11: string[] = [];
+            let tempKey12: string[] = [];
+            let tempKey21: string[] = [];
+            let tempKey22: string[] = [];
+
+            tempKey11 = subject.filter((e)=>{
+                return e.code.toLowerCase().includes(formattedKeyword) ?? false
+            }).flatMap((val) => val.accepted);
+
+            tempKey12 = subject.filter((e)=>{
+                return e.code.toLowerCase().includes(formattedKeyword) ?? false
+            }).flatMap((val) => val.candidates);
+
+            tempKey21 = subject.filter((e)=>{
+                return e.subjectName.toLowerCase().includes(formattedKeyword) ?? false
+            }).flatMap((val) => val.accepted);
+
+            tempKey22 = subject.filter((e)=>{
+                return e.subjectName.toLowerCase().includes(formattedKeyword) ?? false
+            }).flatMap((val) => val.candidates);
+
+            // https://stackoverflow.com/questions/3629817/getting-a-union-of-two-arrays-in-javascript
+
+            let u1: string[] = [...new Set([...tempKey11, ...tempKey12])]; 
+            let u2: string[] = [...new Set([...tempKey21, ...tempKey22])]; 
+
+            tutKey = [...new Set([...u1, ...u2])];
+
+            //Applying the found values to tempTable
+            tempTable = tempTable.filter((e)=>{
+                return tutKey.map((email) => email.toLowerCase()).includes(e.email.toLowerCase()) ?? false;
+            });
+
             break;
             //Check by name
         case "Name":
