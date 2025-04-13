@@ -4,15 +4,6 @@ import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
 
 type searchTableProps = {tableArr: userState[], classes: subject[], type: string, keyword: string, order: string}
 
-//Search for specific data in local storage
-function getDetails(searchFor: string, email :string, defaultSentence :string) {
-    let detail = localStorage.getItem(`${searchFor}_${email}`)
-    if (!detail) {
-        detail = defaultSentence;
-    }
-    return detail;
-}
-
 // Searches for key word based on inputted type
 function keywordFilter(keyWord: string, type: string, table: userState[], subject: subject[]) : userState[]
 {
@@ -50,8 +41,8 @@ function keywordFilter(keyWord: string, type: string, table: userState[], subjec
 
             // https://stackoverflow.com/questions/3629817/getting-a-union-of-two-arrays-in-javascript
 
-            let u1: string[] = [...new Set([...tempKey11, ...tempKey12])]; 
-            let u2: string[] = [...new Set([...tempKey21, ...tempKey22])]; 
+            const u1: string[] = [...new Set([...tempKey11, ...tempKey12])]; 
+            const u2: string[] = [...new Set([...tempKey21, ...tempKey22])]; 
 
             tutKey = [...new Set([...u1, ...u2])];
 
@@ -87,7 +78,7 @@ function keywordFilter(keyWord: string, type: string, table: userState[], subjec
     return tempTable;
 }
 
-export function SearchTable({ tableArr, classes, type, keyword, order }: searchTableProps)
+export function SearchTable({ tableArr, classes, type, keyword}: searchTableProps)
 {
     let formatTable = [...tableArr];
 
@@ -118,7 +109,7 @@ export function SearchTable({ tableArr, classes, type, keyword, order }: searchT
         {/* Body of the table */}
         <Table.Body>
             {/* Table Row Factory */}
-            {formatTable.map((tut, index) => (
+            {formatTable.map((tut) => (
                 tut.role == "tutor" ?(
                 // On hover display tutor information
                 <HoverCard.Root openDelay={500} closeDelay={100}>
