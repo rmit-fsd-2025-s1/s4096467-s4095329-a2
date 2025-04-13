@@ -13,8 +13,55 @@ function getDetails(searchFor: string, email :string, defaultSentence :string) {
     return detail;
 }
 
+// Searches for key word based on inputted type
+function keywordFilter(keyWord: string, type: string, table: userState[], subject?: subject[]) : userState[]
+{
+    let tempTable = [...table];
+
+    const formattedKeyword = keyWord.toLowerCase();
+
+    console.log(keyWord);
+    console.log(type);
+
+    switch(type)
+    {
+            //Check by courses
+        case "Course":
+            break;
+            //Check by name
+        case "Name":
+            tempTable = tempTable.filter((e)=>{
+                return e.name?.toLowerCase().includes(formattedKeyword) ?? false
+            });
+            break;
+            //Check by Skills
+        case "Skill":
+            tempTable = tempTable.filter((e)=>{
+                return e.skills?.some((skill) => skill.toLowerCase().includes(formattedKeyword)) ?? false;
+            });
+            break;
+            //Check by availability
+        case "Availability":
+            tempTable = tempTable.filter((e)=>{
+                return e.avail?.some((avail) => avail.toLowerCase().includes(formattedKeyword)) ?? false;
+            });
+            break;
+        default:
+            alert("Bruh, what happened");
+    }
+
+    return tempTable;
+}
+
 export function SearchTable({ tableArr, classes, type, keyword, order }: searchTableProps)
 {
+    let formatTable = [...tableArr];
+
+    if(keyword.length > 0) // If something has been written into the search box
+        {
+            formatTable = keywordFilter(keyword, type, formatTable, classes);
+        }
+
     return(<Table.Root 
             variant="outline" 
             size="lg" 
@@ -37,7 +84,7 @@ export function SearchTable({ tableArr, classes, type, keyword, order }: searchT
         {/* Body of the table */}
         <Table.Body>
             {/* Table Row Factory */}
-            {tableArr.map((tut, index) => (
+            {formatTable.map((tut, index) => (
                 tut.role == "tutor" ?(
                 // On hover display tutor information
                 <HoverCard.Root openDelay={500} closeDelay={100}>
