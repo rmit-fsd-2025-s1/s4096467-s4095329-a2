@@ -131,7 +131,7 @@ export function getCandidates(email: string) {
 
     // Then calculate candidates
     let cand = 0;
-    for (let i of classes.values()) {
+    for (const i of classes.values()) {
         cand += i.candidates.length;
     } 
 
@@ -140,7 +140,7 @@ export function getCandidates(email: string) {
 
 export function getTutorCourses()
 {
-    let dbsub: Map<string, subject> = generateSubjects();
+    const dbsub: Map<string, subject> = generateSubjects();
     const tutorCourses: subject[] = [];
 
             dbsub.forEach((courseObj) => {
