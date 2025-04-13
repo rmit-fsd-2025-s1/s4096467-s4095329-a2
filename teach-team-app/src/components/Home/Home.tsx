@@ -5,7 +5,6 @@ import { Card ,Button} from "@chakra-ui/react";
 import { getLectureClasses, subject, getTutorCourses, generateUsers, userState } from "@/helpers/validate";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB, localDBInt } from "@/helpers/loadStorage";
-import React, { useState, useEffect, use } from 'react';
 import { applicationStatus } from "@/helpers/localStorageGet";
 
 interface EducatorProps
@@ -50,12 +49,12 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
 function CreateCourses({email, subject, localDB, setLocalDB}: ApplyProps) {
 
     // Gets the status of application for the supplied subject
-    let isApplied: string = applicationStatus(subject, email);
+    const isApplied: string = applicationStatus(subject, email);
 
     // Applies to the subject and saves to localStorage
     const clickApply = () => {
         //Load LocalDB spread to stop Next/react from freaking out
-        let tempDB = { ...localDB };
+        const tempDB = { ...localDB };
 
         //Set the value of the selected subject (found using it's code) in the first array of form [string, value][] push the applicant to the list of candidates
         tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject.code)[0][1].candidates.push(email);
@@ -90,9 +89,9 @@ function CreateCourses({email, subject, localDB, setLocalDB}: ApplyProps) {
 
 function formatLocalStorageClasses(email: string, localClasses: [string, subject][])
 {
-    let dbUsers: Map<string, userState> = generateUsers();
-    let formattedMap: Map<string, subject> = new Map(localClasses.map((obj) => [obj[0], obj[1]]));
-    let lecturerClasses: subject[] = [];
+    const dbUsers: Map<string, userState> = generateUsers();
+    const formattedMap: Map<string, subject> = new Map(localClasses.map((obj) => [obj[0], obj[1]]));
+    const lecturerClasses: subject[] = [];
 
     if(dbUsers.has(email))
         {
@@ -119,11 +118,10 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
     if(educatorEmail) {
             classes = getLectureClasses(educatorEmail);
             classes = formatLocalStorageClasses(educatorEmail, localDB.subjects);
-            localDB.subjects
     }
     
     if (accountType === "tutor") {
-        courses = localDB.subjects.map(([key, value]) => value)??getTutorCourses();
+        courses = localDB.subjects.map(([, value]) => value)??getTutorCourses();
         console.log("Courses", courses);
     }
     
@@ -146,8 +144,8 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                         <>
                             <div className="tutor-grid">
                                 {/* create courses and assign each course with a number FOR TUTORS */}
-                                {courses.map((courseVar, index) => (
-                                    <CreateCourses email={educatorEmail||""} subject={courseVar} localDB={localDB} setLocalDB={setLocalDB}/>
+                                {courses.map((courseVar) => (
+                                    <CreateCourses key={courseVar.code} email={educatorEmail||""} subject={courseVar} localDB={localDB} setLocalDB={setLocalDB}/>
                                 ))}
                             </div>
                         </>
