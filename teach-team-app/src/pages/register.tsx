@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import "./sign-in.css";
 
-export default function registerScreen()
+export default function RegisterScreen()
 {
     return(
         <>
