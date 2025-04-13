@@ -35,7 +35,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
         <div className="header-container">
             <Link href={isLoggedIn?"/educator/educator":"/"}>
                 <span className="header-section">
-                    <Image src="/graduation-cap.svg" alt="graduation cap"/>
+                    <Image src="/graduation-cap.svg" alt="graduation cap" width={50} height={50}/>
                         <h1>Teach<span className="green">Team</span> Management</h1>
                 </span>
             </Link>
