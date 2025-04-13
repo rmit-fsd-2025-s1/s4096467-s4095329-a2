@@ -1,16 +1,15 @@
 import Link from "next/link";
 import "./Footer.css";
-import { useEffect, useState } from "react";
 import {useRouter} from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 interface FooterProps
 {
-    isLoggedIn: Boolean,
-    type: String;
+    isLoggedIn: boolean,
+    type: string;
 }
 
-export function Footer({isLoggedIn, type}: FooterProps)
+export function Footer({isLoggedIn}: FooterProps)
 {
     const router:AppRouterInstance = useRouter();
 
