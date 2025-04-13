@@ -102,3 +102,18 @@ export function getAcceptedCourses(email: string, localClasses: subject[]): stri
 
     return courses;
 }
+
+export function getAcceptedCount(email: string, localClasses: subject[]): number
+{
+    let countVal: number = 0;
+
+    localClasses.forEach((e)=>{
+        e.accepted.forEach((c)=>{
+            if(c === email) {
+                countVal++;
+            }
+        })
+    });
+
+    return countVal;
+}
