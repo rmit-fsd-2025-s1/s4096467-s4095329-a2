@@ -1,6 +1,6 @@
 import { generateSubjects, generateUsers, subject, userState } from "@/helpers/validate";
 import { SetStateAction } from "react";
-import { Table, HoverCard, Portal, Checkbox, Box, Button } from "@chakra-ui/react";
+import { Table, HoverCard, Portal, Checkbox, Box, Button, Text } from "@chakra-ui/react";
 
 
 export interface dualTableProps
@@ -9,6 +9,15 @@ export interface dualTableProps
     setTable1: (value: SetStateAction<userState[]>) => void,
     table2: userState[],
     setTable2: (value: SetStateAction<userState[]>) => void;
+}
+
+//Search for specific data in local storage
+function getDetails(searchFor: string, email :string, defaultSentence :string) {
+    let detail = localStorage.getItem(`${searchFor}_${email}`)
+    if (!detail) {
+        detail = defaultSentence;
+    }
+    return detail;
 }
 
 function swapTables(index: number,table1: userState[], sTable1:(value: SetStateAction<userState[]>) => void, table2: userState[], sTable2:(value: SetStateAction<userState[]>) => void)
@@ -48,8 +57,7 @@ function upCandidate(index: number,table1: userState[], sTable1:(value: SetState
 }
 
 export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: dualTableProps)
-{
-
+{   
     //Create the tablekey 
     return(
         <Table.Root 
@@ -72,7 +80,7 @@ export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: du
             {/* Table Row Factory */}
             {table1.map((tut, index) => (
                 // On hover display tutor information
-                <HoverCard.Root openDelay={500} closeDelay={100}>
+                <HoverCard.Root size="xs" openDelay={300} closeDelay={100}>
                     <HoverCard.Trigger asChild>
                         <Table.Row key={tut.email} onClick={(e)=>{ 
                             swapTables(index, table1, setTable1, table2, setTable2);
@@ -87,17 +95,24 @@ export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: du
                     </HoverCard.Trigger>
                     <Portal>
                         <HoverCard.Positioner>
-                            <HoverCard.Content>
-                                <HoverCard.Arrow/>
-                                <Box p="4" className="lecturerBox">
-                                    <h2>{tut.name??"No Name Provided"}</h2>
-                                    <h3>Summary: {tut.summary??"No Summary Provided"}</h3>
-                                    <h3>Previous Roles: {tut.prevRoles??"No Previous Roles"}</h3>
-                                    <h3>Availability: {tut.avail??"No Availability Provided"}</h3>
-                                    <h3>Education: {tut.education??"No Education Provided"}</h3>
-                                    <h3>Certifications: {tut.certifications??"No Certifications Provided"}</h3>
-                                    <h3>Skills: {tut.skills??"No Skills Provided"}</h3>
-                                    <h3>Languages: {tut.languages??"No Languages Provided"}</h3>
+                            <HoverCard.Content width="500px" maxW="100vw" minW="300px">
+                                <HoverCard.Arrow bg="green.50"/>
+                                <Box p="4" className="lecturerBox" fontSize="lg" boxShadow="md" bg="green.50">
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Email - </Text>{tut.email ?? "None"}</Text>
+                                    <br/>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Summary - </Text>{getDetails('summary', tut.email, "No summary Provided")}</Text>
+                                    <br/>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Previous Roles - </Text>{getDetails('prevRoles', tut.email, "No roles Provided")}</Text>
+                                    <br/>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Availability - </Text>{getDetails('avail', tut.email, "No availability Provided")}</Text>
+                                    <br/>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Education - </Text>{getDetails('education', tut.email, "No education Provided")}</Text>
+                                    <br/>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Certifications - </Text>{getDetails('certifications', tut.email, "No Certifications Provided")}</Text>
+                                    <br/>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Skills - </Text>{getDetails('skills', tut.email, "No Skills Provided")}</Text>
+                                    <br/>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Languages - </Text>{getDetails('languages', tut.email, "No Languages Provided")}</Text>
                                 </Box>
                             </HoverCard.Content>
                         </HoverCard.Positioner>
