@@ -39,7 +39,7 @@ export default function loginScreen()
     let candidates = getLocalCandidates(user.email, localDB.subjects);
 
     //Button manager for lecturer
-    const[currentButton, setCurrentButton] = useState<boolean[]>([true, false, false, false]);
+    const[currentButton, setCurrentButton] = useState<string>("Course");
 
     return(
         <>
@@ -73,10 +73,10 @@ export default function loginScreen()
                         <p>Filters</p>
                         <div className="flex-column1">
                             
-                            <Button width="100px" variant={currentButton[0] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([true, false, false, false])}}>Course Name</Button>
-                            <Button width="100px" variant={currentButton[1] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([false, true, false, false])}}>Tutor Name</Button>
-                            <Button width="100px" variant={currentButton[2] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([false, false, true, false])}}>Skillset</Button>
-                            <Button width="100px" variant={currentButton[3] ? "outline":"solid"} onClick={(e)=>{setCurrentButton([false, false, false, true])}}>Availability</Button>
+                            <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Course")}}>Course Name</Button>
+                            <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Name")}}>Tutor Name</Button>
+                            <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Skill")}}>Skillset</Button>
+                            <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Availability")}}>Availability</Button>
                         </div>
                         <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
                             <Input placeholder="Search" />
