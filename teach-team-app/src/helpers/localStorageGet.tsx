@@ -1,6 +1,7 @@
 import { localDBInt } from "./loadStorage";
 import { generateUsers, subject, userState } from "./validate";
 
+// Returns tutors that have applied to the desired subject
 export function getCandidatesFrom(subject: string, localDB: localDBInt): userState[]
 {
     let tutors: userState[] = [];
@@ -20,6 +21,7 @@ export function getCandidatesFrom(subject: string, localDB: localDBInt): userSta
     return tutors;
 }
 
+// Returns tutors that have been accepted from the desired subject
 export function getAcceptedFrom(subject: string, localDB: localDBInt): userState[]
 {
     let tutors: userState[] = [];
@@ -39,6 +41,7 @@ export function getAcceptedFrom(subject: string, localDB: localDBInt): userState
     return tutors;
 }
 
+// Returns the classes a lecturer is assigned to
 export function getEducatorClasses(email: string, localClasses: [string, subject][]): subject[]
 {
     let dbUsers: Map<string, userState> = generateUsers();
@@ -58,6 +61,7 @@ export function getEducatorClasses(email: string, localClasses: [string, subject
     return lecturerClasses;
 }
 
+// Gets the number of candidates total for the inputted lecturer
 export function getLocalCandidates(email: string, localClasses: [string, subject][]): number
 {
     // Get the subjects of the user
@@ -73,6 +77,7 @@ export function getLocalCandidates(email: string, localClasses: [string, subject
     return cand;
 }
 
+// Gets the class names that a tutor has submitted to
 export function getAppliedCourses(email: string, localClasses: subject[]): string[]
 {
     let courses: string[] = [];
@@ -88,6 +93,7 @@ export function getAppliedCourses(email: string, localClasses: subject[]): strin
     return courses;
 }
 
+// Gets the class names that a tutor has been accepted for
 export function getAcceptedCourses(email: string, localClasses: subject[]): string[]
 {
     let courses: string[] = [];
@@ -103,6 +109,7 @@ export function getAcceptedCourses(email: string, localClasses: subject[]): stri
     return courses;
 }
 
+// Returns number of classes a Tutor is currently accepted for
 export function getAcceptedCount(email: string, localClasses: subject[]): number
 {
     let countVal: number = 0;
@@ -118,6 +125,7 @@ export function getAcceptedCount(email: string, localClasses: subject[]): number
     return countVal;
 }
 
+// Returns a tutor's application status for an inputted subject
 export function applicationStatus(subject: subject, tutor: string): string
 {
     let outcome: string = "Not Applied";
