@@ -4,8 +4,9 @@ import "./Home.css";
 import { Card ,Button} from "@chakra-ui/react";
 import { getLectureClasses, subject, getTutorCourses, generateUsers, userState } from "@/helpers/validate";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
-import { loadDB } from "@/helpers/loadStorage";
+import { loadDB, localDBInt } from "@/helpers/loadStorage";
 import React, { useState, useEffect, use } from 'react';
+import { applicationStatus } from "@/helpers/localStorageGet";
 
 interface EducatorProps
 {
@@ -20,6 +21,14 @@ interface SubjectProps
     subjectCode: string,
     subjectName: string,
     subjectApplicants?: number;
+}
+
+interface ApplyProps
+{
+    subject: subject,
+    email: string,
+    localDB: localDBInt,
+    setLocalDB: (value: React.SetStateAction<localDBInt>) => void;
 }
 
 //Creates a subject block for the Lecturer
@@ -37,46 +46,31 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
     );
 }
 
-function CreateCourses({subjectCode, subjectName, number}: SubjectProps) {
-    //Set up state hooks
-    const[localEmail, setLocalEmail] = useState<string>("");
+//Creates application block for tutors
+function CreateCourses({email, subject, localDB, setLocalDB}: ApplyProps) {
 
-    useEffect(() => {
-        setLocalEmail(localStorage.getItem("localEmail")||"");
-    }, []);
-
-    let email = localEmail;
-
-    // if false then dont show button
-    const [applied, setApplied] = useState(false);
-    const [num, setNum] = useState<number>(0);
-
-    //checks if there exists an application already for that course.
-    useEffect(() => {    
-        const appliedStatus = localStorage.getItem(`${email}_appliedTo_${subjectCode}`) || "";
-        if (appliedStatus === "true") {
-            setApplied(true);
-        }
-    }, [localEmail, subjectCode]);
+    let isApplied: string = applicationStatus(subject, email);
 
     //sends application check to local storage
-    const clickApply = (number: number) => {
-        setNum(number);
-        setApplied(true);
-        localStorage.setItem(`${localEmail}_appliedTo_${subjectCode}`, "true");
+    const clickApply = () => {
+        let tempDB = { ...localDB };
+
+        tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject.code)[0][1].candidates.push(email);
+
+        setLocalDB(tempDB);
     }; 
 
     return(
         //Hover to apply or something like that. Shows course details and apply button
         <div className="courses-format">
-            <div className={`${number}`}>
+            <div>
             {/* <p>{number}</p> */}
                 <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
-                    <Card.Header>{subjectCode}</Card.Header>
-                    <Card.Body>{subjectName}<br/></Card.Body>
+                    <Card.Header>{subject.code}</Card.Header>
+                    <Card.Body>{subject.subjectName}<br/></Card.Body>
                     <Card.Footer justifyContent="flex-end">
                         <div className="button-apply">
-                            {!applied && num !== number ? <Button variant='subtle' onClick={() => clickApply(number)}>Apply</Button> : <h2>Application Sent!</h2>}
+                            {isApplied==="Not Applied" ? <Button variant='subtle' onClick={() => clickApply()}>Apply</Button> : isApplied==="Accepted" ? <h2>Application Accepted!</h2>: <h2>Application Sent!</h2>}
                         </div>
                     </Card.Footer>
                 </Card.Root>
@@ -120,7 +114,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
     }
     
     if (accountType === "tutor") {
-        courses = getTutorCourses();
+        courses = localDB.subjects.map(([key, value]) => value)??getTutorCourses();
         console.log("Courses", courses);
     }
     
@@ -142,9 +136,9 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                     {accountType === "tutor" && (
                         <>
                             <div className="tutor-grid">
-                                {/* create courses and assign each course with a number */}
+                                {/* create courses and assign each course with a number FOR TUTORS */}
                                 {courses.map((courseVar, index) => (
-                                    <CreateCourses key={index} number={index + 1} subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
+                                    <CreateCourses email={educatorEmail||""} subject={courseVar} localDB={localDB} setLocalDB={setLocalDB}/>
                                 ))}
                             </div>
                         </>
