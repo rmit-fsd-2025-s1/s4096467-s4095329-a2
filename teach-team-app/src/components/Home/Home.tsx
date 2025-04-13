@@ -49,14 +49,18 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
 //Creates application block for tutors
 function CreateCourses({email, subject, localDB, setLocalDB}: ApplyProps) {
 
+    // Gets the status of application for the supplied subject
     let isApplied: string = applicationStatus(subject, email);
 
-    //sends application check to local storage
+    // Applies to the subject and saves to localStorage
     const clickApply = () => {
+        //Load LocalDB spread to stop Next/react from freaking out
         let tempDB = { ...localDB };
 
+        //Set the value of the selected subject (found using it's code) in the first array of form [string, value][] push the applicant to the list of candidates
         tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject.code)[0][1].candidates.push(email);
 
+        //Save to localStorage
         setLocalDB(tempDB);
     }; 
 
@@ -70,7 +74,12 @@ function CreateCourses({email, subject, localDB, setLocalDB}: ApplyProps) {
                     <Card.Body>{subject.subjectName}<br/></Card.Body>
                     <Card.Footer justifyContent="flex-end">
                         <div className="button-apply">
-                            {isApplied==="Not Applied" ? <Button variant='subtle' onClick={() => clickApply()}>Apply</Button> : isApplied==="Accepted" ? <h2>Application Accepted!</h2>: <h2>Application Sent!</h2>}
+                            {isApplied==="Not Applied" ? //If not applied
+                                <Button variant='subtle' onClick={() => clickApply()}>Apply</Button>
+                             : isApplied==="Accepted" ? //If accepted
+                                <h2>Application Accepted!</h2>
+                             : //If application submitted
+                                <h2>Application Sent!</h2>}
                         </div>
                     </Card.Footer>
                 </Card.Root>
