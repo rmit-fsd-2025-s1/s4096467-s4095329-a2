@@ -28,7 +28,7 @@ body {
   color: var(--foreground);
 }
 
-.flex-sbs
+.flex-sbs-stock
 {
   display: flex;
   flex-direction: row;
