@@ -1,15 +1,14 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType} from "../../helpers/validate";
-import { Spinner } from "@chakra-ui/react"
+import { isPasswordValid, userCred, getUserType} from "../../helpers/validate";
 
 import "../../styles/user-home.css";
 import "../../components/Home/Home.css";
 import { useEffect, useState } from "react";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 
-export default function loginScreen()
+export default function ApplyScreen()
 {
     const[localEmail, setLocalEmail] = useState<string>("");
     const[localPassword, setLocalPassword] = useState<string>("");
@@ -24,9 +23,9 @@ export default function loginScreen()
         setLocalPassword(localStorage.getItem("localPassword")||"");
     }, []);
 
-    let user: userCred = {email: localEmail, password:localPassword};
-    let passwordValid = isPasswordValid(user);
-    let loginType = getUserType(user.email);
+    const user: userCred = {email: localEmail, password:localPassword};
+    const passwordValid = isPasswordValid(user);
+    const loginType = getUserType(user.email);
 
     return(
         <>
