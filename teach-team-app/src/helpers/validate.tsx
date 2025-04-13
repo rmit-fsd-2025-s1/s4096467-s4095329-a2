@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import { GiSummits } from "react-icons/gi";
 
 export interface userState
 {
@@ -41,12 +40,11 @@ export function isPasswordValid(user: userCred)
 export function getPasswordForUser({email, password}: userCred)
 {
     // Populates the Map, this will be done with a DB later
-    let db: Map<string, userState> = generateUsers();
+    const db: Map<string, userState> = generateUsers();
 
     //If the name is found in the Map
     if(db.has(email))
     {
-        const hashPass: string = db.get(email)?.password ?? "";
         return(bcrypt.compareSync(password, db.get(email)?.password||""));
     }
     else
@@ -59,7 +57,7 @@ export function getPasswordForUser({email, password}: userCred)
 export function getUserType(email: string)
 {
     // Populates the Map, this will be done with a DB later
-    let db: Map<string, userState> = generateUsers();
+    const db: Map<string, userState> = generateUsers();
 
     //If the name is found in the map
     if(db.has(email))
@@ -74,7 +72,7 @@ export function getUserType(email: string)
 
 export function isLecturerForClass(email: string, classCode: string)
 {
-    let db: Map<string, userState> = generateUsers();
+    const db: Map<string, userState> = generateUsers();
 
     if(db.has(email))
         {
@@ -88,10 +86,10 @@ export function isLecturerForClass(email: string, classCode: string)
 
 export function getLectureClasses(email: string)
 {
-    let dbedu: Map<string, userState> = generateUsers();
-    let dbsub: Map<string, subject> = generateSubjects();
+    const dbedu: Map<string, userState> = generateUsers();
+    const dbsub: Map<string, subject> = generateSubjects();
 
-    let lecturerClasses: subject[] = [];
+    const lecturerClasses: subject[] = [];
 
     if(dbedu.has(email))
         {
@@ -143,7 +141,7 @@ export function getCandidates(email: string) {
 export function getTutorCourses()
 {
     let dbsub: Map<string, subject> = generateSubjects();
-    let tutorCourses: subject[] = [];
+    const tutorCourses: subject[] = [];
 
             dbsub.forEach((courseObj) => {
                 if (courseObj) {
@@ -225,7 +223,7 @@ export function generateUsers()
         classes: ["COSC1124", "COSC1125", "COSC1126"]
     }
 
-    let returnMap = new Map<string, userState>();
+    const returnMap = new Map<string, userState>();
 
     returnMap.set("test1@gmail.com", user1);
     returnMap.set("connor@gmail.com", user2);
@@ -286,7 +284,7 @@ export function generateSubjects()
         accepted: []
     }
 
-    let returnMap = new Map<string, subject>();
+    const returnMap = new Map<string, subject>();
     returnMap.set("COSC1121", subject1);
     returnMap.set("COSC1122", subject2);
     returnMap.set("COSC1123", subject3);
