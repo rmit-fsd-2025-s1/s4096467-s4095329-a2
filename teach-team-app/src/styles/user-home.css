@@ -179,9 +179,13 @@
 
 }
 
+.green-top
+{
+    border-top: 2px rgb(59, 189, 91) solid;
+}
+
 .flex-sbs-stock {
     background-color: white;
-    border-top: 2px rgb(59, 189, 91) solid;
     font-weight: 500;
     font-size: 30px;
     padding-left: 30px;
