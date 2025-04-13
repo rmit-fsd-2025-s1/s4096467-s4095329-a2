@@ -1,20 +1,18 @@
 import "./Header.css";
+import Image from 'next/image';
 import Link from 'next/link';
-import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
-import { redirect } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {useRouter} from "next/navigation";
 
 interface HeaderProps
 {
-    isLoggedIn: Boolean;
+    isLoggedIn: boolean;
     accountType: string; //Acc Type, tutor, lecturer
 }
 
 export function Header({isLoggedIn, accountType}: HeaderProps)
 {   
-    let profile;
     const router:AppRouterInstance = useRouter();
 
     //Get the email from storage and display as username
@@ -23,7 +21,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
         {
             setLocalEmail(localStorage.getItem("localEmail")||"");
         }, []);
-    let userName = localEmail.substring(0, localEmail.indexOf("@"));
+    const userName = localEmail.substring(0, localEmail.indexOf("@"));
 
     const logOutRedirect = () => 
         {
@@ -32,18 +30,12 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
             router.push('/login');
         }
 
-    if(isLoggedIn)
-    {   
-        //TODO User pfp obtained from the database
-        profile = <img src="https://saturn.csit.rmit.edu.au/~s4096467/RMITCats/virus.png" alt="User Profile Picture" className="profile-picture"/>;
-    }
-
     //TODO UNIT TESTING
     return(
         <div className="header-container">
             <Link href={isLoggedIn?"/educator/educator":"/"}>
                 <span className="header-section">
-                    <img src="/graduation-cap.svg"/>
+                    <Image src="/graduation-cap.svg" alt="graduation cap"/>
                         <h1>Teach<span className="green">Team</span> Management</h1>
                 </span>
             </Link>
