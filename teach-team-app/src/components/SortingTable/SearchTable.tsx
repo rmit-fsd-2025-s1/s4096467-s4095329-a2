@@ -20,9 +20,6 @@ function keywordFilter(keyWord: string, type: string, table: userState[], subjec
 
     const formattedKeyword = keyWord.toLowerCase();
 
-    console.log(keyWord);
-    console.log(type);
-
     switch(type)
     {
             //Check by courses
