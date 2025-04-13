@@ -31,19 +31,19 @@ function keywordFilter(keyWord: string, type: string, table: userState[], subjec
             //Check by name
         case "Name":
             tempTable = tempTable.filter((e)=>{
-                return e.name?.toLowerCase().includes(formattedKeyword) ?? false
+                return (e.name && e.name.length >=1 ? e.name : "Not Provided")?.toLowerCase().includes(formattedKeyword) ?? false
             });
             break;
             //Check by Skills
         case "Skill":
             tempTable = tempTable.filter((e)=>{
-                return e.skills?.some((skill) => skill.toLowerCase().includes(formattedKeyword)) ?? false;
+                return e.skills?.some((skill) => (skill && skill.length > 0 ? skill : "Not Provided").toLowerCase().includes(formattedKeyword)) ?? false;
             });
             break;
             //Check by availability
         case "Availability":
             tempTable = tempTable.filter((e)=>{
-                return e.avail?.some((avail) => avail.toLowerCase().includes(formattedKeyword)) ?? false;
+                return e.avail?.some((avail) => (avail && avail.length > 0 ? avail : "Not Provided").toLowerCase().includes(formattedKeyword)) ?? false;
             });
             break;
         default:
