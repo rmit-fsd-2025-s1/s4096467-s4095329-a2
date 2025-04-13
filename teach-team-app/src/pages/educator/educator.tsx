@@ -40,6 +40,8 @@ export default function loginScreen()
 
     //Button manager for lecturer
     const[currentButton, setCurrentButton] = useState<string>("Course");
+    //Input Hook
+    const[searchBar, setSearchBar] = useState<string>("");
 
     return(
         <>
@@ -79,10 +81,10 @@ export default function loginScreen()
                             <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Availability")}}>Availability</Button>
                         </div>
                         <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
-                            <Input placeholder="Search" />
+                            <Input placeholder="Search" onChange={(e)=>{setSearchBar(e.target.value)}}/>
                         </InputGroup>
                     </div>
-                    <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} />
+                    <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} type={currentButton} keyword={searchBar} order=""/>
                 </div>
             </div>)}
         
