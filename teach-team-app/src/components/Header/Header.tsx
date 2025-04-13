@@ -88,7 +88,8 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                         {isLoggedIn && (<Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>)}
                         {isLoggedIn?
                         (<Link href="" onClick={(e)=>{e.preventDefault(); logOutRedirect();}}><span className="material-symbols-outlined">logout</span>Log out</Link>):
-                        (<Link href="/login"><span className="material-symbols-outlined">login</span>Log in</Link>)}
+                        (<><Link href="/register"><span className="material-symbols-outlined">person_add</span>Register</Link>
+                        <Link href="/login"><span className="material-symbols-outlined">login</span>Log in</Link></>)}
                         
                     </div>
                 </div>
