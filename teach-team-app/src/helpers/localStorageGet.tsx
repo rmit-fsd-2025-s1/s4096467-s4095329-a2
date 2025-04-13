@@ -142,3 +142,10 @@ export function applicationStatus(subject: subject, tutor: string): string
 
     return outcome;
 }
+
+export function getUser(user: string, db: localDBInt): userState|undefined
+{
+    let dbTut: Map<string, userState> = new Map(db.users.map((kp) => [kp[0], kp[1]]))??generateUsers();
+
+    return dbTut.get(user);
+}
