@@ -61,13 +61,14 @@ function keywordFilter(keyWord: string, type: string, table: userState[], subjec
             //Check by Skills
         case "Skill":
             tempTable = tempTable.filter((e)=>{
-                return e.skills?.some((skill) => (skill && skill.length > 0 ? skill : "Not Provided").toLowerCase().includes(formattedKeyword)) ?? false;
+                //This ensures its an array otherwise it will cause issues
+                return Array.isArray(e.skills) ? e.skills.some((skill) => (skill && skill.length > 0 ? skill : "Not Provided").toLowerCase().includes(formattedKeyword) ) : false;
             });
             break;
             //Check by availability
         case "Availability":
             tempTable = tempTable.filter((e)=>{
-                return e.avail?.some((avail) => (avail && avail.length > 0 ? avail : "Not Provided").toLowerCase().includes(formattedKeyword)) ?? false;
+                return Array.isArray(e.avail) ? e.avail.some((avail) => (avail && avail.length > 0 ? avail : "Not Provided").toLowerCase().includes(formattedKeyword) ) : false;
             });
             break;
         default:
@@ -117,8 +118,8 @@ export function SearchTable({ tableArr, classes, type, keyword}: searchTableProp
                             {/* Display other information in body */}
                             <Table.Cell p="4" fontSize="md">{tut.name??"Not Provided"}</Table.Cell> {/*Tutor Name*/}
                             <Table.Cell p="4" fontSize="md">{tut.email??"Not Provided"}</Table.Cell> {/*Tutor Email*/}
-                            <Table.Cell p="4" fontSize="md">{getAppliedCourses(tut.email, classes).length >= 1 ? getAppliedCourses(tut.email, classes).map((x)=><tr>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Applied Courses*/}
-                            <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).length >= 1 ? getAcceptedCourses(tut.email, classes).map((x)=><tr>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Accepted Courses*/}
+                            <Table.Cell p="4" fontSize="md">{getAppliedCourses(tut.email, classes).length >= 1 ? getAppliedCourses(tut.email, classes).map((x, i) => <tr key={i}>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Applied Courses*/}
+                            <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).length >= 1 ? getAcceptedCourses(tut.email, classes).map((x, i) => <tr key={i}>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Accepted Courses*/}
                             <Table.Cell p="4" fontSize="md">{tut.avail && tut.avail[0].length >= 1 ? tut.avail : ["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Availability*/}
                             <Table.Cell p="4" fontSize="md">{tut.skills && tut.skills[0].length >= 1 ? tut.skills : ["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Skills*/}
                             <Table.Cell p="4" fontSize="md">{getAcceptedCount(tut.email, classes)??"# Not Calculated"}</Table.Cell> {/*Accepted*/}
