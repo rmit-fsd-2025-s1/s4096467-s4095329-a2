@@ -88,6 +88,8 @@ export function SearchTable({ tableArr, classes, type, keyword, sort}: searchTab
 {
     let formatTable = [...tableArr];
 
+    console.log(sort);
+
     //https://owlcation.com/stem/creating-a-sortable-list-in-react-js  
     if (sort !== "none") {
         formatTable.sort((a, b) => {
@@ -105,6 +107,13 @@ export function SearchTable({ tableArr, classes, type, keyword, sort}: searchTab
             };
         });
     }
+    
+    if(sort === "none Accepted")
+        {
+            formatTable = formatTable.filter((e)=>{
+                const acceptedCount = getAcceptedCount(e.email, classes) || 0
+                return acceptedCount === 0;
+        })}
 
     if(keyword.length > 0) // If something has been written into the search box
         {
