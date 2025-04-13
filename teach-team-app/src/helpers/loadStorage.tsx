@@ -1,5 +1,4 @@
-import { userState, subject, generateSubjects, generateUsers, getTutorCourses } from "@/helpers/validate";
-import { useEffect, useState } from "react";
+import { userState, subject, generateSubjects, generateUsers } from "@/helpers/validate";
 
 // Interface to represent the "Database" used in localstorage
 export interface localDBInt
@@ -58,7 +57,7 @@ export function loadDB(): localDBInt
     // ___________________________________
     const userData: [string, userState][] = Array.from(generateUsers());
     const subjectData: [string, subject][] = Array.from(generateSubjects());    
-    let localStorageBD: localDBInt = {users: userData, subjects: subjectData};
+    const localStorageBD: localDBInt = {users: userData, subjects: subjectData};
 
     console.log("local storage BD", localStorageBD)
 
