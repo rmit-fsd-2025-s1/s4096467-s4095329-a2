@@ -117,3 +117,20 @@ export function getAcceptedCount(email: string, localClasses: subject[]): number
 
     return countVal;
 }
+
+export function applicationStatus(subject: subject, tutor: string): string
+{
+    let outcome: string = "Not Applied";
+
+    if(subject.candidates.includes(tutor))
+        {
+            outcome = "Applied";
+        }
+
+    if(subject.accepted.includes(tutor))
+        {
+            outcome = "Accepted";
+        }
+
+    return outcome;
+}
