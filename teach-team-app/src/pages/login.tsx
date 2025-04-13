@@ -1,17 +1,13 @@
-import {Header} from "../components/Header/Header";
-import {Footer} from "../components/Footer/Footer";
-import {useState, FormEvent, useEffect} from "react";
+import {useState, FormEvent } from "react";
 import {useRouter} from "next/navigation";
-import { isPasswordValid, userCred, getPasswordForUser } from "../helpers/validate";
+import { isPasswordValid, userCred } from "../helpers/validate";
 import Link from 'next/link';
 import { Alert } from "@chakra-ui/react"
 
 import "./sign-in.css";
-import { TbFlagSearch } from "react-icons/tb";
-import { hadUnsupportedValue } from "next/dist/build/analysis/get-page-static-info";
 
 //Page loading for the login screen at /login
-export default function loginScreen()
+export default function LoginScreen()
 {   
     //if false means invalid
     const [loginState, setLoginState] = useState(true);
@@ -25,16 +21,6 @@ export default function loginScreen()
         hasLetter: false,
     });
 
-    //Gets localStorage for localEmail, if it is not set, get ""
-    useEffect(() => {
-        const localEmail = localStorage.getItem("localEmail")||"";
-      }, []);
-
-    //Gets localStorage for localPassword, if it is not set, get ""
-    useEffect(() => {
-      const localPassword = localStorage.getItem("localPassword")||"";
-    }, []);
-
     //Create form data using state hook
     const [formData, setFormData] = useState({
         email: "",
@@ -42,7 +28,7 @@ export default function loginScreen()
     });
     
     //Create router for redirecting on successful login
-    const router = useRouter();
+    const Router = useRouter();
     
     //Attempt to login on submit
     const attemptLogin = (e: FormEvent) => 
@@ -56,13 +42,13 @@ export default function loginScreen()
         console.log(isPasswordValid(userVal));
         
         //Source https://onecompiler.com/questions/3xnp9df38/-javascript-how-to-check-for-special-characters-present-in-a-string
-        let specialChars = /[\\|,.<>\/?~ `!@#$%^&*(){}_\-+=:;"'\[\]]/;
-        let letters = /[a-zA-Z]/;
+        const specialChars = /[\\|,.<>\/?~ `!@#$%^&*(){}_\-+=:;"'\[\]]/;
+        const letters = /[a-zA-Z]/;
         //Returns true if containing letters etc.
-        let hasLetter = letters.test(password);
-        let hasUpper = /[A-Z]/.test(password);
-        let hasSymbol = specialChars.test(password);
-        let length = password.length;
+        const hasLetter = letters.test(password);
+        const hasUpper = /[A-Z]/.test(password);
+        const hasSymbol = specialChars.test(password);
+        const length = password.length;
         setPassCheck({ length, hasUpper, hasSymbol, hasLetter });
 
         const isStrong = length >= 12 && hasSymbol && hasUpper && hasLetter;
@@ -73,7 +59,7 @@ export default function loginScreen()
         {
             localStorage.setItem("localEmail", email);
             localStorage.setItem("localPassword", password);
-            router.push('/educator/educator');
+            Router.push('/educator/educator');
         }
         else
         {   

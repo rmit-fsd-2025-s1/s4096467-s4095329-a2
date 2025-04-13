@@ -1,10 +1,8 @@
-import {Header} from "../components/Header/Header";
-import {Footer} from "../components/Footer/Footer";
 import Link from 'next/link'
 
 import "./sign-in.css";
 
-export default function registerScreen()
+export default function RegisterScreen()
 {
     return(
         <>
@@ -12,7 +10,6 @@ export default function registerScreen()
                 <video src="/test2.mp4" autoPlay loop muted playsInline />
             </div>
             <title>Login</title>
-            {/* <Header isLoggedIn={true} /> */}
             <form className="login-form">
             <h2>Create an Account</h2>
                 <label>
@@ -34,7 +31,6 @@ export default function registerScreen()
                 </div>
             </div>
             </form>
-            {/* <Footer isLoggedIn={true} type=""/> */}
         </>
     );
     

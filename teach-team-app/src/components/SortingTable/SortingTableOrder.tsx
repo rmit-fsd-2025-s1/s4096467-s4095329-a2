@@ -1,6 +1,6 @@
-import { generateSubjects, generateUsers, subject, userState } from "@/helpers/validate";
+import { userState } from "@/helpers/validate";
 import { SetStateAction } from "react";
-import { Table, HoverCard, Portal, Checkbox, Box, Button, Text } from "@chakra-ui/react";
+import { Table, HoverCard, Portal, Box, Button, Text } from "@chakra-ui/react";
 
 
 export interface dualTableProps
@@ -9,15 +9,6 @@ export interface dualTableProps
     setTable1: (value: SetStateAction<userState[]>) => void,
     table2: userState[],
     setTable2: (value: SetStateAction<userState[]>) => void;
-}
-
-//Search for specific data in local storage
-function getDetails(searchFor: string, email :string, defaultSentence :string) {
-    let detail = localStorage.getItem(`${searchFor}_${email}`)
-    if (!detail) {
-        detail = defaultSentence;
-    }
-    return detail;
 }
 
 function swapTables(index: number,table1: userState[], sTable1:(value: SetStateAction<userState[]>) => void, table2: userState[], sTable2:(value: SetStateAction<userState[]>) => void)
@@ -39,8 +30,8 @@ function upCandidate(index: number,table1: userState[], sTable1:(value: SetState
     if(index !== 0)
     {
         //BTW, if you are using spread (...) on an array, you need to do [ ...var ] or it returns an object and breaks everything
-        let tempTable1: userState[] = [ ...table1 ];
-        let selectTutor: userState = tempTable1[index];
+        const tempTable1: userState[] = [ ...table1 ];
+        const selectTutor: userState = tempTable1[index];
 
         //Remove from array at index
         tempTable1.splice(index,1);
@@ -80,9 +71,9 @@ export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: du
             {/* Table Row Factory */}
             {table1.map((tut, index) => (
                 // On hover display tutor information
-                <HoverCard.Root size="xs" openDelay={300} closeDelay={100}>
+                <HoverCard.Root key={index} size="xs" openDelay={300} closeDelay={100}>
                     <HoverCard.Trigger asChild>
-                        <Table.Row key={tut.email} onClick={(e)=>{ 
+                        <Table.Row key={tut.email} onClick={()=>{ 
                             swapTables(index, table1, setTable1, table2, setTable2);
                             }}>
                             {/* Display other information in body */}
