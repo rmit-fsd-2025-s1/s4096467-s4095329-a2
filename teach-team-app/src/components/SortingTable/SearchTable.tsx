@@ -23,7 +23,7 @@ export function SearchTable({ tableArr, classes }: searchTableProps)
             <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Accepted Courses</Table.ColumnHeader>
             <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Availability</Table.ColumnHeader>
             <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Skillset</Table.ColumnHeader>
-            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Number of accepted</Table.ColumnHeader>
+            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Times Accepted</Table.ColumnHeader>
         </Table.Header>
         {/* Body of the table */}
         <Table.Body>
@@ -35,13 +35,13 @@ export function SearchTable({ tableArr, classes }: searchTableProps)
                     <HoverCard.Trigger asChild>
                         <Table.Row key={tut.email}>
                             {/* Display other information in body */}
-                            <Table.Cell p="4" fontSize="md">{tut.name??"Not Provided"}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{tut.email??"Not Provided"}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{getAppliedCourses(tut.email, classes).join(", ")??"Not Provided"}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).join(", ")??"Not Provided"}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{tut.avail??"Not Provided"}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{tut.skills??"Not Provided"}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{getAcceptedCount(tut.email, classes)??"Not Provided"}</Table.Cell>
+                            <Table.Cell p="4" fontSize="md">{tut.name??"Not Provided"}</Table.Cell> {/*Tutor Name*/}
+                            <Table.Cell p="4" fontSize="md">{tut.email??"Not Provided"}</Table.Cell> {/*Tutor Email*/}
+                            <Table.Cell p="4" fontSize="md">{getAppliedCourses(tut.email, classes).map((x)=><tr>{x}</tr>)??"Not Provided"}</Table.Cell> {/*Applied Courses*/}
+                            <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).map((x)=><tr>{x}</tr>)??"Not Provided"}</Table.Cell> {/*Accepted Courses*/}
+                            <Table.Cell p="4" fontSize="md">{tut.avail??["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Availability*/}
+                            <Table.Cell p="4" fontSize="md">{tut.skills??["Not Provided"].map((x)=><tr>{x}</tr>)}</Table.Cell> {/*Skills*/}
+                            <Table.Cell p="4" fontSize="md">{getAcceptedCount(tut.email, classes)??"# Not Calculated"}</Table.Cell> {/*Accepted*/}
                         </Table.Row>
                     </HoverCard.Trigger>
                     <Portal>
