@@ -1,22 +1,20 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
-import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getPasswordForUser, getUserType, isLecturerForClass, generateSubjects, userState, subject, generateUsers, getUserData} from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType, isLecturerForClass, userState, } from "../../helpers/validate";
 import { useRouter } from 'next/router';
-import { Button, For, LocaleProvider, Stack, Table } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
 import "./subjectManager.css";
 import { useEffect, useState , useMemo} from "react";
-import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
-import { TutorSubjectTable, dualTableProps } from "@/components/SortingTable/SortingTable";
+import { TutorSubjectTable } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { loadDB, localDBInt } from "@/helpers/loadStorage";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { TutorSubjectTableSort} from "@/components/SortingTable/SortingTableOrder";
 import { getAcceptedFrom, getCandidatesFrom } from "@/helpers/localStorageGet";
 
-export default function subjectManager()
+export default function SubjectManager()
 {
     //Set up state hooks
     const[localEmail, setLocalEmail] = useState<string>("");
@@ -43,17 +41,14 @@ export default function subjectManager()
     const loginType = useMemo(() => getUserType(user.email), [user.email]);
     let content;
 
-    //Pull sample values
-    let dbTut: Map<string, userState> = generateUsers();
-
     //Create hooks to update the tables
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
     
     //Create tutors array
-    let tutors: userState[] = getCandidatesFrom(subject??"", localDB);
+    const tutors: userState[] = getCandidatesFrom(subject??"", localDB);
 
     //Create tutors array
-    let acceptedUser: userState[] = getAcceptedFrom(subject??"", localDB);
+    const acceptedUser: userState[] = getAcceptedFrom(subject??"", localDB);
 
     //Setup hooks for each table list
     const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
@@ -62,11 +57,11 @@ export default function subjectManager()
     // Save List to LocalStorage. This will be replaced with A DB function later
     function saveChanges()
     {
-        let tempDB:localDBInt = { ...localDB };
+        const tempDB:localDBInt = { ...localDB };
 
         // Setting accepted and candidate tutors using type/javascript spaghetti 
-        let acceptedTutor: string[] = selectedList.map(a=>a.email);
-        let candidateTutor: string[] = candidateList.map(a=>a.email);
+        const acceptedTutor: string[] = selectedList.map(a=>a.email);
+        const candidateTutor: string[] = candidateList.map(a=>a.email);
         
         // Set the value of the subject accepted
         tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].accepted = acceptedTutor;
