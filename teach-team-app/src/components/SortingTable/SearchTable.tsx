@@ -1,4 +1,4 @@
-import { getAcceptedCourses, getAppliedCourses } from "@/helpers/localStorageGet";
+import { getAcceptedCount, getAcceptedCourses, getAppliedCourses } from "@/helpers/localStorageGet";
 import { subject, userState } from "@/helpers/validate";
 import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
 
@@ -41,7 +41,7 @@ export function SearchTable({ tableArr, classes }: searchTableProps)
                             <Table.Cell p="4" fontSize="md">{getAcceptedCourses(tut.email, classes).join(", ")??"Not Provided"}</Table.Cell>
                             <Table.Cell p="4" fontSize="md">{tut.avail??"Not Provided"}</Table.Cell>
                             <Table.Cell p="4" fontSize="md">{tut.skills??"Not Provided"}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{tut.avail??"Not Provided"}</Table.Cell>
+                            <Table.Cell p="4" fontSize="md">{getAcceptedCount(tut.email, classes)??"Not Provided"}</Table.Cell>
                         </Table.Row>
                     </HoverCard.Trigger>
                     <Portal>
