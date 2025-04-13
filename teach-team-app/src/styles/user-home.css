@@ -167,3 +167,44 @@
     background: linear-gradient(to left, #f9f9f9, #e0f7ec);
 }
 
+.bar{
+    font-weight: 500;
+    background-color: rgb(59, 189, 91);
+    font-size: 40px;
+    padding-left: 30px;
+    color: white;
+}
+
+.lectures-list-box .flex-sbs-stock {
+
+}
+
+.flex-sbs-stock {
+    background-color: white;
+    border-top: 2px rgb(59, 189, 91) solid;
+    font-weight: 500;
+    font-size: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    gap: 30px;
+    align-items: center;
+    display: flex;
+    width: 100%;
+}
+
+.flex-column1 {
+    
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.flex-column2 {
+    padding: 30 10;
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0;
+}

@@ -65,15 +65,15 @@ export default function loginScreen()
                     <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
                 </div>
                 <div className="lecturers-list-box">
-                    <h1>Tutor Database Search</h1>
+                    <div className="bar"><p>Tutor Search</p></div>
                     <div className="flex-sbs-stock">
-                        <div className="flex-column flexBox"><Button>Course Name</Button><Button>Tutor Name</Button></div>
-                        <div className="flex-column flexBox"><Button>Skillset</Button><Button>Availability</Button></div>
+                        <p>Filters</p>
+                        <div className="flex-column1"><Button width="100px">Course Name</Button><Button width="100px">Tutor Name</Button></div>
+                        <div className="flex-column2"><Button width="100px">Skillset</Button><Button width="100px">Availability</Button></div>
+                        <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
+                            <Input placeholder="Search" />
+                        </InputGroup>
                     </div>
-                    <InputGroup startElement={<span className="material-symbols-outlined">search</span>}>
-                        <Input placeholder="Search" />
-                    </InputGroup>
-
                     <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} />
                 </div>
             </div>)}

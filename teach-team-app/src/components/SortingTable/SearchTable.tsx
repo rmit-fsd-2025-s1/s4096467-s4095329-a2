@@ -4,6 +4,15 @@ import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
 
 type searchTableProps = {tableArr: userState[], classes: subject[]}
 
+//Search for specific data in local storage
+function getDetails(searchFor: string, email :string, defaultSentence :string) {
+    let detail = localStorage.getItem(`${searchFor}_${email}`)
+    if (!detail) {
+        detail = defaultSentence;
+    }
+    return detail;
+}
+
 export function SearchTable({ tableArr, classes }: searchTableProps)
 {
     return(<Table.Root 
