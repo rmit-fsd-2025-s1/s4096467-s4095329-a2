@@ -5,7 +5,7 @@ import { Card ,Button} from "@chakra-ui/react";
 import { getLectureClasses, subject, getTutorCourses, generateUsers, userState } from "@/helpers/validate";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
 
 interface EducatorProps
 {
@@ -15,10 +15,11 @@ interface EducatorProps
 }
 
 interface SubjectProps
-{
+{   
+    number: number;
     subjectCode: string,
     subjectName: string,
-    subjectApplicants: number;
+    subjectApplicants?: number;
 }
 
 //Creates a subject block for the Lecturer
@@ -36,32 +37,51 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
     );
 }
 
-function CreateCourses({subjectCode, subjectName, subjectApplicants}: SubjectProps) {
+function CreateCourses({subjectCode, subjectName, number}: SubjectProps) {
+    //Set up state hooks
+    const[localEmail, setLocalEmail] = useState<string>("");
+
+    useEffect(() => {
+        setLocalEmail(localStorage.getItem("localEmail")||"");
+    }, []);
+
+    let email = localEmail;
+
     // if false then dont show button
-    const [showButton, setShowButton] = useState(true);
+    const [applied, setApplied] = useState(false);
+    const [num, setNum] = useState<number>(0);
 
-    const clickApply = () => {
-        console.log("You have applied"); 
-        setShowButton(!showButton);
-        localStorage.setItem("applied", "true");
+    //checks if there exists an application already for that course.
+    useEffect(() => {    
+        const appliedStatus = localStorage.getItem(`${email}_appliedTo_${subjectCode}`) || "";
+        if (appliedStatus === "true") {
+            setApplied(true);
+        }
+    }, [localEmail, subjectCode]);
+
+    //sends application check to local storage
+    const clickApply = (number: number) => {
+        setNum(number);
+        setApplied(true);
+        localStorage.setItem(`${localEmail}_appliedTo_${subjectCode}`, "true");
     }; 
-
-    let saveApply;
-    if (localStorage.getItem("applied") === "true") {
-        saveApply = true;
-    }
 
     return(
         //Hover to apply or something like that. Shows course details and apply button
-        <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
-            <Card.Header>{subjectCode}</Card.Header>
-            <Card.Body>{subjectName}<br/></Card.Body>
-            <Card.Footer justifyContent="flex-end">
-                <div className="button-apply">
-                    {showButton ? <Button variant='subtle' onClick={clickApply}>Apply</Button> : <h2>Application Sent!</h2>}
-                </div>
-            </Card.Footer>
-        </Card.Root>
+        <div className="courses-format">
+            <div className={`${number}`}>
+            {/* <p>{number}</p> */}
+                <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
+                    <Card.Header>{subjectCode}</Card.Header>
+                    <Card.Body>{subjectName}<br/></Card.Body>
+                    <Card.Footer justifyContent="flex-end">
+                        <div className="button-apply">
+                            {!applied && num !== number ? <Button variant='subtle' onClick={() => clickApply(number)}>Apply</Button> : <h2>Application Sent!</h2>}
+                        </div>
+                    </Card.Footer>
+                </Card.Root>
+            </div>
+        </div>
     );
 }
 
@@ -113,8 +133,8 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                     {accountType === "lecturer" && (
                         <>
                             <div className="lecture-grid">
-                                {classes.map((classVar) => (
-                                    <CreateSubject subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
+                                {classes.map((classVar, index) => ( 
+                                    <CreateSubject key={index} number={index + 1} subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
                                 ))}
                             </div>
                         </>
@@ -122,9 +142,9 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                     {accountType === "tutor" && (
                         <>
                             <div className="tutor-grid">
-                                {courses.map((courseVar) => (
-                                    
-                                    <CreateCourses subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
+                                {/* create courses and assign each course with a number */}
+                                {courses.map((courseVar, index) => (
+                                    <CreateCourses key={index} number={index + 1} subjectCode={courseVar.code} subjectName={courseVar.subjectName} subjectApplicants={courseVar.candidates.length}/>
                                 ))}
                             </div>
                         </>

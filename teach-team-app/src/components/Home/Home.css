@@ -49,12 +49,24 @@ Be careful of comma placement */
 }
 
 /* chakracard in tutor grid */
-.tutor-grid a, .chakra-card__root {
+.tutor-grid a .chakra-card__root {
     box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
     transition: 0.3s ease;
     border: 2px solid grey;
     border-radius: 8px;
     width: 45%;
+}
+
+.courses-format {
+    width: 45%;
+}
+
+.courses-format .chakra-card__root{
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
+    transition: 0.3s ease;
+    border: 2px solid grey;
+    border-radius: 8px;
+    width: 100%;
 }
 
 .home-grid a, .chakra-card__root:hover {
