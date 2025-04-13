@@ -71,18 +71,25 @@ export default function loginScreen()
                 </div>
                 <div className="lecturers-list-box">
                     <div className="bar"><p>Tutor Search</p></div>
-                    <div className="flex-sbs-stock">
-                        <p>Filters</p>
-                        <div className="flex-column1">
-                            
-                            <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Name")}}>Tutor Name</Button>
-                            <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Course")}}>Course Name</Button>
-                            <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Availability")}}>Availability</Button>
-                            <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Skill")}}>Skillset</Button>
+                    <div className="flex-sbs-stock green-top">
+                        <div className="flex-sbs-stock">
+                            <p>Sort</p>
+                            <div className="flex-column2">
+                                <Button width="100px" variant={"solid"} onClick={(e)=>{alert("The 90s called")}}></Button>
+                            </div>
                         </div>
-                        <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
-                            <Input placeholder="Search" onChange={(e)=>{setSearchBar(e.target.value)}}/>
-                        </InputGroup>
+                        <div className="flex-sbs-stock">
+                            <p>Filters</p>
+                            <div className="flex-column1">
+                                <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Name")}}>Tutor Name</Button>
+                                <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Course")}}>Course Name</Button>
+                                <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Availability")}}>Availability</Button>
+                                <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={(e)=>{setCurrentButton("Skill")}}>Skillset</Button>
+                            </div>
+                            <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
+                                <Input placeholder="Search" onChange={(e)=>{setSearchBar(e.target.value)}}/>
+                            </InputGroup>
+                        </div>
                     </div>
                     <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} type={currentButton} keyword={searchBar} order=""/>
                 </div>
