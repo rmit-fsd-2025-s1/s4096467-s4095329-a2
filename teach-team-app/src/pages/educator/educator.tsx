@@ -102,7 +102,7 @@ export default function EducatorDashboard()
                             </InputGroup>
                         </div>
                     </div>
-                    <SearchTable tableArr={localDB.users.map(([key, value]) => value)} classes={localDB.subjects.map(([key, value]) => value)} sort={sortingMethod} type={currentButton} keyword={searchBar} order=""/>
+                    <SearchTable tableArr={localDB.users.map(([, value]) => value)} classes={localDB.subjects.map(([, value]) => value)} sort={sortingMethod} type={currentButton} keyword={searchBar} order=""/>
                 </div>
             </div>)}
         
