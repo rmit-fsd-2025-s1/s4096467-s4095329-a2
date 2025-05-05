@@ -26,6 +26,8 @@
    },
    "scripts": {
       "start": "ts-node src/index.ts nodemon",
+      "dev": "ts-node src/index.ts nodemon",
+      "build": "tsc",
       "typeorm": "typeorm-ts-node-commonjs"
    }
 }
