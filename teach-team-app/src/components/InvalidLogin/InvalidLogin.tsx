@@ -1,5 +1,5 @@
 //A function that generates a box that tells you to log in
-import "./InvalidLogin.css"
+import styles from "./InvalidLogin.module.css"
 import {Button} from "@chakra-ui/react";
 import {useRouter} from "next/navigation";
 
@@ -12,7 +12,7 @@ export function InvalidLogin()
 
     return(
         <>
-        <div className="page">           
+        <div className={styles["page"]}>           
             <h4>If you are not logged in you do not have permission to view this page.</h4>
             <h4>Please log in to your account to gain access.</h4>
             <Button variant='subtle' onClick={logIn}>Log in</Button>
