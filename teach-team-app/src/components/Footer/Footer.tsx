@@ -33,7 +33,7 @@ export function Footer({isLoggedIn}: FooterProps)
     return(
         <>
         <div className={styles["footer-container"]}>
-        <h1><span className={styles["material-symbols-outlined"]}>school</span><u>Teach<span className={styles["green1"]}>Team</span>.</u></h1>
+        <h1><span className="material-symbols-outlined">school</span><u>Teach<span className={styles["green1"]}>Team</span>.</u></h1>
             <span>
                 <h3>Community</h3>
                 <Link href=""><p>About us</p></Link>
