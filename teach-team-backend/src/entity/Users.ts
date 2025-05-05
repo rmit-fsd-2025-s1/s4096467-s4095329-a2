@@ -26,19 +26,19 @@ export class Users {
     @Column()
     summary: string
 
-    @OneToMany(() => Certifications, (certification) => certification.user_key)
+    @OneToMany(() => Certifications, (certification) => certification.user_key, {eager:true,})
     certifications: Certifications[]
 
-    @OneToMany(() => Educations, (education) => education.user_key)
+    @OneToMany(() => Educations, (education) => education.user_key, {eager:true,})
     educations: Educations[]
 
-    @OneToMany(() => Languages, (language) => language.user_key)
+    @OneToMany(() => Languages, (language) => language.user_key, {eager:true,})
     languages: Languages[]
 
-    @OneToMany(() => Previous_Roles, (role) => role.user_key)
+    @OneToMany(() => Previous_Roles, (role) => role.user_key, {eager:true,})
     previous_roles: Previous_Roles[]
 
-    @OneToMany(() => Skills, (skill) => skill.user_key)
+    @OneToMany(() => Skills, (skill) => skill.user_key, {eager:true,})
     skills: Skills[]
 }
 
