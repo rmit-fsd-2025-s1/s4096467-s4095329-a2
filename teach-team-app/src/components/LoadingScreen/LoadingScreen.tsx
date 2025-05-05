@@ -1,7 +1,7 @@
 //A function that generates a box that tells you to log in
 import { InvalidLogin } from "@/components/InvalidLogin/InvalidLogin";
 import { Spinner } from "@chakra-ui/react"
-import "./LoadingScreen.css"
+import styles from "./LoadingScreen.module.css"
 import { useEffect, useState} from "react";
 
 export function LoadingScreen()
@@ -14,7 +14,7 @@ export function LoadingScreen()
     }, []);
 
     return(
-        <div className="load">
+        <div className={styles["load"]}>
             {message ? (
                 <InvalidLogin />
             ) : (
