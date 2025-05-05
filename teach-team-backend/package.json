@@ -12,6 +12,7 @@
       "@types/cors": "^2.8.17",
       "@types/express": "^4.17.21",
       "@types/node": "^20.11.24",
+      "bcryptjs": "^3.0.2",
       "cors": "^2.8.5",
       "express": "^4.18.3",
       "express-typeorm": "file:",
@@ -24,7 +25,7 @@
       "typescript": "^5.3.3"
    },
    "scripts": {
-      "start": "ts-node src/index.ts",
+      "start": "ts-node src/index.ts nodemon",
       "typeorm": "typeorm-ts-node-commonjs"
    }
 }
