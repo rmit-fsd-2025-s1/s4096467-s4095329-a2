@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
-import styles from './Home.module.css';
+import './Home.css';
 import { Card ,Button} from "@chakra-ui/react";
 import { getLectureClasses, subject, getTutorCourses, generateUsers, userState } from "@/helpers/validate";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
@@ -65,14 +65,14 @@ function CreateCourses({email, subject, localDB, setLocalDB}: ApplyProps) {
 
     return(
         //Hover to apply or something like that. Shows course details and apply button
-        <div className={styles["courses-format"]}>
+        <div className="courses-format">
             <div>
             {/* <p>{number}</p> */}
                 <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
                     <Card.Header>{subject.code}</Card.Header>
                     <Card.Body>{subject.subjectName}<br/></Card.Body>
                     <Card.Footer justifyContent="flex-end">
-                        <div className={styles["button-apply"]}>
+                        <div className="button-apply">
                             {isApplied==="Not Applied" ? //If not applied
                                 <Button variant='subtle' onClick={() => clickApply()}>Apply</Button>
                              : isApplied==="Accepted" ? //If accepted
@@ -129,11 +129,11 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
     if(isLoggedIn)
     {
         return(
-            <div className={styles["home-content"]}>
-                <div className={styles["home-grid"]}>
+            <div className="home-content">
+                <div className="home-grid">
                     {accountType === "lecturer" && (
                         <>
-                            <div className={styles["lecture-grid"]}>
+                            <div className="lecture-grid">
                                 {classes.map((classVar, index) => ( 
                                     <CreateSubject key={index} number={index + 1} subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
                                 ))}
@@ -142,7 +142,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                     )}
                     {accountType === "tutor" && (
                         <>
-                            <div className={styles["tutor-grid"]}>
+                            <div className="tutor-grid">
                                 {/* create courses and assign each course with a number FOR TUTORS */}
                                 {courses.map((courseVar) => (
                                     <CreateCourses key={courseVar.code} email={educatorEmail||""} subject={courseVar} localDB={localDB} setLocalDB={setLocalDB}/>

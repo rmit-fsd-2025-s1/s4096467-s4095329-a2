@@ -3,8 +3,8 @@ import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getUserType} from "../../helpers/validate";
 
+import '../../components/Home/Home.css';
 import "../../styles/user-home.css";
-import "../../components/Home/Home.css";
 import { useEffect, useState } from "react";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 
