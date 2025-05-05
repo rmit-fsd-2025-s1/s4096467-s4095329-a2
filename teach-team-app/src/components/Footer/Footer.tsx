@@ -1,5 +1,5 @@
 import Link from "next/link";
-import "./Footer.css";
+import styles from "./Footer.module.css";
 import {useRouter} from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
@@ -32,8 +32,8 @@ export function Footer({isLoggedIn}: FooterProps)
 
     return(
         <>
-        <div className="footer-container">
-        <h1><span className="material-symbols-outlined">school</span><u>Teach<span className="green1">Team</span>.</u></h1>
+        <div className={styles["footer-container"]}>
+        <h1><span className={styles["material-symbols-outlined"]}>school</span><u>Teach<span className={styles["green1"]}>Team</span>.</u></h1>
             <span>
                 <h3>Community</h3>
                 <Link href=""><p>About us</p></Link>
