@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS languages;
 DROP TABLE IF EXISTS previous_roles;
 DROP TABLE IF EXISTS certifications;
 DROP TABLE IF EXISTS educations;
+DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS tutors;
 DROP TABLE IF EXISTS class_roles;
 DROP TABLE IF EXISTS lecturer_classes;
@@ -63,6 +64,13 @@ CREATE TABLE tutors(
     PRIMARY KEY (email, class_code),
     FOREIGN KEY (role_name) REFERENCES class_roles(role_name),
     FOREIGN KEY (email) REFERENCES users(email)
+);
+
+CREATE TABLE comments(
+    comment_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    email VARCHAR(320) NOT NULL,
+    class_code VARCHAR(255) NOT NULL,
+    comment TEXT
 );
 
 CREATE TABLE lecturer_classes(
