@@ -21,7 +21,15 @@ export default function Home() {
       }, []);
 
       const user: userCred = {email: localEmail, password:localPassword};
-      const passwordValid = isPasswordValid(user);
+      // Variable hook that checks to see if the user is logged in properly
+      const [passwordValid, setPasswordValid] = useState<boolean>(false);
+      useEffect(() => {
+          const validatePassword = async () => {
+              const isValid = await isPasswordValid(user);
+              setPasswordValid(isValid);
+          };
+          validatePassword();
+      }, [user]);
       const loginType = getUserType(user.email);
       
       //Checks if user is logged in, if not redirect to login.
