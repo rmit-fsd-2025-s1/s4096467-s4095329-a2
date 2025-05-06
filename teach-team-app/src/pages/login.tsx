@@ -29,7 +29,7 @@ export default function LoginScreen()
     const Router = useRouter();
     
     //Attempt to login on submit
-    const attemptLogin = (e: FormEvent) => 
+    const attemptLogin = async (e: FormEvent) => 
     {
         e.preventDefault();
 
@@ -53,7 +53,7 @@ export default function LoginScreen()
         setStrength(isStrong);
 
         //Redirect
-        if(isPasswordValid(userVal))
+        if(await isPasswordValid(userVal))
         {
             localStorage.setItem("localEmail", email);
             localStorage.setItem("localPassword", password);
