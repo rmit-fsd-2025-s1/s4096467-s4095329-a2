@@ -43,7 +43,15 @@ export default function UserProfile()
         password: localPassword
     }), [localEmail, localPassword]);
     const data = useMemo(() => getUserData(user.email), [user.email]);
-    const passwordValid = useMemo(() => isPasswordValid(user), [user]);
+    // Variable hook that checks to see if the user is logged in properly
+    const [passwordValid, setPasswordValid] = useState<boolean>(false);
+    useEffect(() => {
+        const validatePassword = async () => {
+            const isValid = await isPasswordValid(user);
+            setPasswordValid(isValid);
+        };
+        validatePassword();
+    }, [user]);
     const loginType = useMemo(() => getUserType(user.email), [user.email]);
     const name = data?.name??"";
 
