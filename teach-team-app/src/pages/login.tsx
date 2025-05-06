@@ -4,8 +4,6 @@ import { isPasswordValid, userCred } from "../helpers/validate";
 import Link from 'next/link';
 import { Alert } from "@chakra-ui/react"
 
-import "./sign-in.css";
-
 //Page loading for the login screen at /login
 export default function LoginScreen()
 {   

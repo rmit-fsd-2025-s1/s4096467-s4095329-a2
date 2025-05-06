@@ -3,7 +3,6 @@ import {Footer} from "../components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
 import {useRouter} from "next/navigation";
-import "../styles/user-home.css";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 
 export default function Home() {

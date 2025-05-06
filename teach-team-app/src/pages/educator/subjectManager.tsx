@@ -5,7 +5,6 @@ import { isPasswordValid, userCred, getUserType, isLecturerForClass, userState, 
 import { useRouter } from 'next/router';
 import { Button } from "@chakra-ui/react";
 
-import "./subjectManager.css";
 import { useEffect, useState , useMemo} from "react";
 import { TutorSubjectTable } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";

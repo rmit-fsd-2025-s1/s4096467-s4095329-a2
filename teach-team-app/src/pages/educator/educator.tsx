@@ -4,7 +4,6 @@ import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getUserType, getUserData } from "../../helpers/validate";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
-import "../../styles/user-home.css";
 import { useEffect, useState, useMemo} from "react";
 import Link from "next/link";
 import { Button, Input, InputGroup } from "@chakra-ui/react"
@@ -82,14 +81,14 @@ export default function EducatorDashboard()
                 </div>
                 <div className="lecturers-list-box">
                     <div className="bar"><p>Tutor Search</p></div>
-                    <div className="flex-sbs-stock green-top">
-                        <div className="flex-sbs-stock">
+                    <div className="flex-sbs-stock green-top no-gap flex-wrap either-end">
+                        <div className="flex-sbs-stock" style={{ width: 'auto' }}>
                             <p>Sort</p>
                             <div className="flex-column2">
                                 <Button p="4" width="300px" variant={"solid"} onClick={() => toggleSort()}>{sortingMethod === "None Accepted" ? "None Accepted" : sortingMethod === "ascending" ? "Sorted by acceptance ascending" : "Sorted by acceptance descending"}</Button>
                             </div>
                         </div>
-                        <div className="flex-sbs-stock">
+                        <div className="flex-sbs-stock" style={{ width: 'auto' }}>
                             <p>Filters</p>
                             <div className="flex-column1">
                                 <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={()=>{setCurrentButton("Name")}}>Tutor Name</Button>

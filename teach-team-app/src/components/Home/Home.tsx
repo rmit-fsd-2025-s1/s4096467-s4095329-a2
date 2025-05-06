@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
-import './Home.css';
 import { Card ,Button} from "@chakra-ui/react";
 import { getLectureClasses, subject, getTutorCourses, generateUsers, userState } from "@/helpers/validate";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
