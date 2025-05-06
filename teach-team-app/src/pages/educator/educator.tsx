@@ -33,7 +33,17 @@ export default function EducatorDashboard()
             password: localPassword
         }), [localEmail, localPassword]);
     const data = useMemo(() => getUserData(user.email), [user.email]);
-    const passwordValid = useMemo(() => isPasswordValid(user), [user]);
+    
+    // Variable hook that checks to see if the user is logged in properly
+    const [passwordValid, setPasswordValid] = useState<boolean>(false);
+    useEffect(() => {
+        const validatePassword = async () => {
+            const isValid = await isPasswordValid(user);
+            setPasswordValid(isValid);
+        };
+        validatePassword();
+    }, [user]);
+
     const loginType = useMemo(() => getUserType(user.email), [user.email]);
 
     const name = data?.name??"";
@@ -58,9 +68,9 @@ export default function EducatorDashboard()
             <title>Lecturer Home</title>
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
 
-            {loginType === "lecturer" && (
+            {loginType === "lecturer" &&  (
             <div className="lecturer-interface">
-                <div className="l-header">
+                {passwordValid && (<><div className="l-header">
                     <h2>Welcome back {name}!<br/> You have <span className="numCand">{candidates} </span> 
                     {candidates > 1 ? (
                         <>
@@ -75,11 +85,12 @@ export default function EducatorDashboard()
                 </div>
                 <div className="subjects-header">
                     <h1>Courses</h1>
-                </div>
+                </div></>)}
+                
                 <div className="subjects-box">
                     <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
                 </div>
-                <div className="lecturers-list-box">
+                {passwordValid &&(<div className="lecturers-list-box">
                     <div className="bar"><p>Tutor Search</p></div>
                     <div className="flex-sbs-stock green-top no-gap flex-wrap either-end">
                         <div className="flex-sbs-stock" style={{ width: 'auto' }}>
@@ -102,7 +113,8 @@ export default function EducatorDashboard()
                         </div>
                     </div>
                     <SearchTable tableArr={localDB.users.map(([, value]) => value)} classes={localDB.subjects.map(([, value]) => value)} sort={sortingMethod} type={currentButton} keyword={searchBar} order=""/>
-                </div>
+                </div>)}
+                
             </div>)}
         
             {loginType === "tutor" && (
