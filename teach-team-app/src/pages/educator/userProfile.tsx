@@ -3,8 +3,6 @@ import {Footer} from "../../components/Footer/Footer";
 import { isPasswordValid, userCred, getUserType, getUserData} from "../../helpers/validate";
 
 import Comments from "@/components/SortingTable/Comments";
-import "./userProfile.css";
-import "../../styles/user-home.css";
 import React, { useEffect, useState , useMemo} from "react";
 import { Button } from "@chakra-ui/react"
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";

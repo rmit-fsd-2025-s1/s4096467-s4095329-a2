@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card} from "@chakra-ui/react"
 import { userState, generateUsers, getLectureClasses} from "../../helpers/validate";
-import "./Comments.css"
 
 interface commentsFromL {
     lecturers: string;

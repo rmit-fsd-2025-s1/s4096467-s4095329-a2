@@ -188,12 +188,26 @@
     background-color: white;
     font-weight: 500;
     font-size: 30px;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding: 5px 30px;
     gap: 30px;
     align-items: center;
     display: flex;
     width: 100%;
+}
+
+.no-gap
+{
+    gap: 0;
+}
+
+.flex-wrap
+{
+    flex-wrap: wrap;
+}
+
+.either-end
+{
+    justify-content: space-between;
 }
 
 .flex-column1 {
