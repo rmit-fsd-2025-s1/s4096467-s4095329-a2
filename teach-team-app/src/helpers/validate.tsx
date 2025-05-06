@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { userApi } from "../services/api";
 
 export interface userState
 {
@@ -34,23 +35,20 @@ export interface subject
 
 export function isPasswordValid(user: userCred)
 {  
-    return(getPasswordForUser(user));
-}
-
-export function getPasswordForUser({email, password}: userCred)
-{
-    // Populates the Map, this will be done with a DB later
-    const db: Map<string, userState> = generateUsers();
-
-    //If the name is found in the Map
-    if(db.has(email))
-    {
-        return(bcrypt.compareSync(password, db.get(email)?.password||""));
-    }
-    else
-    {
-        return(false);
-    }
+    const checkUser = async () =>
+        {
+            try
+            {
+                const result: boolean = await userApi.checkLogin(user.email,user.password);
+                return result;
+            }
+            catch(e)
+            {
+                return false;
+            }
+        }
+    return checkUser();
+    // return(getPasswordForUser(user));
 }
 
 //Returns whether the user is a lecturer, tutor or none
