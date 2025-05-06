@@ -36,7 +36,17 @@ export default function SubjectManager()
         email: localEmail,
         password: localPassword
     }), [localEmail, localPassword]);
-    const passwordValid = useMemo(() => isPasswordValid(user), [user]);
+
+    // Variable hook that checks to see if the user is logged in properly
+    const [passwordValid, setPasswordValid] = useState<boolean>(false);
+    useEffect(() => {
+        const validatePassword = async () => {
+            const isValid = await isPasswordValid(user);
+            setPasswordValid(isValid);
+        };
+        validatePassword();
+    }, [user]);
+    
     const loginType = useMemo(() => getUserType(user.email), [user.email]);
     let content;
 
