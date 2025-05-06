@@ -12,7 +12,7 @@ router.get("/users", async (req, res) => {
 });
 
 // to call this, run /api/login/yourEmailHere/yourPasswordHere
-router.get("/login/:email/:password", async (req, res) => {
+router.get("/users/login/:email/:password", async (req, res) => {
   await loginController.login(req, res);
 });
 export default router;
