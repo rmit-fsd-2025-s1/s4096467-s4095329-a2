@@ -1,10 +1,17 @@
 import { Router } from "express";
 import { UserController } from "../controller/UserController";
 import { LoginController } from "../controller/LoginController";
+import { GuideController } from "../controller/GuideController";
 
 const router = Router();
 const userController = new UserController();
 const loginController = new LoginController();
+const guideController = new GuideController();
+
+// to call this, run /api/users/
+router.get("/", async (req, res) => {
+  await guideController.guide(req, res);
+});
 
 // to call this, run /api/users/
 router.get("/users", async (req, res) => {
