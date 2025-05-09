@@ -11,7 +11,7 @@ export class UserController {
    * @returns JSON response containing an array of all users
    */
   async all(request: Request, response: Response) {
-    const users = await AppDataSource.manager.find(Users);
+    const users: Users[] = await AppDataSource.manager.find(Users);
 
     return response.json(users);
   }
