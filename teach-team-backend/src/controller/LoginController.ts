@@ -12,21 +12,28 @@ export class LoginController {
    * @returns JSON response containing an array of all users
    */
   async login(request: Request, response: Response) {
-    const inEmail: string = request.params.email;
-    const inPassword: string = request.params.password;
-    const user: Users[] = await AppDataSource.manager.find(Users, {
-      where: {
-        email: inEmail
-        }
-      });
+    try{
+      const inEmail: string = request.params.email;
+      const inPassword: string = request.params.password;
+      const user: Users[] = await AppDataSource.manager.find(Users, {
+        where: {
+          email: inEmail
+          }
+        });
 
-    if(user.length > 0)
+      if(user.length > 0)
+        {
+          return(response.json(bcrypt.compareSync(inPassword, user[0].password)));
+        }
+      else
       {
-        return(response.json(bcrypt.compareSync(inPassword, user[0].password)));
+        return(response.json(false));
       }
-    else
+    }
+    catch(e)
     {
-      return(response.json(false));
+      console.log(e);
+      return response.status(400).json(false);
     }
   }
 }
