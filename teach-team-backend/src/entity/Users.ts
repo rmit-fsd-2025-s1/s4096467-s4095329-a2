@@ -1,14 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from "typeorm"
 import { Certifications } from "./Certifications"
 import { Educations } from "./Educations"
 import { Languages } from "./Languages"
 import { Previous_Roles } from "./Previous_Roles"
 import { Skills } from "./Skills"
+import { Classes } from "./Classes"
 
 @Entity()
 export class Users {
 
-    @PrimaryGeneratedColumn()
+    @Column({ primary: true })
     email: string
 
     @Column()
@@ -40,6 +41,9 @@ export class Users {
 
     @OneToMany(() => Skills, (skill) => skill.user_key, {eager:true,})
     skills: Skills[]
+
+    @ManyToMany(() => Classes, (classes) => classes.lecturers)
+    lectures: Classes[]
 }
 
 export { Certifications }
