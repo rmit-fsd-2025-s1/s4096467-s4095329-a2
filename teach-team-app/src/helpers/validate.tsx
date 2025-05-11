@@ -54,18 +54,19 @@ export function isPasswordValid(user: userCred)
 //Returns whether the user is a lecturer, tutor or none
 export function getUserType(email: string)
 {
-    // Populates the Map, this will be done with a DB later
-    const db: Map<string, userState> = generateUsers();
-
-    //If the name is found in the map
-    if(db.has(email))
-    {   //Return type
-        return(db.get(email)?.role??"");
-    }
-    else
-    {
-        return "none";
-    }
+    const getUserType = async () =>
+        {
+            try
+            {
+                const result: boolean = await userApi.getType(email);
+                return result;
+            }
+            catch(e)
+            {
+                return false;
+            }
+        }
+    return getUserType();
 }
 
 export function isLecturerForClass(email: string, classCode: string)
