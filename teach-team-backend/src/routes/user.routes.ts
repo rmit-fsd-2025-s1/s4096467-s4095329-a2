@@ -8,7 +8,7 @@ const userController = new UserController();
 const loginController = new LoginController();
 const guideController = new GuideController();
 
-// to call this, run /api/users/
+// to call this, run /api/
 router.get("/", async (req, res) => {
   await guideController.guide(req, res);
 });
@@ -18,8 +18,13 @@ router.get("/users", async (req, res) => {
   await userController.all(req, res);
 });
 
-// to call this, run /api/login/yourEmailHere/yourPasswordHere
+// to call this, run /api/users/login/yourEmailHere/yourPasswordHere
 router.get("/users/login/:email/:password", async (req, res) => {
   await loginController.login(req, res);
+});
+
+// to call this, run /api/users/type/yourEmailHere
+router.get("/users/type/:email", async (req, res) => {
+  await userController.userType(req, res);
 });
 export default router;
