@@ -30,7 +30,22 @@ export default function Home() {
           };
           validatePassword();
       }, [user]);
-      const loginType = getUserType(user.email);
+
+      const [loginType, setLoginType] = useState<string>("");
+      useEffect(() => {
+        const getTypeVal = async () => {
+            const type = await getUserType(user.email);
+            if(typeof type === "boolean")
+            {
+                setLoginType("");
+            }
+            else
+            {
+                setLoginType(type);
+            }
+        };
+        getTypeVal();
+    }, [user]);
       
       //Checks if user is logged in, if not redirect to login.
       useEffect(() => {
