@@ -2,11 +2,13 @@ import { Router } from "express";
 import { UserController } from "../controller/UserController";
 import { LoginController } from "../controller/LoginController";
 import { GuideController } from "../controller/GuideController";
+import { ClassesController } from "../controller/ClassesController";
 
 const router = Router();
 const userController = new UserController();
 const loginController = new LoginController();
 const guideController = new GuideController();
+const classesController = new ClassesController();
 
 // to call this, run /api/
 router.get("/", async (req, res) => {
@@ -26,5 +28,10 @@ router.get("/users/login/:email/:password", async (req, res) => {
 // to call this, run /api/users/type/yourEmailHere
 router.get("/users/type/:email", async (req, res) => {
   await userController.userType(req, res);
+});
+
+// to call this, run /api/users/type/yourEmailHere
+router.get("/classes", async (req, res) => {
+  await classesController.all(req, res);
 });
 export default router;
