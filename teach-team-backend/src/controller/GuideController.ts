@@ -9,6 +9,7 @@ export class GuideController {
    * @returns JSON response containing an array of all users
    */
   async guide(request: Request, response: Response) {
+    try{
     const tutorial = 
     {
         "/api":
@@ -34,5 +35,11 @@ export class GuideController {
     };
 
     return response.json(tutorial);
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400);
+    }
   }
 }
