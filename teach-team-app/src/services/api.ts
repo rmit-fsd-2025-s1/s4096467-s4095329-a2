@@ -18,6 +18,11 @@ export const userApi = {
         return response.data;
     },
 
+    getType: async (email: string) => {
+        const response = await api.get(`/users/type/${email}`);
+        return response.data;
+    },
+
   getAllUsers: async () => {
     const response = await api.get("/users");
     return response.data;
