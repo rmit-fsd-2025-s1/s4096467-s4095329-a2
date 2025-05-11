@@ -44,7 +44,21 @@ export default function EducatorDashboard()
         validatePassword();
     }, [user]);
 
-    const loginType = useMemo(() => getUserType(user.email), [user.email]);
+    const [loginType, setLoginType] = useState<string>("");
+    useEffect(() => {
+        const getTypeVal = async () => {
+            const type = await getUserType(user.email);
+            if(typeof type === "boolean")
+            {
+                setLoginType("");
+            }
+            else
+            {
+                setLoginType(type);
+            }
+        };
+        getTypeVal();
+    }, [user]);
 
     const name = data?.name??"";
     //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
@@ -88,7 +102,7 @@ export default function EducatorDashboard()
                 </div></>)}
                 
                 <div className="subjects-box">
-                    <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
+                    <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={loginType||""}/>
                 </div>
                 {passwordValid &&(<div className="lecturers-list-box">
                     <div className="bar"><p>Tutor Search</p></div>
