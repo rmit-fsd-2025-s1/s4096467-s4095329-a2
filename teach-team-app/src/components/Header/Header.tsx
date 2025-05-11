@@ -39,7 +39,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                 </span>
             </Link>
             {/* Remove accounttype === tutor if needed later in other assignments */}
-            {isLoggedIn && accountType === "tutor"?<div className="user">
+            {isLoggedIn && accountType === "candidate"?<div className="user">
                 <Link href="/educator/userProfile">
                     <span className="user-profile">
                         <h3>{userName}</h3>
@@ -64,7 +64,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                     </label>
                     {isLoggedIn && (<Link className ="home" href="/educator/educator"><span className="material-symbols-outlined">home</span>Home</Link>)}
                     {/* Conditional rendering*/}
-                    {accountType === "tutor" ? (
+                    {accountType === "candidate" ? (
                         <Link href="/educator/apply"><span className="material-symbols-outlined">file_copy</span>Apply</Link>
                     ) : null}
                     {accountType === "lecturer" ? (
@@ -74,7 +74,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
 
                     <div className="bottom">
                         {/* Remove accounttype === tutor if needed later in other assignments */}
-                        {isLoggedIn && accountType === "tutor"?<Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>:<></>}
+                        {isLoggedIn && accountType === "candidate"?<Link href="/educator/userProfile"><span className="material-symbols-outlined">account_circle</span>Profile</Link>:<></>}
                         
                         {isLoggedIn && (<Link href=""><span className="material-symbols-outlined">settings</span>Settings</Link>)}
                         {isLoggedIn?

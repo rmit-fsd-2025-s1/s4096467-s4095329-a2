@@ -31,23 +31,37 @@ export default function ApplyScreen()
         };
         validatePassword();
     }, [user]);
-    const loginType = getUserType(user.email);
+    const [loginType, setLoginType] = useState<string>("");
+    useEffect(() => {
+        const getTypeVal = async () => {
+            const type = await getUserType(user.email);
+            if(typeof type === "boolean")
+            {
+                setLoginType("");
+            }
+            else
+            {
+                setLoginType(type);
+            }
+        };
+        getTypeVal();
+    }, [user]);
 
     return(
         <>
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
-            {loginType === "tutor" && (
+            {loginType === "candidate" && (
             <div className="lecturer-interface">
                 <div className="subjects-header">
                     <h1>Available Courses</h1>
                 </div>
                 <div className="subjects-box-t">
-                    <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={getUserType(localEmail)||""}/>
+                    <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={loginType||""}/>
                 </div>
             </div>)}
 
             {/* Loading area to prevent empty page */}
-            {loginType !== "tutor" && (
+            {loginType !== "candidate" && (
                 <>
                 <LoadingScreen/>
                 </>

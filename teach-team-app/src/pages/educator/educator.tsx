@@ -131,7 +131,7 @@ export default function EducatorDashboard()
                 
             </div>)}
         
-            {loginType === "tutor" && (
+            {loginType === "candidate" && (
                 <>
                 <div className="tutor-interface">
                     <div className = "header-box">
@@ -146,7 +146,7 @@ export default function EducatorDashboard()
             )}
             
             {/* Loading area to prevent empty page */}
-            {loginType !== "lecturer" && loginType !== "tutor" && (
+            {loginType !== "lecturer" && loginType !== "candidate" && (
                 <LoadingScreen/>
             )}
 

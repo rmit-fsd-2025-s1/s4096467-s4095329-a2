@@ -119,7 +119,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
             classes = formatLocalStorageClasses(educatorEmail, localDB.subjects);
     }
     
-    if (accountType === "tutor") {
+    if (accountType === "candidate") {
         courses = localDB.subjects.map(([, value]) => value)??getTutorCourses();
         console.log("Courses", courses);
     }
@@ -139,7 +139,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                             </div>
                         </>
                     )}
-                    {accountType === "tutor" && (
+                    {accountType === "candidate" && (
                         <>
                             <div className="tutor-grid">
                                 {/* create courses and assign each course with a number FOR TUTORS */}
@@ -149,7 +149,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                             </div>
                         </>
                     )}
-                    {accountType !== "tutor" && accountType === "lecturer" &&(
+                    {accountType !== "candidate" && accountType === "lecturer" &&(
                         <>
                         </>
                     )}
