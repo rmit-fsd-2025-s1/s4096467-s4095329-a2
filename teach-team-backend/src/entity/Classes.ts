@@ -1,13 +1,14 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from "typeorm"
 import { Users } from "./Users"
+import { Tutors } from "./Tutors"
 
 @Entity()
 export class Classes {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("uuid")
     class_code: string
 
-    @Column()
+    @Column({type: "varchar", length: 1000})
     subject_name: string
 
     @ManyToMany(() => Users, (user) => user.email, {eager:true})
@@ -23,4 +24,7 @@ export class Classes {
         }  
     })
     lecturers: Users[]
+
+    @OneToMany(() => Tutors, (tutor) => tutor.classes, {eager:true})
+    tutors: Tutors[]
 }
