@@ -13,9 +13,3 @@ INSERT INTO lecturer_classes (class_code, email) VALUES
 ('COSC3046', 'will@gmail.com'),
 ('ISYS1102', 'will@gmail.com'),
 ('ISYS3413', 'will@gmail.com');
-
-
-SELECT subject_name, classes.class_code, full_name
-FROM classes
-LEFT JOIN lecturer_classes ON classes.class_code = lecturer_classes.class_code
-LEFT JOIN users ON lecturer_classes.email = users.email;
