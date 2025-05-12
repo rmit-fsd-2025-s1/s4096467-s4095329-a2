@@ -56,12 +56,17 @@ CREATE TABLE class_roles(
     role_name VARCHAR(12) PRIMARY KEY NOT NULL
 );
 
+INSERT INTO class_roles (role_name)
+VALUES
+('tutor'),
+('assistant');
+
 CREATE TABLE tutors(
     email VARCHAR(320) NOT NULL,
     class_code VARCHAR(255) NOT NULL,
     role_name VARCHAR(12),
     accepted BIT,
-    PRIMARY KEY (email, class_code),
+    PRIMARY KEY (email, class_code, role_name),
     FOREIGN KEY (role_name) REFERENCES class_roles(role_name),
     FOREIGN KEY (email) REFERENCES users(email)
 );
@@ -70,7 +75,9 @@ CREATE TABLE comments(
     comment_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     email VARCHAR(320) NOT NULL,
     class_code VARCHAR(255) NOT NULL,
-    comment TEXT
+    comment TEXT,
+    lecturer_email VARCHAR(320),
+    FOREIGN KEY (lecturer_email) REFERENCES users(email)
 );
 
 CREATE TABLE lecturer_classes(
