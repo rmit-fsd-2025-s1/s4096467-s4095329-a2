@@ -59,6 +59,8 @@ export class UserController {
       const user1Exist = await userRepo.findOneBy({ email: "test1@gmail.com" });
       const user2Exist = await userRepo.findOneBy({ email: "test2@gmail.com" });
       const user3Exist = await userRepo.findOneBy({ email: "test3@gmail.com" });
+      const user4Exist = await userRepo.findOneBy({ email: "connor@gmail.com" });
+      const user5Exist = await userRepo.findOneBy({ email: "will@gmail.com" });
 
       if(!user1Exist)
         {
@@ -116,6 +118,32 @@ export class UserController {
               languages: [{language: "English"}, {language: "C++"}, {language: "Chinese"}],
               previous_roles: [{prev_role: "Intern at Microsoft"}],
               skills: [{skill: "God at Leetcode"}],
+            }
+          ]);
+        }
+
+      if(!user4Exist)
+        {
+          await userRepo
+          .save([
+            {
+              email: "connor@gmail.com",
+              full_name: "Connor",
+              password: "$2b$10$8C6C.0Ph4SljkgQchNCxuu/BaMwziIA3Uz66S/5rciwtUJflURPlK",
+              role: "lecturer",
+            }
+          ]);
+        }
+      
+      if(!user5Exist)
+        {
+          await userRepo
+          .save([
+            {
+              email: "will@gmail.com",
+              full_name: "Will",
+              password: "$2b$10$IVaJqtZuG1oo6xj2lHi/4.20ZWCbYWPgtqA7r0.aBKrxvF699.skq",
+              role: "lecturer",
             }
           ]);
         }

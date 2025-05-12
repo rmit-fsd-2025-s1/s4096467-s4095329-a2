@@ -22,10 +22,10 @@ export class Users {
     @Column({type: "varchar", length: 9})
     role: string
 
-    @Column({type: "varchar", length: 9})
+    @Column({type: "varchar", length: 9, default: "None"})
     availability: string
     
-    @Column({type: "text"})
+    @Column({type: "text", nullable: true})
     summary: string
 
     @Column({type: "boolean", default: true})

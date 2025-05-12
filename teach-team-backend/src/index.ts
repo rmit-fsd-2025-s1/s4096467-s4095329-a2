@@ -23,8 +23,9 @@ AppDataSource.initialize()
     {
       const userController = new UserController();
       const classesController = new ClassesController();
-      userController.fillUsers();
-      classesController.fillClasses();
+      userController.fillUsers().then(()=>{
+        classesController.fillClasses();
+      });
     }
     catch(e)
     {
