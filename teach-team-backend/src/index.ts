@@ -3,6 +3,8 @@ import express from "express";
 import { AppDataSource } from "./data-source";
 import userRoutes from "./routes/user.routes";
 import cors from "cors";
+import { UserController } from "./controller/UserController";
+import { ClassesController } from "./controller/ClassesController";
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -16,6 +18,18 @@ AppDataSource.initialize()
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
+
+    try
+    {
+      const userController = new UserController();
+      const classesController = new ClassesController();
+      userController.fillUsers();
+      classesController.fillClasses();
+    }
+    catch(e)
+    {
+      console.log("Failed to populate database: " + e);
+    }
   })
   .catch((error) =>
     console.log("Error during Data Source initialization:", error)
