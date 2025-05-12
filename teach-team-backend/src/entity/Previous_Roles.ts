@@ -4,10 +4,10 @@ import { Users } from "./Users"
 @Entity()
 export class Previous_Roles {
 
-    @PrimaryGeneratedColumn()
-    role_key: string
+    @PrimaryGeneratedColumn("increment")
+    role_key: number
 
-    @Column()
+    @Column({type: "text"})
     prev_role: string
 
     @ManyToOne(() => Users, (user) => user.email)

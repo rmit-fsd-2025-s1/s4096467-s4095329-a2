@@ -4,13 +4,13 @@ import { Users } from "./Users"
 @Entity()
 export class Certifications {
 
-    @PrimaryGeneratedColumn()
-    certification_key: string
+    @PrimaryGeneratedColumn("increment")
+    certification_key: number
 
-    @Column()
+    @Column({type: "text"})
     certification: string
 
-    @ManyToOne(() => Users, (user) => user.email)
+    @ManyToOne(() => Users, (user) => user.certifications)
     @JoinColumn({name: "user_key"})
     user_key: string
 }

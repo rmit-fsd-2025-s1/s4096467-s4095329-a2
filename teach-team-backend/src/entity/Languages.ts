@@ -4,10 +4,10 @@ import { Users } from "./Users"
 @Entity()
 export class Languages {
 
-    @PrimaryGeneratedColumn()
-    language_key: string
+    @PrimaryGeneratedColumn("increment")
+    language_key: number
 
-    @Column()
+    @Column({type: "text"})
     language: string
 
     @ManyToOne(() => Users, (user) => user.email)
