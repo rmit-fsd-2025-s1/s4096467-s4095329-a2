@@ -56,23 +56,38 @@ function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectPro
 function CreateCourses({email, subject}: ApplyProps) {
 
     // Gets the status of application for the supplied subject
-    let isApplied: string = "";
+    let isAppliedTut: string = "";
 
     if(subject.tutorApplied === 1)
         {
-            isApplied = "";
+            isAppliedTut = "";
         }
     else if(subject.tutorApplied === 2)
         {
-            isApplied = "Accepted"
+            isAppliedTut = "Accepted"
         }
     else
         {
-            isApplied = "Not Applied"
+            isAppliedTut = "Not Applied"
+        }
+
+    let isAppliedLab: string = "";
+
+    if(subject.labApplied === 1)
+        {
+            isAppliedLab = "";
+        }
+    else if(subject.labApplied === 2)
+        {
+            isAppliedLab = "Accepted"
+        }
+    else
+        {
+            isAppliedLab = "Not Applied"
         }
 
     // Applies to the subject and saves to localStorage
-    const clickApply = () => {
+    const clickApply = (role: string) => {
         //Load LocalDB spread to stop Next/react from freaking out
         const tempDB = { ...localDB };
 
@@ -89,17 +104,25 @@ function CreateCourses({email, subject}: ApplyProps) {
         <div className="courses-format">
             <div>
             {/* <p>{number}</p> */}
-                <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
+                <Card.Root _hover={{bg: "gray.50", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
                     <Card.Header>{subject.class_code}</Card.Header>
                     <Card.Body>{subject.subject_name}<br/></Card.Body>
                     <Card.Footer justifyContent="flex-end">
                         <div className="button-apply">
-                            {isApplied==="Not Applied" ? //If not applied
-                                <Button variant='subtle' onClick={() => clickApply()}>Apply</Button>
-                             : isApplied==="Accepted" ? //If accepted
+                            {isAppliedTut==="Not Applied" ? //If not applied
+                                <Button variant='surface' onClick={() => clickApply("tutor")}>Apply Tutor</Button>
+                             : isAppliedTut==="Accepted" ? //If accepted
                                 <h2>Application Accepted!</h2>
                              : //If application submitted
                                 <h2>Application Sent!</h2>}
+                        </div>
+                        <div className="button-apply">
+                            {isAppliedLab==="Not Applied" ? //If not applied
+                                <Button variant='surface' onClick={() => clickApply("lab-assistant")}>Apply Lab Assistant</Button>
+                             : isAppliedLab==="Accepted" ? //If accepted
+                                <h2>Lab Assistant Accepted!</h2>
+                             : //If application submitted
+                                <h2>Lab Assistant Sent!</h2>}
                         </div>
                     </Card.Footer>
                 </Card.Root>
