@@ -1,3 +1,4 @@
+import { tutorClassObj } from "@/components/Home/Home";
 import { system } from "@chakra-ui/react/preset";
 import axios from "axios";
 
@@ -27,6 +28,12 @@ export const userApi = {
     getCandidateCountLecturer: async (email: string) => {
         const response = await api.get(`/classes/${email}/candidates/count/`);
         return response.data;
+    },
+
+    getApplications: async (email: string) => {
+        const response = await api.get(`/users/appliedClasses/${email}`);
+        const responseData: tutorClassObj[] = response.data;
+        return responseData;
     },
 
   getAllUsers: async () => {
