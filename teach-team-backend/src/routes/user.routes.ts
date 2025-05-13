@@ -30,6 +30,11 @@ router.get("/users/type/:email", async (req, res) => {
   await userController.userType(req, res);
 });
 
+// to call this, run /api/users/appliedClasses/tutorEmailHere
+router.get("/users/appliedClasses/:email", async (req, res) => {
+  await userController.applicationCheck(req, res);
+});
+
 // to call this, run /api/users/type/yourEmailHere
 router.get("/classes", async (req, res) => {
   await classesController.all(req, res);
@@ -39,4 +44,5 @@ router.get("/classes", async (req, res) => {
 router.get("/classes/:lecturer/candidates/count/", async (req, res) => {
   await classesController.countForLecturerClass(req, res);
 });
+
 export default router;

@@ -4,6 +4,7 @@ import { Users } from "../entity/Users";
 
 export class UserController {
 
+
   /**
    * Retrieves all users from the database
    * @param request - Express request object
@@ -16,6 +17,47 @@ export class UserController {
       const users: Users[] = await AppDataSource.manager.find(Users);
   
       return response.json(users);
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json([]);
+    }
+  }
+
+  async applicationCheck(request: Request, response: Response) {
+    try
+    {
+      const inEmail: string = request.params.email;
+      //This query is genuinely the new worst code I have written
+      const applications = await AppDataSource.manager.query(
+       `SELECT classes.class_code, classes.subject_name , COALESCE(derived_table1.labApplied, 0) as labApplied, COALESCE(derived_table2.tutorApplied, 0) as tutorApplied 
+          FROM classes
+          LEFT JOIN (
+              SELECT t2.class_code AS c2, (t2.accepted IS NOT NULL) as labApplied
+              FROM tutors AS t2
+              WHERE t2.email = ?
+                AND t2.role_name = 'lab_assistant'
+          ) AS derived_table1
+          ON classes.class_code = derived_table1.c2
+          LEFT JOIN(
+            SELECT t3.class_code as c3, (t3.accepted IS NOT NULL) as tutorApplied 
+            FROM tutors as t3
+            WHERE t3.email = ?
+              AND t3.role_name = 'tutor'
+          ) AS derived_table2
+          ON classes.class_code = derived_table2.c3;`
+      ,[inEmail, inEmail]);
+  
+      // The query is too complex for querybuilder at this time
+      // It needs to cast the booleans to type boolean instead of string
+      return response.json(
+        applications.map(app => ({
+          ...app,
+          labApplied: app.labApplied === "1",
+          tutorApplied: app.tutorApplied === "1"
+        }))
+      );
     }
     catch(e)
     {
