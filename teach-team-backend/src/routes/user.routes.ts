@@ -34,4 +34,9 @@ router.get("/users/type/:email", async (req, res) => {
 router.get("/classes", async (req, res) => {
   await classesController.all(req, res);
 });
+
+// to call this, run /api/classes/lecturerEmailHere/candidates/count
+router.get("/classes/:lecturer/candidates/count/", async (req, res) => {
+  await classesController.countForLecturerClass(req, res);
+});
 export default router;

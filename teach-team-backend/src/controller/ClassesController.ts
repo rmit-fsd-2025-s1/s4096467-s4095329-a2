@@ -25,6 +25,31 @@ export class ClassesController {
     }
   }
 
+  async countForLecturerClass(request: Request, response: Response) {
+    try
+    {
+      const inLecturer: string = request.params.lecturer;
+      
+      const classes: number = await 
+      AppDataSource
+      .getRepository(Classes)
+      .createQueryBuilder("classes")
+      .leftJoin("classes.lecturers", "lecturer")
+      .leftJoin("classes.tutors", "tutors")
+      .where("lecturer.email = :email", {email: inLecturer})
+      .andWhere("tutors.email IS NOT NULL")
+      .andWhere("tutors.accepted = 0")
+      .getCount();
+  
+      return response.json(classes);
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json([]);
+    }
+  }
+
   // Fills sample classes if they are missing
     async fillClasses()
     {
