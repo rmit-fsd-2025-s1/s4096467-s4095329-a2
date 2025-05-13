@@ -1,3 +1,4 @@
+import { system } from "@chakra-ui/react/preset";
 import axios from "axios";
 
 export const api = axios.create({
@@ -20,6 +21,11 @@ export const userApi = {
 
     getType: async (email: string) => {
         const response = await api.get(`/users/type/${email}`);
+        return response.data;
+    },
+
+    getCandidateCountLecturer: async (email: string) => {
+        const response = await api.get(`/classes/${email}/candidates/count/`);
         return response.data;
     },
 

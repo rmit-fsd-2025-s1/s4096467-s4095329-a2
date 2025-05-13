@@ -2,6 +2,7 @@ import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
 import { isPasswordValid, userCred, getUserType, getUserData } from "../../helpers/validate";
+import { userApi } from "../../services/api";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import { useEffect, useState, useMemo} from "react";
@@ -63,7 +64,23 @@ export default function EducatorDashboard()
     const name = data?.name??"";
     //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
     const[localDB,] = useIfLocalStorage("localDB", loadDB());
-    const candidates = getLocalCandidates(user.email, localDB.subjects);
+    const [candidates, setCandidates] = useState<number>(0);
+    useEffect(() => {
+        const getCountVal = async () => {
+            if(user.email)
+            {
+                const type = await userApi.getCandidateCountLecturer(user.email);
+                setCandidates(type);
+            }
+            else
+            {
+                // This prevents 404 errors
+                setCandidates(0);
+            }
+        };
+        getCountVal();
+    }, [user]);
+    getLocalCandidates(user.email, localDB.subjects);
 
     //Button manager for lecturer
     const[currentButton, setCurrentButton] = useState<string>("Name");

@@ -41,12 +41,12 @@ export class ClassesController {
       .andWhere("tutors.accepted = 0")
       .getCount();
   
-      return response.json(classes);
+      return response.status(200).json(classes);
     }
     catch(e)
     {
       console.log(e);
-      return response.status(400).json([]);
+      return response.status(400).json(0);
     }
   }
 
