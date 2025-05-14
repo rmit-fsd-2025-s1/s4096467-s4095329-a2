@@ -15,25 +15,30 @@ export interface User {
 }
 
 export const userApi = {
-    checkLogin: async (email: string, password: string) => {
-        const response = await api.get(`/users/login/${email}/${password}`);
-        return response.data;
-    },
+  checkLogin: async (email: string, password: string) => {
+      const response = await api.get(`/users/login/${email}/${password}`);
+      return response.data;
+  },
 
-    getType: async (email: string) => {
-        const response = await api.get(`/users/type/${email}`);
-        return response.data;
-    },
+  getType: async (email: string) => {
+      const response = await api.get(`/users/type/${email}`);
+      return response.data;
+  },
 
-    getCandidateCountLecturer: async (email: string) => {
-        const response = await api.get(`/classes/${email}/candidates/count/`);
-        return response.data;
-    },
+  getCandidateCountLecturer: async (email: string) => {
+      const response = await api.get(`/classes/${email}/candidates/count/`);
+      return response.data;
+  },
 
-    getApplications: async (email: string) => {
-        const response = await api.get(`/users/appliedClasses/${email}`);
-        const responseData: tutorClassObj[] = response.data;
-        return responseData;
+  getApplications: async (email: string) => {
+      const response = await api.get(`/users/appliedClasses/${email}`);
+      const responseData: tutorClassObj[] = response.data;
+      return responseData;
+  },
+
+  applyToCourse: async (emailIn: string, subjectIn: string, roleIn: string) => {
+        const response = await api.post(`/users/applyToClass`, {email: emailIn, subject: subjectIn, role: roleIn});
+        return response;
     },
 
   getAllUsers: async () => {

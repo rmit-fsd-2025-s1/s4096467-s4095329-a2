@@ -35,6 +35,10 @@ router.get("/users/appliedClasses/:email", async (req, res) => {
   await userController.applicationCheck(req, res);
 });
 
+router.post("/users/applyToClass", async (req, res) => {
+  await classesController.addApplicant(req, res);
+});
+
 // to call this, run /api/users/type/yourEmailHere
 router.get("/classes", async (req, res) => {
   await classesController.all(req, res);

@@ -11,13 +11,13 @@ export class Tutors {
     @PrimaryColumn("uuid")
     class_code: string;
 
-    @Column({type: "varchar", length: 255})
+    @PrimaryColumn({type: "varchar", length: 255})
     role_name: string
 
-    @Column({type: "bit"})
+    @Column({type: "bit", default: false})
     accepted: boolean
 
-    @Column({type: "bit"})
+    @Column({type: "bit", default: true})
     active_tutor: boolean
 
     @OneToMany(() => Comments, (comment) => comment.tutor, {eager: true})

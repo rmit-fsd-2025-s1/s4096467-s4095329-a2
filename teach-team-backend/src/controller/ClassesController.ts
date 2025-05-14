@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Classes } from "../entity/Classes";
 import { Users } from "../entity/Users";
+import { Tutors } from "../entity/Tutors";
 
 export class ClassesController {
 
@@ -22,6 +23,47 @@ export class ClassesController {
     {
       console.log(e);
       return response.status(400).json([]);
+    }
+  }
+
+  async addApplicant(request: Request, response: Response) {
+    try
+    {
+      const inEmail: string = request.body.email;
+      const inSubject: string = request.body.subject;
+      const inRole: string = request.body.role;
+
+      const dbUser = await AppDataSource.getRepository(Users).findOneBy({email: inEmail});
+      const dbTutor = await AppDataSource.getRepository(Tutors).findOneBy({email: inEmail, class_code: inSubject, role_name: inRole});
+      const dbSubject = await AppDataSource.getRepository(Classes).findOneBy({class_code: inSubject});
+      let validRole: boolean = false;
+
+      if((inRole === "tutor")||(inRole === "lab_assistant"))
+        {
+          validRole = true;
+        }
+
+      if (dbUser && !dbTutor && dbSubject)
+      {
+        AppDataSource.getRepository(Tutors).save([
+          {
+            email: inEmail,
+            class_code: inSubject,
+            role_name: inRole
+          }
+
+        ]);
+        return response.status(201).json(true);
+      }
+      else
+      {
+        return response.status(409).json(false)
+      }
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json(false);
     }
   }
 
