@@ -195,4 +195,43 @@ export class UserController {
       console.log(e);
     }
   }
+
+  async registerUser(request: Request, response: Response) {
+    //Contains data sent in HTTP request from the api call. //just self notes cuz im learning how this shit works
+    const email = request.body.email;
+    const password = request.body.password;
+    const role = request.body.role;
+
+    try {
+      //Get data source
+      const userRepository = AppDataSource.getRepository(Users);
+
+      //Check if user exists
+      const existingUser = await userRepository.findOneBy({email});
+
+      if (existingUser) {
+        //idk if you are supposed handle it like this.
+        console.log("This works")
+        return response.status(400).json({ message: "User already exists" });
+      }
+
+      //Create instance of object. email = request.body.email etc from the lines above.
+      const newUser = userRepository.create({
+        email,
+        password, //TODO Some hashing goes here? Using bcrypyt?? idk
+        role, 
+      });
+      
+      console.log("before save")
+      //Create new user to database
+      await userRepository.save(newUser);
+      console.log("after save")
+      response.status(201).json({ message: "User registered", user: newUser });
+
+    } 
+    catch (error) {
+      console.log("Error during save")
+      response.status(500).json({ message: "Error" });
+    }
+  };
 }

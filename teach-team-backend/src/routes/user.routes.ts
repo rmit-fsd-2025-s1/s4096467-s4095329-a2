@@ -49,4 +49,11 @@ router.get("/classes/:lecturer/candidates/count/", async (req, res) => {
   await classesController.countForLecturerClass(req, res);
 });
 
+//post new reg info 
+router.post("/users", async (req, res) => {
+  console.log("are you running")
+  await userController.registerUser(req, res);
+});
+
 export default router;
+

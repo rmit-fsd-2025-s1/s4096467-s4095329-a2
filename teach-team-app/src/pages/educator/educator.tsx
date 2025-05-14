@@ -94,8 +94,10 @@ export default function EducatorDashboard()
         else setSortingMethod("none Accepted");
     };
 
+    //TODO Do we ask the user to fill in a form for their full name and other credentials? Like display a different page??
     return(
         <>
+
             <title>Lecturer Home</title>
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
 

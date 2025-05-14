@@ -13,7 +13,8 @@ export class Users {
     @Column({ primary: true, type: "uuid" })
     email: string
 
-    @Column({type: "varchar", length: 1000})
+    //May change nullable to mandatory idk
+    @Column({type: "varchar", length: 1000, nullable: true})
     full_name: string
 
     @Column({type: "char", length: 60})

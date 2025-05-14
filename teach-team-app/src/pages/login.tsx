@@ -9,15 +9,6 @@ export default function LoginScreen()
 {   
     //if false means invalid
     const [loginState, setLoginState] = useState(true);
-    //A password is strong enough ie 1+ Uppercase, 1+ Special char, 12+ chars
-    //True if strong, false if weak
-    const [strength, setStrength] = useState(true);
-    const [passCheck, setPassCheck] = useState({
-        length: 0,
-        hasUpper: false,
-        hasSymbol: false,
-        hasLetter: false,
-    });
 
     //Create form data using state hook
     const [formData, setFormData] = useState({
@@ -38,19 +29,6 @@ export default function LoginScreen()
         const password = formData.password;
         const userVal: userCred = {email, password};
         console.log(isPasswordValid(userVal));
-        
-        //Source https://onecompiler.com/questions/3xnp9df38/-javascript-how-to-check-for-special-characters-present-in-a-string
-        const specialChars = /[\\|,.<>\/?~ `!@#$%^&*(){}_\-+=:;"'\[\]]/;
-        const letters = /[a-zA-Z]/;
-        //Returns true if containing letters etc.
-        const hasLetter = letters.test(password);
-        const hasUpper = /[A-Z]/.test(password);
-        const hasSymbol = specialChars.test(password);
-        const length = password.length;
-        setPassCheck({ length, hasUpper, hasSymbol, hasLetter });
-
-        const isStrong = length >= 12 && hasSymbol && hasUpper && hasLetter;
-        setStrength(isStrong);
 
         //Redirect
         if(await isPasswordValid(userVal))
@@ -98,19 +76,6 @@ export default function LoginScreen()
                   <Alert.Indicator />
                   <Alert.Content>
                     <Alert.Title>Invalid Username or Password. Please try again.</Alert.Title>
-                    <Alert.Description />
-                  </Alert.Content>
-                </Alert.Root>
-                ) : "" }
-                
-                {!strength ? ( //In the actual register implementation prevent the user from registering
-                  <Alert.Root status="warning">
-                  <Alert.Indicator />
-                  <Alert.Content>
-                        {passCheck.length < 12 && (<Alert.Title>Password must contain at least 12 Characters</Alert.Title>)}
-                        {!passCheck.hasLetter && (<Alert.Title>Password must contain at least 1 Letter</Alert.Title>)}
-                        {!passCheck.hasUpper && (<Alert.Title>Password must contain at least 1 Uppercase</Alert.Title>)}
-                        {!passCheck.hasSymbol && (<Alert.Title>Password must contain at least 1 Special Character</Alert.Title>)}
                     <Alert.Description />
                   </Alert.Content>
                 </Alert.Root>
