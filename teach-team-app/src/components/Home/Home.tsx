@@ -168,25 +168,25 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
         router.refresh();
     };
     
-        useEffect(() => {
-            if(accountType === "candidate")
-                {
-                    const getCountVal = async () => {
-                    if(educatorEmail)
-                        {
-                            const applications = await userApi.getApplications(educatorEmail||"");
-                            setTutorClasses(applications);
-                        }
-                        else
-                        {
-                            // This prevents 404 errors
-                            setTutorClasses([]);
-                        }
-                    };
-                    getCountVal().then(() => {
-                    });
-                }
-        }, [educatorEmail]);
+    useEffect(() => {
+        if(accountType === "candidate")
+            {
+                const getCountVal = async () => {
+                if(educatorEmail)
+                    {
+                        const applications = await userApi.getApplications(educatorEmail||"");
+                        setTutorClasses(applications);
+                    }
+                    else
+                    {
+                        // This prevents 404 errors
+                        setTutorClasses([]);
+                    }
+                };
+                getCountVal().then(() => {
+                });
+            }
+    }, [educatorEmail]);
     
 
     //Create hooks to update the tables
