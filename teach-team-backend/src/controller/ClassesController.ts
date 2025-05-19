@@ -92,6 +92,39 @@ export class ClassesController {
     }
   }
 
+  async getLecturerCourseDetails(request: Request, response: Response) {
+    try
+    {
+      const inLecturer: string = request.params.lecturer;
+      
+      const applications = await AppDataSource.manager.query(
+       `SELECT c.class_code, c.subject_name, COUNT(t.role_name) as candidate_count FROM classes c 
+        LEFT JOIN tutors t 
+        ON c.class_code = t.class_code
+        LEFT JOIN lecturer_classes lc 
+        ON c.class_code = lc.class_code
+        WHERE t.accepted = 0
+        AND lc.email = ?
+        GROUP BY c.class_code;`
+      ,[inLecturer, inLecturer]);
+  
+      // https://github.com/typeorm/typeorm/issues/544
+      // This says doing it in query builder isnt that good, instead use raw SQL 
+      // It needs to cast the booleans to type boolean instead of string
+      return response.status(200).json(
+        applications.map(app => ({
+            ...app,
+            candidate_count: Number(app.candidate_count)
+          }))
+      );
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json(0);
+    }
+  }
+
   // Fills sample classes if they are missing
     async fillClasses()
     {
