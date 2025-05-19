@@ -16,12 +16,12 @@ interface EducatorProps
     educatorEmail?: string;
 }
 
-interface SubjectProps
+export interface SubjectProps
 {   
     number: number;
-    subjectCode: string,
-    subjectName: string,
-    subjectApplicants?: number;
+    class_code: string,
+    subject_name: string,
+    candidate_count?: number;
 }
 
 export interface tutorClassObj
@@ -40,15 +40,15 @@ interface ApplyProps
 }
 
 //Creates a subject block for the Lecturer
-function CreateSubject({subjectCode, subjectName, subjectApplicants}: SubjectProps)
+function CreateSubject({class_code, subject_name, candidate_count}: SubjectProps)
 {
     return(
         <Link href={{pathname: "./subjectManager",
-                     query: {data: subjectCode}
+                     query: {data: class_code}
         }}>
             <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
-                <Card.Header>{subjectCode}</Card.Header>
-                <Card.Body color="grey">{subjectName}<br/>New Applicants: {subjectApplicants}</Card.Body>
+                <Card.Header>{class_code}</Card.Header>
+                <Card.Body color="grey">{subject_name}<br/>New Applicants: {candidate_count}</Card.Body>
             </Card.Root>
         </Link>
     );
@@ -162,12 +162,14 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
     let classes: subject[] = [];
     let courses: subject[] = [];
     const [tutorClasses, setTutorClasses] = useState<tutorClassObj[]>([]);
+    const [lecturerClasses, setLecturerClasses] = useState<SubjectProps[]>([]);
 
     // I didn't want to do this, but I couldn't find a solution I can make work
     const reloadPage = ()=>{
         router.refresh();
     };
     
+    //Set tutorClasses if user is candidate
     useEffect(() => {
         if(accountType === "candidate")
             {
@@ -188,7 +190,26 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
             }
     }, [educatorEmail]);
     
-
+    //Set lecturerClasses if user is lecturer
+    useEffect(() => {
+        if(accountType === "lecturer")
+            {
+                const getCountVal = async () => {
+                if(educatorEmail)
+                    {
+                        const courses = await userApi.getCourseCardInfo(educatorEmail||"");
+                        setLecturerClasses(courses);
+                    }
+                    else
+                    {
+                        // This prevents 404 errors
+                        setLecturerClasses([]);
+                    }
+                };
+                getCountVal().then(() => {
+                });
+            }
+    }, [educatorEmail]);
     //Create hooks to update the tables
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
     classes = formatLocalStorageClasses(educatorEmail??"", localDB.subjects)
@@ -207,8 +228,8 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                     {accountType === "lecturer" && (
                         <>
                             <div className="lecture-grid">
-                                {classes.map((classVar, index) => ( 
-                                    <CreateSubject key={index} number={index + 1} subjectCode={classVar.code} subjectName={classVar.subjectName} subjectApplicants={classVar.candidates.length}/>
+                                {lecturerClasses.map((classVar, index) => ( 
+                                    <CreateSubject key={index} number={index + 1} class_code={classVar.class_code} subject_name={classVar.subject_name} candidate_count={classVar.candidate_count}/>
                                 ))}
                             </div>
                         </>
