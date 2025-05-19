@@ -58,12 +58,12 @@ export function getUserType(email: string)
         {
             try
             {
-                const result: boolean = await userApi.getType(email);
+                const result: string = await userApi.getType(email);
                 return result;
             }
             catch(e)
             {
-                return false;
+                return "";
             }
         }
     return getUserType();
