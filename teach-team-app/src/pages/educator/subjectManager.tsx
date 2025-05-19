@@ -65,6 +65,7 @@ export default function SubjectManager()
     }, [user]);
     let content;
 
+    //Checks to see if the lecturer is assigned to the class
     const [isLecturer, setIsLecturer] = useState<boolean>(false);
     useEffect(() => {
         const getLecturer = async () => {
