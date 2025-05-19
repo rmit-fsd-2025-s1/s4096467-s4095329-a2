@@ -39,7 +39,7 @@ router.post("/users/applyToClass", async (req, res) => {
   await classesController.addApplicant(req, res);
 });
 
-// to call this, run /api/users/type/yourEmailHere
+// to call this, run /api/classes
 router.get("/classes", async (req, res) => {
   await classesController.all(req, res);
 });
