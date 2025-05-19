@@ -71,16 +71,19 @@ export function getUserType(email: string)
 
 export function isLecturerForClass(email: string, classCode: string)
 {
-    const db: Map<string, userState> = generateUsers();
-
-    if(db.has(email))
+    const checkUser = async () =>
         {
-            if(db.get(email)?.classes?.includes(classCode))
+            try
             {
-                return true;
+                const result: boolean = await userApi.isLecturingClass(email,classCode);
+                return result;
+            }
+            catch(e)
+            {
+                return false;
             }
         }
-        return false;
+    return checkUser();
 }
 
 export function getLectureClasses(email: string)

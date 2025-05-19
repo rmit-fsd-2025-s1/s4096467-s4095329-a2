@@ -65,6 +65,16 @@ export default function SubjectManager()
     }, [user]);
     let content;
 
+    const [isLecturer, setIsLecturer] = useState<boolean>(false);
+    useEffect(() => {
+        const getLecturer = async () => {
+            const type = await isLecturerForClass(user.email, subject||"");
+            setIsLecturer(type);
+        };
+        getLecturer();
+    }, [user]);
+
+
     //Create hooks to update the tables
     const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
     
@@ -114,7 +124,7 @@ export default function SubjectManager()
     }
 
     //Generate content based on logged in status
-    if(passwordValid && (loginType === "lecturer") && isLecturerForClass(localEmail, subject??""))
+    if(passwordValid && (loginType === "lecturer") && isLecturer)
         {
             content = <>
                 <div className="pick-tutor-container">

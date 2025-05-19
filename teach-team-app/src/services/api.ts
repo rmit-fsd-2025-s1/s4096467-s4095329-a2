@@ -1,4 +1,5 @@
 import { SubjectProps, tutorClassObj } from "@/components/Home/Home";
+import { isLecturerForClass } from "@/helpers/validate";
 import axios from "axios";
 
 export const api = axios.create({
@@ -40,6 +41,13 @@ export const userApi = {
       const responseData: SubjectProps[] = response.data;
       return responseData;
   },
+
+  isLecturingClass: async (email: string, classCode: string) => {
+      const response = await api.get(`/classes/${classCode}/hasLecturer/${email}`);
+      const responseData: boolean = response.data;
+      return responseData;
+  },
+
   applyToCourse: async (emailIn: string, subjectIn: string, roleIn: string) => {
         const response = await api.post(`/users/applyToClass`, {email: emailIn, subject: subjectIn, role: roleIn});
         return response;
