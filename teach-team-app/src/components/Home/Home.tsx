@@ -163,6 +163,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
     let courses: subject[] = [];
     const [tutorClasses, setTutorClasses] = useState<tutorClassObj[]>([]);
 
+    // I didn't want to do this, but I couldn't find a solution I can make work
     const reloadPage = ()=>{
         router.refresh();
     };
