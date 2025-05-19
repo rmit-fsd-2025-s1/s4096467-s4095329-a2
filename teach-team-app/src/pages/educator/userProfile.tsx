@@ -43,6 +43,7 @@ export default function UserProfile()
         password: localPassword
     }), [localEmail, localPassword]);
     const data = useMemo(() => getUserData(user.email), [user.email]);
+
     // Variable hook that checks to see if the user is logged in properly
     const [passwordValid, setPasswordValid] = useState<boolean>(false);
     useEffect(() => {
@@ -52,7 +53,23 @@ export default function UserProfile()
         };
         validatePassword();
     }, [user]);
-    const loginType = useMemo(() => getUserType(user.email), [user.email]);
+
+    //Get login type from database
+    const [loginType, setLoginType] = useState<string>("");
+    useEffect(() => {
+        const getTypeVal = async () => {
+            const type = await getUserType(user.email);
+            if(typeof type === "boolean")
+            {
+                setLoginType("");
+            }
+            else
+            {
+                setLoginType(type);
+            }
+        };
+        getTypeVal();
+    }, [user]);
     const name = data?.name??"";
 
     // Maybe For later usuage in further assignments
