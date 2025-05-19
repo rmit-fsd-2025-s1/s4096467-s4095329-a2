@@ -125,6 +125,38 @@ export class ClassesController {
     }
   }
 
+  async isTutorInClass(request: Request, response: Response) {
+    try
+    {
+      const inLecturer: string = request.params.lecturer;
+      const inClassCode: string = request.params.classCode;
+      
+      const numberInClass: number = await 
+      AppDataSource
+      .getRepository(Classes)
+      .createQueryBuilder("classes")
+      .leftJoin("classes.lecturers", "lecturers")
+      .where("classes.class_code = :code", {code: inClassCode})
+      .andWhere("lecturers.email = :email", {email: inLecturer})
+      .getCount();
+  
+
+      if(numberInClass >= 1)
+      {
+        return response.status(200).json(true);
+      }
+      else
+      {
+        return response.status(200).json(false);
+      }
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json(false);
+    }
+  }
+
   // Fills sample classes if they are missing
     async fillClasses()
     {
