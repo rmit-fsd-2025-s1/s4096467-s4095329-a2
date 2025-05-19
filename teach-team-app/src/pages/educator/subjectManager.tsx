@@ -46,8 +46,23 @@ export default function SubjectManager()
         };
         validatePassword();
     }, [user]);
-    
-    const loginType = useMemo(() => getUserType(user.email), [user.email]);
+   
+    //Get login type from database
+    const [loginType, setLoginType] = useState<string>("");
+    useEffect(() => {
+        const getTypeVal = async () => {
+            const type = await getUserType(user.email);
+            if(typeof type === "boolean")
+            {
+                setLoginType("");
+            }
+            else
+            {
+                setLoginType(type);
+            }
+        };
+        getTypeVal();
+    }, [user]);
     let content;
 
     //Create hooks to update the tables
@@ -99,7 +114,7 @@ export default function SubjectManager()
     }
 
     //Generate content based on logged in status
-    if(passwordValid && (getUserType(localEmail) === "lecturer") && isLecturerForClass(localEmail, subject??""))
+    if(passwordValid && (loginType === "lecturer") && isLecturerForClass(localEmail, subject??""))
         {
             content = <>
                 <div className="pick-tutor-container">
