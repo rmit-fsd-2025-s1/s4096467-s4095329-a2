@@ -1,6 +1,6 @@
 //A function that generates a box that tells you to log in
 import styles from "./InvalidLogin.module.css"
-import {Button, Text} from "@chakra-ui/react";
+import {Button} from "@chakra-ui/react";
 import {useRouter} from "next/navigation";
 
 export function InvalidLogin()
