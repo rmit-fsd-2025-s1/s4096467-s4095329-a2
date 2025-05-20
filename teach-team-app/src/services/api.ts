@@ -1,18 +1,10 @@
 import { SubjectProps, tutorClassObj } from "@/components/Home/Home";
-import { isLecturerForClass } from "@/helpers/validate";
+import { classTable } from "@/helpers/validate";
 import axios from "axios";
 
 export const api = axios.create({
   baseURL: "http://localhost:3001/api", // Adjust this to match your backend URL
 });
-
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  age: number;
-}
 
 export const userApi = {
   checkLogin: async (email: string, password: string) => {
@@ -42,6 +34,13 @@ export const userApi = {
       return responseData;
   },
 
+  getCandidatesFor: async (classCode: string) => {
+      const response = await api.get(`/classes/tutors/${classCode}`);
+      const responseData: classTable = response.data;
+      return responseData;
+  },
+
+
   isLecturingClass: async (email: string, classCode: string) => {
       const response = await api.get(`/classes/${classCode}/hasLecturer/${email}`);
       const responseData: boolean = response.data;
@@ -60,21 +59,6 @@ export const userApi = {
 
   getUserById: async (id: number) => {
     const response = await api.get(`/users/${id}`);
-    return response.data;
-  },
-
-  createUser: async (user: Partial<User>) => {
-    const response = await api.post("/users", user);
-    return response.data;
-  },
-
-  updateUser: async (id: number, user: Partial<User>) => {
-    const response = await api.put(`/users/${id}`, user);
-    return response.data;
-  },
-
-  deleteUser: async (id: number) => {
-    const response = await api.delete(`/users/${id}`);
     return response.data;
   },
 };
