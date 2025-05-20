@@ -17,6 +17,30 @@ export interface userState
     languages?: string[],
 }
 
+export interface User
+{
+    email: string,
+    full_name: string,
+    password: string,
+    role: string,
+    availability: string,
+    summary: string,
+    active: boolean,
+    certifications: string[],
+    educations: string[],
+    languages: string[],
+    previous_roles: string[],
+    skills: string[]
+}
+
+export interface classTable
+{
+    tutorApplicants: User[],
+    tutorAccepted: User[],
+    labApplicants: User[],
+    labAccepted: User[],
+}
+
 export interface userCred
 {
     email: string,
