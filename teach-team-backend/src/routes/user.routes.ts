@@ -49,6 +49,11 @@ router.get("/classes/tutors/:classCode", async (req, res) => {
   await classesController.getTutorsInClass(req, res);
 });
 
+// Updates the accepted and candidates for a specified class
+router.post("/classes/tutors/update", async (req, res) => {
+  await classesController.updateClass(req, res);
+});
+
 // to call this, run /api/classes/classCodeHere/hasLecturer/lecturerEmailHere
 router.get("/classes/:classCode/hasLecturer/:lecturer/", async (req, res) => {
   await classesController.isTutorInClass(req, res);
