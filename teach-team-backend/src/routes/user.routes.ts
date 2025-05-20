@@ -44,6 +44,11 @@ router.get("/classes", async (req, res) => {
   await classesController.all(req, res);
 });
 
+// to call this, run /api/classes/tutors/:classCode
+router.get("/classes/tutors/:classCode", async (req, res) => {
+  await classesController.getTutorsInClass(req, res);
+});
+
 // to call this, run /api/classes/classCodeHere/hasLecturer/lecturerEmailHere
 router.get("/classes/:classCode/hasLecturer/:lecturer/", async (req, res) => {
   await classesController.isTutorInClass(req, res);
