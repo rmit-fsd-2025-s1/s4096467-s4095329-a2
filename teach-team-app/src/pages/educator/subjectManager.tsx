@@ -1,17 +1,15 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
-import { isPasswordValid, userCred, getUserType, isLecturerForClass, userState, } from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType, isLecturerForClass, User, classTable, } from "../../helpers/validate";
 import { useRouter } from 'next/router';
 import { Button } from "@chakra-ui/react";
+import { userApi } from "../../services/api";
 
 import { useEffect, useState , useMemo} from "react";
 import { TutorSubjectTable } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { loadDB, localDBInt } from "@/helpers/loadStorage";
-import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { TutorSubjectTableSort} from "@/components/SortingTable/SortingTableOrder";
-import { getAcceptedFrom, getCandidatesFrom } from "@/helpers/localStorageGet";
 
 export default function SubjectManager()
 {
@@ -73,41 +71,59 @@ export default function SubjectManager()
             setIsLecturer(type);
         };
         getLecturer();
-    }, [user]);
+    }, [subject, user]);
 
-
-    //Create hooks to update the tables
-    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
-    
-    //Create tutors array
-    const tutors: userState[] = getCandidatesFrom(subject??"", localDB);
-
-    //Create tutors array
-    const acceptedUser: userState[] = getAcceptedFrom(subject??"", localDB);
 
     //Setup hooks for each table list
-    const[candidateList, setCandidateList] = useLocalStorage<userState[]>("tempCandidateList", tutors);
-    const[selectedList, setSelectedList] = useLocalStorage<userState[]>("tempSelectedList", acceptedUser);
+    const[candidateTutList, setCandidateTutList] = useLocalStorage<User[]>("tempCandidateList", []);
+    const[selectedTutList, setSelectedTutList] = useLocalStorage<User[]>("tempSelectedList", []);
+    const[candidateLabList, setCandidateLabList] = useLocalStorage<User[]>("tempCandidateList", []);
+    const[selectedLabList, setSelectedLabList] = useLocalStorage<User[]>("tempSelectedList", []);
+
+    //Set table values using API
+    useEffect(() => {
+        const getCandidates = async () => {
+            if(subject)
+            {
+                const returnVal: classTable = await userApi.getCandidatesFor(subject||"");
+                setCandidateTutList(returnVal.tutorApplicants);
+                setSelectedTutList(returnVal.tutorAccepted);
+                setCandidateLabList(returnVal.labApplicants);
+                setSelectedLabList(returnVal.labAccepted);
+            }
+            else
+            {
+                setCandidateTutList([]);
+                setSelectedTutList([]);
+                setCandidateLabList([]);
+                setSelectedLabList([]);
+            }
+        };
+        getCandidates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [subject]);
+
+
+    //Fill hooks with API data
+    
 
     // Save List to LocalStorage. This will be replaced with A DB function later
     function saveChanges()
     {
-        const tempDB:localDBInt = { ...localDB };
-
         // Setting accepted and candidate tutors using type/javascript spaghetti 
-        const acceptedTutor: string[] = selectedList.map(a=>a.email);
-        const candidateTutor: string[] = candidateList.map(a=>a.email);
-        
-        // Set the value of the subject accepted
-        tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].accepted = acceptedTutor;
-        // Set the value of the subject candidates
-        tempDB.subjects.filter((subjectKeyPair) => subjectKeyPair[0] === subject)[0][1].candidates = candidateTutor;
-        
-        // Save to localStorage
-        setLocalDB(tempDB);
+        const acceptedTutor: User[] = selectedTutList;
+        const candidateTutor: User[] = candidateTutList;
+        const acceptedLab: User[] = selectedLabList;
+        const candidateLab: User[] = candidateLabList;
 
-        // console.log(acceptedTutor);
-        // console.log(candidateTutor);
+        const submitData: classTable = {
+            tutorApplicants: candidateTutor,
+            tutorAccepted: acceptedTutor,
+            labApplicants: candidateLab,
+            labAccepted: acceptedLab
+        };
+        
+        
     }
 
     //Same logic as in the user profile
@@ -135,10 +151,10 @@ export default function SubjectManager()
                     <div className="subMflex-sbs-subM">
                         {/* Generate left table */}
                         <h3>Select your candidates</h3>
-                        <TutorSubjectTable table1={candidateList} table2={selectedList} setTable1={setCandidateList} setTable2={setSelectedList}/>
+                        <TutorSubjectTable table1={candidateTutList} table2={selectedTutList} setTable1={setCandidateTutList} setTable2={setSelectedTutList}/>
                         {/* Generate right table */}
                         <h3>Accepted candidates</h3>
-                        <TutorSubjectTableSort table2={candidateList} table1={selectedList} setTable2={setCandidateList} setTable1={setSelectedList}/>
+                        <TutorSubjectTableSort table2={candidateTutList} table1={selectedTutList} setTable2={setCandidateTutList} setTable1={setSelectedTutList}/>
                     </div>
                     <div className="save-button">
                         <Button colorPalette={"green"} p="4" onClick={saveChanges}>Save Changes</Button>
@@ -147,11 +163,11 @@ export default function SubjectManager()
                     <div className="ft">
                         <h3>Comment Candidates</h3>
                     </div>
-                        {selectedList.length > 0 ? (
+                        {selectedTutList.length > 0 ? (
                             <div className="comment-box">
                                 <ul>
-                                    {selectedList.map((user) => (
-                                        <li key={user.email}>{user.name ?? user.email}
+                                    {selectedTutList.map((user) => (
+                                        <li key={user.email}>{user.full_name ?? user.email}
                                         {commentEmail !== user.email ? (
                                             <Button p="4" size="lg" colorPalette="green" variant="outline" onClick={() => comment(user.email)}>Comment</Button>
                                         ) : (
