@@ -156,6 +156,68 @@ export class ClassesController {
       return response.status(400).json(false);
     }
   }
+  
+  async getTutorsInClass(request: Request, response: Response) {
+    try
+    {
+      const inClassCode: string = request.params.classCode;
+      
+      const tutApplied: Tutors[] = await AppDataSource
+      .getRepository(Tutors)
+      .createQueryBuilder("tutor")
+      .leftJoinAndSelect("tutor.user", "user")
+      .where("tutor.class_code = :code", { code: inClassCode })
+      .andWhere("tutor.role_name = :role", {role: "tutor"})
+      .andWhere("tutor.accepted = :accepted", {accepted: false})
+      .getMany();
+
+      const tutAccepted: Tutors[] = await AppDataSource
+      .getRepository(Tutors)
+      .createQueryBuilder("tutor")
+      .leftJoinAndSelect("tutor.user", "user")
+      .where("tutor.class_code = :code", { code: inClassCode })
+      .andWhere("tutor.role_name = :role", {role: "tutor"})
+      .andWhere("tutor.accepted = :accepted", {accepted: true})
+      .getMany();
+``
+      const labApplied: Tutors[] = await AppDataSource
+      .getRepository(Tutors)
+      .createQueryBuilder("tutor")
+      .leftJoinAndSelect("tutor.user", "user")
+      .where("tutor.class_code = :code", { code: inClassCode })
+      .andWhere("tutor.role_name = :role", {role: "lab_assistant"})
+      .andWhere("tutor.accepted = :accepted", {accepted: false})
+      .getMany();
+
+      const labAccepted: Tutors[] = await AppDataSource
+      .getRepository(Tutors)
+      .createQueryBuilder("tutor")
+      .leftJoinAndSelect("tutor.user", "user")
+      .where("tutor.class_code = :code", { code: inClassCode })
+      .andWhere("tutor.role_name = :role", {role: "lab_assistant"})
+      .andWhere("tutor.accepted = :accepted", {accepted: true})
+      .getMany();
+
+      return response.status(200).json(
+        {
+          tutorApplicants: tutApplied.map(t => t.user),
+          tutorAccepted: tutAccepted.map(t => t.user),
+          labApplicants: labApplied.map(t => t.user),
+          labAccepted: labAccepted.map(t => t.user)
+        }
+      );
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json({
+        tutorApplicants:[],
+        tutorAccepted:[],
+        labApplicants:[],
+        labAccepted:[],
+      });
+    }
+  }
 
   // Fills sample classes if they are missing
     async fillClasses()
