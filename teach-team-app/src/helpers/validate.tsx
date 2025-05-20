@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import { userApi } from "../services/api";
 
 export interface userState
@@ -68,6 +67,7 @@ export function isPasswordValid(user: userCred)
             }
             catch(e)
             {
+                console.log(e);
                 return false;
             }
         }
@@ -87,6 +87,7 @@ export function getUserType(email: string)
             }
             catch(e)
             {
+                console.log(e);
                 return "";
             }
         }
@@ -104,6 +105,7 @@ export function isLecturerForClass(email: string, classCode: string)
             }
             catch(e)
             {
+                console.log(e);
                 return false;
             }
         }
