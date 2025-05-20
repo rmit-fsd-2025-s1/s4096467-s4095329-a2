@@ -1,22 +1,22 @@
-import { userState } from "@/helpers/validate";
+import { User } from "@/helpers/validate";
 import { SetStateAction } from "react";
 import { Table, HoverCard, Portal, Box, Text } from "@chakra-ui/react";
 
 
 export interface dualTableProps
 {
-    table1: userState[],
-    setTable1: (value: SetStateAction<userState[]>) => void,
-    table2: userState[],
-    setTable2: (value: SetStateAction<userState[]>) => void;
+    table1: User[],
+    setTable1: (value: SetStateAction<User[]>) => void,
+    table2: User[],
+    setTable2: (value: SetStateAction<User[]>) => void;
 }
 
-function swapTables(index: number,table1: userState[], sTable1:(value: SetStateAction<userState[]>) => void, table2: userState[], sTable2:(value: SetStateAction<userState[]>) => void)
+function swapTables(index: number,table1: User[], sTable1:(value: SetStateAction<User[]>) => void, table2: User[], sTable2:(value: SetStateAction<User[]>) => void)
 {
     //https://www.seanmcp.com/articles/remove-an-item-at-a-given-index-in-javascript/
     //Filter where index => index != indexVar
-    const tempTable1: userState[] = table1.filter((e, i) => i !== index); // Remove item at index from table1
-    const tempTable2: userState[] = [...table2, table1[index]]; // Add the item to the top of table 2
+    const tempTable1: User[] = table1.filter((e, i) => i !== index); // Remove item at index from table1
+    const tempTable2: User[] = [...table2, table1[index]]; // Add the item to the top of table 2
 
     //Update using the hooks
     sTable1(tempTable1);
@@ -53,8 +53,8 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
                             swapTables(index, table1, setTable1, table2, setTable2);
                             }}>
                             {/* Display other information in body */}
-                            <Table.Cell p="4" fontSize="md">{tut.name??tut.email}</Table.Cell>
-                            <Table.Cell p="4" fontSize="md">{tut.avail??"Not Provided"}</Table.Cell>
+                            <Table.Cell p="4" fontSize="md">{tut.full_name??tut.email}</Table.Cell>
+                            <Table.Cell p="4" fontSize="md">{tut.availability??"Not Provided"}</Table.Cell>
                         </Table.Row>
                     </HoverCard.Trigger>
                     <Portal>
@@ -66,11 +66,11 @@ export function TutorSubjectTable({table1, table2, setTable1, setTable2}: dualTa
                                     <br/>
                                     <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Summary - </Text>{tut.summary && tut.summary[0].length >= 1 ? tut.summary : "No summary Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Previous Roles - </Text>{tut.prevRoles && tut.prevRoles[0].length >= 1 ? tut.prevRoles : "No roles Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Previous Roles - </Text>{tut.previous_roles && tut.previous_roles[0].length >= 1 ? tut.previous_roles : "No roles Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Availability - </Text>{tut.avail && tut.avail[0].length >= 1 ? tut.avail : "No availability Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Availability - </Text>{tut.availability && tut.availability[0].length >= 1 ? tut.availability : "No availability Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Education - </Text>{tut.education && tut.education[0].length >= 1 ? tut.education : "No education Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Education - </Text>{tut.educations && tut.educations[0].length >= 1 ? tut.educations : "No education Provided"}</Text>
                                     <br/>
                                     <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Certifications - </Text>{tut.certifications && tut.certifications[0].length >= 1 ? tut.certifications : "No Certifications Provided"}</Text>
                                     <br/>
