@@ -1,11 +1,7 @@
 import Link from "next/link";
 import { InvalidLogin } from "../InvalidLogin/InvalidLogin";
 import { Card ,Button} from "@chakra-ui/react";
-import { getLectureClasses, subject, getTutorCourses, generateUsers, userState } from "@/helpers/validate";
-import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
-import { loadDB, localDBInt } from "@/helpers/loadStorage";
-import { applicationStatus } from "@/helpers/localStorageGet";
-import { api, userApi } from "../../services/api";
+import { userApi } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -48,7 +44,7 @@ function CreateSubject({class_code, subject_name, candidate_count}: SubjectProps
         }}>
             <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4">
                 <Card.Header>{class_code}</Card.Header>
-                <Card.Body color="grey">{subject_name}<br/>New Applicants: {candidate_count}</Card.Body>
+                <Card.Body color="grey">{subject_name}<br/>New Applications: {candidate_count}</Card.Body>
             </Card.Root>
         </Link>
     );
@@ -97,6 +93,7 @@ function CreateCourses({email, subject, refresh}: ApplyProps) {
             }
             catch(e)
             {
+                console.log(e);
                 refresh();
             }
             };
@@ -137,30 +134,9 @@ function CreateCourses({email, subject, refresh}: ApplyProps) {
     );
 }
 
-function formatLocalStorageClasses(email: string, localClasses: [string, subject][])
-{
-    const dbUsers: Map<string, userState> = generateUsers();
-    const formattedMap: Map<string, subject> = new Map(localClasses.map((obj) => [obj[0], obj[1]]));
-    const lecturerClasses: subject[] = [];
-
-    if(dbUsers.has(email))
-        {
-            dbUsers.get(email)?.classes?.forEach((subName) => {
-                const classObj: subject | undefined = formattedMap.get(subName);
-                if (classObj) {
-                    lecturerClasses.push(classObj);
-                }
-            })
-        }
-    
-    return lecturerClasses;
-}
-
 export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorProps)
 {
     const router = useRouter();
-    let classes: subject[] = [];
-    let courses: subject[] = [];
     const [tutorClasses, setTutorClasses] = useState<tutorClassObj[]>([]);
     const [lecturerClasses, setLecturerClasses] = useState<SubjectProps[]>([]);
 
@@ -188,7 +164,7 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                 getCountVal().then(() => {
                 });
             }
-    }, [educatorEmail]);
+    }, [accountType, educatorEmail]);
     
     //Set lecturerClasses if user is lecturer
     useEffect(() => {
@@ -209,16 +185,8 @@ export function HomeContent({isLoggedIn, accountType, educatorEmail}: EducatorPr
                 getCountVal().then(() => {
                 });
             }
-    }, [educatorEmail]);
-    //Create hooks to update the tables
-    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
-    classes = formatLocalStorageClasses(educatorEmail??"", localDB.subjects)
+    }, [accountType, educatorEmail]);
 
-    if(educatorEmail) {
-            classes = getLectureClasses(educatorEmail);
-            classes = formatLocalStorageClasses(educatorEmail, localDB.subjects);
-    }
-    
     //If the user is logged in
     if(isLoggedIn)
     {
