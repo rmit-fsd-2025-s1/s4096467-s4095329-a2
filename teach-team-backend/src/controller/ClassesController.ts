@@ -67,6 +67,43 @@ export class ClassesController {
     }
   }
 
+  async updateClass(request: Request, response: Response) {
+    // This should override the existing entries in the database using a transaction, this is
+    // due to Matt telling us that this problem is really hard to handle and is out of the
+    // scope of this assignment.
+    try
+    {
+      //Get values for class details 
+      const tutApplicants: Tutors[] = request.body.classInfo.tutorApplicants;
+      const tutAccepted: Tutors[] = request.body.classInfo.tutorAccepted;
+      const labApplicants: Tutors[] = request.body.classInfo.labApplicants;
+      const labAccepted: Tutors[] = request.body.classInfo.labAccepted;
+
+      // const dbUser = await AppDataSource.getRepository(Users).findOneBy({email: inEmail});
+
+      const tutorRepo = AppDataSource.getRepository(Tutors);
+
+      tutorRepo.save(tutApplicants);
+      tutorRepo.save(tutAccepted);
+      tutorRepo.save(labApplicants);
+      tutorRepo.save(labAccepted);
+
+        // AppDataSource.getRepository(Tutors).save([
+        //   {
+        //     email: inEmail,
+        //     class_code: inSubject,
+        //     role_name: inRole
+        //   }
+
+        // ]);
+        return response.status(201).json(true);
+    }
+    catch(e)
+    {
+      return response.status(202).json(false);
+    }
+  }
+
   async countForLecturerClass(request: Request, response: Response) {
     try
     {
@@ -178,6 +215,7 @@ export class ClassesController {
       .where("tutor.class_code = :code", { code: inClassCode })
       .andWhere("tutor.role_name = :role", {role: "tutor"})
       .andWhere("tutor.accepted = :accepted", {accepted: true})
+      .orderBy("tutor.ranking")
       .getMany();
 ``
       const labApplied: Tutors[] = await AppDataSource
@@ -196,6 +234,7 @@ export class ClassesController {
       .where("tutor.class_code = :code", { code: inClassCode })
       .andWhere("tutor.role_name = :role", {role: "lab_assistant"})
       .andWhere("tutor.accepted = :accepted", {accepted: true})
+      .orderBy("tutor.ranking")
       .getMany();
 
       return response.status(200).json(
