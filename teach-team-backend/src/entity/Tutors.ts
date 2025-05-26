@@ -20,6 +20,9 @@ export class Tutors {
     @Column({type: "bit", default: true})
     active_tutor: boolean
 
+    @Column({type: "int", default: -1})
+    ranking: number
+
     @OneToMany(() => Comments, (comment) => comment.tutor, {eager: true})
     comments: Comments[]
 
