@@ -1,5 +1,5 @@
 import { SubjectProps, tutorClassObj } from "@/components/Home/Home";
-import { classTable } from "@/helpers/validate";
+import { classTable, saveClassTable } from "@/helpers/validate";
 import axios from "axios";
 
 export const api = axios.create({
@@ -40,6 +40,18 @@ export const userApi = {
       return responseData;
   },
 
+  setCandidatesFor: async (classDetails: saveClassTable) => {
+    try
+    {
+      const response = await api.post(`/classes/tutors/update`, {classInfo: classDetails});
+      const responseData = response.data;
+      return responseData;
+    }
+    catch(e)
+    {
+      console.log(e); 
+    }
+  },
 
   isLecturingClass: async (email: string, classCode: string) => {
       const response = await api.get(`/classes/${classCode}/hasLecturer/${email}`);
