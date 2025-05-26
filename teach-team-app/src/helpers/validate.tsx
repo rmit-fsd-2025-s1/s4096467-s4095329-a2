@@ -40,6 +40,24 @@ export interface classTable
     labAccepted: User[],
 }
 
+export interface tutorListing
+{
+    email: string,
+    class_code: string,
+    role_name: string,
+    accepted: boolean,
+    active_tutor: boolean,
+    ranking: number,
+}
+
+export interface saveClassTable
+{
+    tutorApplicants: tutorListing[],
+    tutorAccepted: tutorListing[],
+    labApplicants: tutorListing[],
+    labAccepted: tutorListing[],
+}
+
 export interface userCred
 {
     email: string,
