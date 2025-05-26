@@ -1,7 +1,7 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
-import { isPasswordValid, userCred, getUserType, isLecturerForClass, User, classTable, } from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType, isLecturerForClass, User, classTable, saveClassTable, tutorListing, } from "../../helpers/validate";
 import { useRouter } from 'next/router';
 import { Button } from "@chakra-ui/react";
 import { userApi } from "../../services/api";
@@ -116,13 +116,59 @@ export default function SubjectManager()
         const acceptedLab: User[] = selectedLabList;
         const candidateLab: User[] = candidateLabList;
 
-        const submitData: classTable = {
-            tutorApplicants: candidateTutor,
-            tutorAccepted: acceptedTutor,
-            labApplicants: candidateLab,
-            labAccepted: acceptedLab
+        let formatAcceptedTutor: tutorListing[] = [];
+        let formatCandidateTutor: tutorListing[] = [];
+        let formatAcceptedLab: tutorListing[] = [];
+        let formatCandidateLab: tutorListing[] = [];
+
+        formatAcceptedTutor = acceptedTutor.map((x, index)=>
+            ({
+            email: x.email,
+            class_code: subject || "",
+            role_name: "tutor",
+            accepted: true,
+            active_tutor: true,
+            ranking: index+1
+         }));
+
+        formatCandidateTutor = candidateTutor.map((x)=>
+            ({
+            email: x.email,
+            class_code: subject || "",
+            role_name: "tutor",
+            accepted: false,
+            active_tutor: true,
+            ranking: -1
+         }));
+
+        formatAcceptedLab = acceptedLab.map((x, index)=>
+            ({
+            email: x.email,
+            class_code: subject || "",
+            role_name: "lab_assistant",
+            accepted: true,
+            active_tutor: true,
+            ranking: index+1
+         }));
+
+        formatCandidateLab = candidateLab.map((x)=>
+            ({
+            email: x.email,
+            class_code: subject || "",
+            role_name: "lab_assistant",
+            accepted: false,
+            active_tutor: true,
+            ranking: -1
+         }));
+
+        const submitData: saveClassTable = {
+            tutorApplicants: formatCandidateTutor,
+            tutorAccepted: formatAcceptedTutor,
+            labApplicants: formatCandidateLab,
+            labAccepted: formatAcceptedLab
         };
         
+        console.log(userApi.setCandidatesFor(submitData));
         
     }
 
