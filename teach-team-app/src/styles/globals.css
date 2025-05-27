@@ -43,3 +43,7 @@ h1 .material-symbols-outlined {
   text-align: center;
   align-items: center;
 }
+
+.hidden{
+  display: none;
+}

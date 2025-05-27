@@ -13,7 +13,8 @@ import { TutorSubjectTableSort} from "@/components/SortingTable/SortingTableOrde
 
 interface errorProps{
     status: "success" | "info" | "warning" | "error" | "neutral" | undefined,
-    message: string
+    message: string,
+    showAlert: boolean
 }
 
 export default function SubjectManager()
@@ -109,7 +110,7 @@ export default function SubjectManager()
     }, [subject]);
 
 
-    const [popout, setPopout] = useState<errorProps>({status: "success", message: "Loading"});
+    const [popout, setPopout] = useState<errorProps>({status: "success", message: "Loading", showAlert: false});
 
     // Save List to LocalStorage. This will be replaced with A DB function later
     async function saveChanges()
@@ -173,15 +174,17 @@ export default function SubjectManager()
         };
 
         const returnVal = await userApi.setCandidatesFor(submitData);
-        if (returnVal === true) {
-            setPopout({status: "success", message: "Ranking successfully saved"});
-            setTimeout(()=>{
-                setPopout({status: "success", message: "Ranking successfully saved"});
-            }, 3000)
+        if (returnVal){
+            setPopout({status:"success", message: "Added Successfully", showAlert: true});
+            setTimeout(() => setPopout({status:"info", message: "Loading", showAlert: false}), 3000);
         }
-        else if(returnVal === false){
+        else {
+            setPopout({status:"error", message: "Something Went Wrong", showAlert: true});
+            setTimeout(() => setPopout({status:"info", message: "Loading", showAlert: false}), 3000);
+
         }
-    }
+
+}
 
     //Same logic as in the user profile
     const [commentEmail, setCommentEmail] = useState<string | null>(null);
@@ -248,7 +251,7 @@ export default function SubjectManager()
                         )}
                     </div>
                 </div>
-                    <Alert.Root status={popout.status}>
+                    <Alert.Root status={popout.status} className={!popout.showAlert ? "hidden" : ""}>
                         <Alert.Indicator />
                         <Alert.Title>{popout.message}</Alert.Title>
                     </Alert.Root>
