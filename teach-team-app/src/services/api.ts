@@ -44,7 +44,7 @@ export const userApi = {
     try
     {
       const response = await api.post(`/classes/tutors/update`, {classInfo: classDetails});
-      const responseData = response.data;
+      const responseData: boolean = response.data;
       return responseData;
     }
     catch(e)
