@@ -3,13 +3,18 @@ import {Footer} from "../../components/Footer/Footer";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import { isPasswordValid, userCred, getUserType, isLecturerForClass, User, classTable, saveClassTable, tutorListing, } from "../../helpers/validate";
 import { useRouter } from 'next/router';
-import { Button } from "@chakra-ui/react";
+import { Alert, Button } from "@chakra-ui/react";
 import { userApi } from "../../services/api";
 
-import { useEffect, useState , useMemo} from "react";
+import { useEffect, useState , useMemo } from "react";
 import { TutorSubjectTable } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { TutorSubjectTableSort} from "@/components/SortingTable/SortingTableOrder";
+
+interface errorProps{
+    status: "success" | "info" | "warning" | "error" | "neutral" | undefined,
+    message: string
+}
 
 export default function SubjectManager()
 {
@@ -104,11 +109,10 @@ export default function SubjectManager()
     }, [subject]);
 
 
-    //Fill hooks with API data
-    
+    const [popout, setPopout] = useState<errorProps>({status: "success", message: "Loading"});
 
     // Save List to LocalStorage. This will be replaced with A DB function later
-    function saveChanges()
+    async function saveChanges()
     {
         // Setting accepted and candidate tutors using type/javascript spaghetti 
         const acceptedTutor: User[] = selectedTutList;
@@ -167,9 +171,16 @@ export default function SubjectManager()
             labApplicants: formatCandidateLab,
             labAccepted: formatAcceptedLab
         };
-        
-        console.log(userApi.setCandidatesFor(submitData));
-        
+
+        const returnVal = await userApi.setCandidatesFor(submitData);
+        if (returnVal === true) {
+            setPopout({status: "success", message: "Ranking successfully saved"});
+            setTimeout(()=>{
+                setPopout({status: "success", message: "Ranking successfully saved"});
+            }, 3000)
+        }
+        else if(returnVal === false){
+        }
     }
 
     //Same logic as in the user profile
@@ -237,6 +248,10 @@ export default function SubjectManager()
                         )}
                     </div>
                 </div>
+                    <Alert.Root status={popout.status}>
+                        <Alert.Indicator />
+                        <Alert.Title>{popout.message}</Alert.Title>
+                    </Alert.Root>
             </>
             ;
         }
@@ -247,7 +262,7 @@ export default function SubjectManager()
 
     return(
         <>
-            <title>Class Name Here</title>
+            <title>{subject}</title>
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
             {content}
             <Footer isLoggedIn={passwordValid} type=""/>
