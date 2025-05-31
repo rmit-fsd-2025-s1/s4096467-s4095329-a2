@@ -206,12 +206,29 @@ export class ClassesController {
   async getTutorsInClass(request: Request, response: Response) {
     try
     {
+      //Formatting for sending to front end
+      function mapUserJoins(user: any) {
+        return {
+          ...user,
+          certifications: user.certifications?.map(c => c.certification) ?? [],
+          educations: user.educations?.map(e => e.education) ?? [],
+          languages: user.languages?.map(l => l.language) ?? [],
+          previous_roles: user.previous_roles?.map(p => p.prev_role) ?? [],
+          skills: user.skills?.map(s => s.skill) ?? [],
+        };
+      }
+
       const inClassCode: string = request.params.classCode;
       
       const tutApplied: Tutors[] = await AppDataSource
       .getRepository(Tutors)
       .createQueryBuilder("tutor")
       .leftJoinAndSelect("tutor.user", "user")
+      .leftJoinAndSelect("user.certifications", "certifications")
+      .leftJoinAndSelect("user.educations", "eductions")
+      .leftJoinAndSelect("user.languages", "languages")
+      .leftJoinAndSelect("user.previous_roles", "previous_roles")
+      .leftJoinAndSelect("user.skills", "skills")
       .where("tutor.class_code = :code", { code: inClassCode })
       .andWhere("tutor.role_name = :role", {role: "tutor"})
       .andWhere("tutor.accepted = :accepted", {accepted: false})
@@ -221,6 +238,11 @@ export class ClassesController {
       .getRepository(Tutors)
       .createQueryBuilder("tutor")
       .leftJoinAndSelect("tutor.user", "user")
+      .leftJoinAndSelect("user.certifications", "certifications")
+      .leftJoinAndSelect("user.educations", "eductions")
+      .leftJoinAndSelect("user.languages", "languages")
+      .leftJoinAndSelect("user.previous_roles", "previous_roles")
+      .leftJoinAndSelect("user.skills", "skills")
       .where("tutor.class_code = :code", { code: inClassCode })
       .andWhere("tutor.role_name = :role", {role: "tutor"})
       .andWhere("tutor.accepted = :accepted", {accepted: true})
@@ -231,6 +253,11 @@ export class ClassesController {
       .getRepository(Tutors)
       .createQueryBuilder("tutor")
       .leftJoinAndSelect("tutor.user", "user")
+      .leftJoinAndSelect("user.certifications", "certifications")
+      .leftJoinAndSelect("user.educations", "eductions")
+      .leftJoinAndSelect("user.languages", "languages")
+      .leftJoinAndSelect("user.previous_roles", "previous_roles")
+      .leftJoinAndSelect("user.skills", "skills")
       .where("tutor.class_code = :code", { code: inClassCode })
       .andWhere("tutor.role_name = :role", {role: "lab_assistant"})
       .andWhere("tutor.accepted = :accepted", {accepted: false})
@@ -240,6 +267,11 @@ export class ClassesController {
       .getRepository(Tutors)
       .createQueryBuilder("tutor")
       .leftJoinAndSelect("tutor.user", "user")
+      .leftJoinAndSelect("user.certifications", "certifications")
+      .leftJoinAndSelect("user.educations", "eductions")
+      .leftJoinAndSelect("user.languages", "languages")
+      .leftJoinAndSelect("user.previous_roles", "previous_roles")
+      .leftJoinAndSelect("user.skills", "skills")
       .where("tutor.class_code = :code", { code: inClassCode })
       .andWhere("tutor.role_name = :role", {role: "lab_assistant"})
       .andWhere("tutor.accepted = :accepted", {accepted: true})
@@ -248,10 +280,10 @@ export class ClassesController {
 
       return response.status(200).json(
         {
-          tutorApplicants: tutApplied.map(t => t.user),
-          tutorAccepted: tutAccepted.map(t => t.user),
-          labApplicants: labApplied.map(t => t.user),
-          labAccepted: labAccepted.map(t => t.user)
+          tutorApplicants: tutApplied.map(t => mapUserJoins(t.user)),
+          tutorAccepted: tutAccepted.map(t => mapUserJoins(t.user)),
+          labApplicants: labApplied.map(t => mapUserJoins(t.user)),
+          labAccepted: labAccepted.map(t => mapUserJoins(t.user))
         }
       );
     }
