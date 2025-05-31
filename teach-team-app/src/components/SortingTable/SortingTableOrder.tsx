@@ -92,19 +92,19 @@ export function TutorSubjectTableSort({title, table1, table2, setTable1, setTabl
                                 <Box p="4" className="lecturerBox" fontSize="lg" boxShadow="md" bg="green.50">
                                     <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Email - </Text>{tut.email ?? "None"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Summary - </Text>{tut.summary && tut.summary[0].length >= 1 ? tut.summary : "No summary Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Summary - </Text>{tut.summary.length >= 1 ? tut.summary : "No summary Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Previous Roles - </Text>{tut.previous_roles && tut.previous_roles[0].length >= 1 ? tut.previous_roles : "No roles Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Previous Roles: </Text>{tut.previous_roles.length >= 1 ? <ul>{tut.previous_roles.map((e, i)=>{return(<li key={i}>{e}</li>)})}</ul> : "No roles Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Availability - </Text>{tut.availability && tut.availability[0].length >= 1 ? tut.availability : "No availability Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Availability - </Text>{tut.availability.length >= 1 ? tut.availability : "No availability Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Education - </Text>{tut.educations && tut.educations[0].length >= 1 ? tut.educations : "No education Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Education: </Text>{tut.educations.length >= 1 ? <ul>{tut.educations.map((e, i)=>{return(<li key={i}>{e}</li>)})}</ul> : "No education Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Certifications - </Text>{tut.certifications && tut.certifications[0].length >= 1 ? tut.certifications : "No Certifications Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Certifications: </Text>{tut.certifications.length >= 1 ? <ul>{tut.certifications.map((e, i)=>{return(<li key={i}>{e}</li>)})}</ul> : "No Certifications Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Skills - </Text>{tut.skills && tut.skills[0].length >= 1 ? tut.skills : "No Skills Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Skills: </Text>{tut.skills.length >= 1 ? <ul>{tut.skills.map((e, i)=>{return(<li key={i}>{e}</li>)})}</ul> : "No Skills Provided"}</Text>
                                     <br/>
-                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Languages - </Text>{tut.languages && tut.languages[0].length >= 1 ? tut.languages : "No Languages Provided"}</Text>
+                                    <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Languages: </Text>{tut.languages.length >= 1 ? <ul>{tut.languages.map((e, i)=>{return(<li key={i}>{e}</li>)})}</ul> : "No Languages Provided"}</Text>
                                 </Box>
                             </HoverCard.Content>
                         </HoverCard.Positioner>
