@@ -12,7 +12,7 @@
 
 .subMflex-sbs-subM h3{
     font-size: 30px;
-    padding: 30 30 0 0;
+    padding: 15 30 0 0;
     border-bottom: 5px solid rgb(59, 189, 91);
 }
 
@@ -62,3 +62,13 @@
     margin-left: 30px;
 }
 
+.selectHead{
+    font-size: 40px;
+    margin: 10px 0 0 50px;
+    font-weight: bold;
+}
+
+.fixed-bottom{
+    position: fixed;
+    bottom: 0px;
+}

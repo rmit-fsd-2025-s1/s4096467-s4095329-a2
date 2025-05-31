@@ -208,13 +208,23 @@ export default function SubjectManager()
                     <div className="subjectName">
                         {subject}
                     </div>
+                    <h2 className="selectHead">Tutors</h2>
                     <div className="subMflex-sbs-subM">
                         {/* Generate left table */}
-                        <h3>Select your candidates</h3>
-                        <TutorSubjectTable table1={candidateTutList} table2={selectedTutList} setTable1={setCandidateTutList} setTable2={setSelectedTutList}/>
+                        <h3>Select your Tutors</h3>
+                        <TutorSubjectTable title="Tutor" table1={candidateTutList} table2={selectedTutList} setTable1={setCandidateTutList} setTable2={setSelectedTutList}/>
                         {/* Generate right table */}
-                        <h3>Accepted candidates</h3>
-                        <TutorSubjectTableSort table2={candidateTutList} table1={selectedTutList} setTable2={setCandidateTutList} setTable1={setSelectedTutList}/>
+                        <h3>Accepted Tutors</h3>
+                        <TutorSubjectTableSort title="Tutor" table2={candidateTutList} table1={selectedTutList} setTable2={setCandidateTutList} setTable1={setSelectedTutList}/>
+                    </div>
+                    <h2 className="selectHead">Lab Assistants</h2>
+                    <div className="subMflex-sbs-subM">
+                        {/* Generate left table */}
+                        <h3>Select your Lab Assistants</h3>
+                        <TutorSubjectTable title="Lab Assistant" table1={candidateLabList} table2={selectedLabList} setTable1={setCandidateLabList} setTable2={setSelectedLabList}/>
+                        {/* Generate right table */}
+                        <h3>Accepted Lab Assistants</h3>
+                        <TutorSubjectTableSort title="Lab Assistant" table2={candidateLabList} table1={selectedLabList} setTable2={setCandidateLabList} setTable1={setSelectedLabList}/>
                     </div>
                     <div className="save-button">
                         <Button colorPalette={"green"} p="4" onClick={saveChanges}>Save Changes</Button>
@@ -251,7 +261,7 @@ export default function SubjectManager()
                         )}
                     </div>
                 </div>
-                    <Alert.Root status={popout.status} className={!popout.showAlert ? "hidden" : ""}>
+                    <Alert.Root status={popout.status} className={!popout.showAlert ? "hidden" : "fixed-bottom"}>
                         <Alert.Indicator />
                         <Alert.Title>{popout.message}</Alert.Title>
                     </Alert.Root>

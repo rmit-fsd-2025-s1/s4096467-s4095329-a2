@@ -8,7 +8,8 @@ export interface dualTableProps
     table1: User[],
     setTable1: (value: SetStateAction<User[]>) => void,
     table2: User[],
-    setTable2: (value: SetStateAction<User[]>) => void;
+    setTable2: (value: SetStateAction<User[]>) => void,
+    title: string;
 }
 
 function swapTables(index: number,table1: User[], sTable1:(value: SetStateAction<User[]>) => void, table2: User[], sTable2:(value: SetStateAction<User[]>) => void)
@@ -47,7 +48,7 @@ function upCandidate(index: number,table1: User[], sTable1:(value: SetStateActio
     }
 }
 
-export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: dualTableProps)
+export function TutorSubjectTableSort({title, table1, table2, setTable1, setTable2}: dualTableProps)
 {   
     //Create the tablekey 
     return(
@@ -62,8 +63,8 @@ export function TutorSubjectTableSort({table1, table2, setTable1, setTable2}: du
         >
         {/* Header of the table */}
         <Table.Header>
-            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Tutor Name</Table.ColumnHeader>
-            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">Tutor Availability</Table.ColumnHeader>
+            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">{title} Name</Table.ColumnHeader>
+            <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black">{title} Availability</Table.ColumnHeader>
             <Table.ColumnHeader p="4" fontSize="xl" fontWeight="bold" bg="gray.100" color="black" textAlign="end">Preference Order</Table.ColumnHeader>
         </Table.Header>
         {/* Body of the table */}
