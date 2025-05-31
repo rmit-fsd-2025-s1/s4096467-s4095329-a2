@@ -38,8 +38,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                         <h1>Teach<span className="green">Team</span> Management</h1>
                 </span>
             </Link>
-            {/* Remove accounttype === tutor if needed later in other assignments */}
-            {isLoggedIn && accountType === "candidate"?<div className="user">
+            {isLoggedIn ?<div className="user">
                 <Link href="/educator/userProfile">
                     <span className="user-profile">
                         <h3>{userName}</h3>
