@@ -83,7 +83,8 @@
 }
 
 :root {
-    --color-1: rgb(39, 38, 57);
+    /* --color-1: rgb(39, 38, 57); */
+    --color-1: rgb(12, 37, 71);
     --text_color: white;
     --accent-color: rgb(59, 189, 91);
 }

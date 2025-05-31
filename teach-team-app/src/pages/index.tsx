@@ -4,9 +4,13 @@ import { useEffect, useState } from "react";
 import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
 import {useRouter} from "next/navigation";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
+import { Image, Link} from "@chakra-ui/react"
+import "./index.css";
+
 
 export default function Home() {
   const router = useRouter();
+  
   const[localEmail, setLocalEmail] = useState<string>("");
       const[localPassword, setLocalPassword] = useState<string>("");
       
@@ -47,20 +51,32 @@ export default function Home() {
         getTypeVal();
     }, [user]);
       
-      //Checks if user is logged in, if not redirect to login.
-      useEffect(() => {
-          if (!passwordValid) {
-            router.push('/login');
-          }
-      }, [passwordValid, router]);
+      // //Checks if user is logged in, if not redirect to login.
+      // useEffect(() => {
+      //     if (!passwordValid) {
+      //       router.push('/login');
+      //     }
+      // }, [passwordValid, router]);
 
 
   return (
     <>
       <title>Index</title>
       <Header isLoggedIn={passwordValid} accountType={loginType}/>
-      <LoadingScreen/>
-      <Footer isLoggedIn={passwordValid} type={loginType}/>
+        <div className="bodybox">
+          <div className="textside">
+            <h1>Join Our Teaching Team</h1>
+            <p>Inspire. Teach. Grow. Become a tutor and shape the future, one student at a time.</p>
+            <Link href="/login" className="login-btn">Login</Link>
+            <p>New to TeachTeam?</p>
+            <Link href="/register" className="reg-btn">Register</Link>
+          </div>
+        </div>
+      {/* <LoadingScreen/> */}
+      <div className="uniquefooter">
+
+      </div>
+      {/* <Footer isLoggedIn={passwordValid} type={loginType}/> */}
     </>
   );
 }
