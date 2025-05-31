@@ -119,7 +119,7 @@ export class ClassesController {
       .andWhere("tutors.email IS NOT NULL")
       .andWhere("tutors.accepted = 0")
       .getCount();
-  
+
       return response.status(200).json(classes);
     }
     catch(e)

@@ -26,7 +26,6 @@ function swapTables(index: number,table1: User[], sTable1:(value: SetStateAction
 
 export function TutorSubjectTable({title, table1, table2, setTable1, setTable2}: dualTableProps)
 {
-
     //Create the tablekey 
     return(
         <Table.Root 
