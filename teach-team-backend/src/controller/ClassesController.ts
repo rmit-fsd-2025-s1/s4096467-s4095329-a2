@@ -135,15 +135,24 @@ export class ClassesController {
       const inLecturer: string = request.params.lecturer;
       
       const applications = await AppDataSource.manager.query(
-       `SELECT c.class_code, c.subject_name, COUNT(t.role_name) as candidate_count FROM classes c 
-        LEFT JOIN tutors t 
-        ON c.class_code = t.class_code
+      `SELECT cl.class_code, cl.subject_name, IFNULL(calc.candidate_count, 0) as candidate_count 
+        FROM classes cl
         LEFT JOIN lecturer_classes lc 
-        ON c.class_code = lc.class_code
-        WHERE t.accepted = 0
-        AND lc.email = ?
-        GROUP BY c.class_code;`
-      ,[inLecturer, inLecturer]);
+          ON lc.class_code = cl.class_code
+        LEFT JOIN (
+          SELECT cl.class_code, COUNT(*) as candidate_count
+          FROM classes cl
+          LEFT JOIN lecturer_classes lc 
+            ON cl.class_code =lc.class_code
+          LEFT JOIN tutors t 
+            ON cl.class_code =t.class_code
+          WHERE lc.email =? 
+            AND t.email IS NOT NULL
+            AND t.accepted = 0
+          GROUP BY cl.class_code
+        ) as calc
+        ON calc.class_code = cl.class_code
+        WHERE lc.email = ?;`,[inLecturer, inLecturer]);
   
       // https://github.com/typeorm/typeorm/issues/544
       // This says doing it in query builder isnt that good, instead use raw SQL 
