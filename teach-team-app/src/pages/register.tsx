@@ -14,7 +14,7 @@ export default function RegisterScreen()
         email: "",
         password: "",
         //constant role idk what to do with roles yet so imma make it tutor. probs need to do something with it later.
-        role: "tutor",
+        role: "candidate",
     })
 
     //A password is strong enough ie 1+ Uppercase, 1+ Special char, 12+ chars

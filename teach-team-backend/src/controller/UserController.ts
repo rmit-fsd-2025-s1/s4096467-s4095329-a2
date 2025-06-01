@@ -224,10 +224,8 @@ export class UserController {
         role, 
       });
       
-      console.log("before save")
       //Create new user to database
       await userRepository.save(newUser);
-      console.log("after save")
       return response.status(201).json({ success: true, message: "User registered" });
 
     } 
