@@ -36,8 +36,8 @@ export function Footer({isLoggedIn}: FooterProps)
         <h1><span className="material-symbols-outlined">school</span><u>Teach<span className={styles["green1"]}>Team</span>.</u></h1>
             <span>
                 <h3>Community</h3>
-                <Link href=""><p>About us</p></Link>
-                <Link href=""><p>FAQ</p></Link>
+                <Link href="/docs/aboutUs"><p>About us</p></Link>
+                <Link href="/docs/faq"><p>FAQ</p></Link>
                 <Link href="/register"><p>Register</p></Link>
             </span>
             <span>
