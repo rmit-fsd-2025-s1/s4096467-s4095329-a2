@@ -378,7 +378,7 @@ export default function UserProfile()
                         </div>
                         <div className="languages">
                             <h2>Languages</h2>
-                            <p>{userData.languages !== "" ? (
+                            <p>{userData.languages !== null ? (
                                userData.languages
                             ) : "Add your languages here"}</p>
                             {editField === 'languages' ? (
