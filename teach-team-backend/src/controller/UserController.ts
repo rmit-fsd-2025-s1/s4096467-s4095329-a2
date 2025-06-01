@@ -93,6 +93,40 @@ export class UserController {
     }
   }
 
+  async userInfo(request: Request, response: Response) {
+    try{
+      const inEmail: string = request.params.email;
+      const user = await AppDataSource.manager.findOne(Users, {
+        where: { email: inEmail },
+      });
+
+      if (!user) {
+          return response.status(404).json({ 
+              success: false,
+              message: "User not found",
+          });
+      }
+
+        const userData = {
+            summary: user.summary || "", 
+            skills: user.skills || [],  
+            certifications: user.certifications || [],
+            languages: user.languages || [],
+            previous_roles: user.previous_roles || [],
+            availability: user.availability || "None",
+            educations: user.educations || [],
+        };
+
+      response.status(200).json({userData});
+
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json(false);
+    }
+  }
+
   // Fills sample users if they are missing
   async fillUsers()
   {

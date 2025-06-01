@@ -8,7 +8,6 @@ export async function registerUser(newUser: Partial<User>){
     console.log("Called register user")
     try
     {   
-
         const result = await userApi.createUser(newUser);
         console.log("reg", result)
         //Not proud of this code but hey it works
@@ -25,3 +24,20 @@ export async function registerUser(newUser: Partial<User>){
         return false;
     }
 }
+
+export async function getUser(email: String){
+    console.log("Called get userInfo")
+    try
+    {   
+        //There shouldnt be any errors here. Should be handled by controller
+        const result = await userApi.getUserByEmail(email);
+        return result;
+    }
+    catch(e)
+    {   
+        console.error("Error");
+        return false;
+    }
+}
+
+

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useState, useEffect, FormEvent } from "react";
 import { PiCoinsBold } from 'react-icons/pi';
 import { userApi } from '../services/api';
-import { registerUser } from '../helpers/registerAcc'
+import { registerUser } from '../helpers/frontendHelper'
 import { Alert } from "@chakra-ui/react"
 export default function RegisterScreen()
 {

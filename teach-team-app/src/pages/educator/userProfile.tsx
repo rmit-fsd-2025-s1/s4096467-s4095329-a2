@@ -7,6 +7,7 @@ import React, { useEffect, useState , useMemo} from "react";
 import { Button } from "@chakra-ui/react"
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
+import { getUser } from '../../helpers/frontendHelper'
 
 
 export interface details {
@@ -17,6 +18,16 @@ export interface details {
     education: string;
     skills: string;
     languages: string;
+}
+
+export interface detailsDB {
+    summary: string;
+    prevRoles: string[];
+    avail: string;
+    certifications: string[];
+    education: string[];
+    skills: string[];
+    languages: string[];
 }
 
 const detailsTitle = ['summary', 'prevRoles', 'avail', 'certifications', 'education', 'skills', 'languages'];
@@ -140,6 +151,68 @@ export default function UserProfile()
         setEditField(null);
     }    
 
+    //THE DATABASE INTEGRATION HERE
+    const [userData, setUserData] = useState<detailsDB>({
+        summary: "",
+        prevRoles: [],
+        avail: "",
+        certifications: [],
+        education: [],
+        skills: [],
+        languages: [],
+    });
+
+    //Basically this prevents undefined behaviour if some synchronous or asynchronous shenanigans happens
+    useEffect(() => {
+        const fetchData = async () => {
+            // Prevents getting info when user email is not found yet.
+            if (!user.email) {
+                return;
+            }
+            
+            //get data from this specific user via email
+            const getdata = await getUser(user.email);
+            console.log("Raw user data:", getdata);
+            //The naming is a bit confusing lol
+            //The long code gets from the database and formats it accordingly
+            if (getdata && getdata.userData) {
+                setUserData({
+                    summary: getdata.userData.summary ?? "",
+                    prevRoles: Array.isArray(getdata.userData.previous_roles) ? getdata.userData.previous_roles.map((item: { prev_role: string }) => item.prev_role) : [],
+                    avail: getdata.userData.availability ?? "",
+                    certifications: Array.isArray(getdata.userData.certifications) ? getdata.userData.certifications.map((item: { certification: string }) => item.certification) : [],
+                    education: Array.isArray(getdata.userData.educations) ? getdata.userData.educations.map((item: { education: string }) => item.education) : [],
+                    skills: Array.isArray(getdata.userData.skills) ? getdata.userData.skills.map((item: { skill: string }) => item.skill) : [],
+                    languages: Array.isArray(getdata.userData.languages) ? getdata.userData.languages.map((item: { language: string }) => item.language) : [],
+                });
+            }
+        };
+
+        fetchData();
+    }, [user.email]);
+
+    useEffect(() => {
+            console.log("Updated userData:");
+            console.log("Summary:", userData.summary);
+            console.log("Previous Roles:", userData.prevRoles);
+            console.log("Availability:", userData.avail);
+            console.log("Certifications:", userData.certifications);
+            console.log("Education:", userData.education);
+            console.log("Skills:", userData.skills);
+            console.log("Languages:", userData.languages);
+    })
+
+
+    //Save input to database using PUT
+    const saveTest = (field: keyof details) => {
+        //appends the temp string to the userData.field
+        setUserData((prev) => ({ ...prev, [field]: temp})); 
+        
+        //REST API PUT
+
+        setEditField(null);
+    }    
+
     return(
         <>
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
@@ -153,9 +226,12 @@ export default function UserProfile()
                     <div className="box1">
                         <div className="about">            
                             <h2>Summary</h2>
-                            <p>{/*summary !== "" && if the user already had data*/ formData.summary !== "" ? (
-                               formData.summary
+                            <p>{/*summary !== "" && if the user already had data*/ userData.summary !== "" ? (
+                               userData.summary
                             ) : "Add your introduction here"}</p>
+                            {/* <p>{formData.summary !== "" ? (
+                               formData.summary
+                            ) : "Add your introduction here"}</p> */}
                             {editField === 'summary' ? (
                             <label>
                                 <textarea
@@ -178,8 +254,8 @@ export default function UserProfile()
                         </div>
                         <div className="prevRoles">
                         <h2>Career History</h2>
-                            <p>{formData.prevRoles !== "" ? (
-                               formData.prevRoles
+                            <p>{userData.prevRoles !== null ? (
+                               userData.prevRoles
                             ) : "Add your introduction here"}</p>
                             {editField === 'prevRoles' ? (
                             <label>
@@ -202,8 +278,8 @@ export default function UserProfile()
                         </div>
                         <h2>Education</h2>                        
                         <div className="education">
-                        <p>{formData.education !== "" ? (
-                               formData.education
+                        <p>{userData.education !== null ? (
+                               userData.education
                             ) : "Add your education here"}</p>
                             {editField === 'education' ? (
                             <label>
@@ -226,8 +302,8 @@ export default function UserProfile()
                         </div>
                         <div className="skills">
                             <h2>Skills</h2>
-                            <p>{formData.skills !== "" ? (
-                               formData.skills
+                            <p>{userData.skills !== null ? (
+                               userData.skills
                             ) : "Add your skills here"}</p>
                             {editField === 'skills' ? (
                             <label>
@@ -252,8 +328,8 @@ export default function UserProfile()
                     <div className="box2">
                         <div className="cert">
                             <h2>Certifications</h2>
-                            <p>{formData.certifications !== "" ? (
-                               formData.certifications
+                            <p>{userData.certifications !== null ? (
+                               userData.certifications
                             ) : "Add your certifications here"}</p>
                             {editField === 'certifications' ? (
                             <label>
@@ -277,8 +353,8 @@ export default function UserProfile()
                         </div>
                         <div className="avail">
                             <h2>Availability</h2>
-                            <p>{formData.avail !== "" ? (
-                               formData.avail
+                            <p>{userData.avail !== null ? (
+                               userData.avail
                             ) : "Add your availibility here"}</p>
                             {editField === 'avail' ? (
                             <label>
@@ -302,8 +378,8 @@ export default function UserProfile()
                         </div>
                         <div className="languages">
                             <h2>Languages</h2>
-                            <p>{formData.languages !== "" ? (
-                               formData.languages
+                            <p>{userData.languages !== "" ? (
+                               userData.languages
                             ) : "Add your languages here"}</p>
                             {editField === 'languages' ? (
                             <label>
