@@ -33,6 +33,8 @@ export default function RegisterScreen()
 
     //bruh true if same false if not
     const [same, setSame] = useState(true)
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState(false)
 
     const registerUserButton = async (e: FormEvent) => {
         e.preventDefault();
@@ -53,6 +55,12 @@ export default function RegisterScreen()
             setSame(true)
             if(isStrong) { 
                 const state = await registerUser(newUser);
+                setSuccess(state);
+                setError(false)
+                console.log(state)
+                if (!state) {
+                    setError(true);
+                }
             }
         }
         else {
@@ -125,6 +133,28 @@ export default function RegisterScreen()
                   </Alert.Content>
                 </Alert.Root>
                 ) : "" }
+
+                {success ? ( 
+                  <Alert.Root status="success">
+                  <Alert.Indicator />
+                  <Alert.Content>
+                        <Alert.Title>Sucessfully Registered!</Alert.Title>
+                        <Alert.Title>Please head to the login page to continue</Alert.Title>
+                    <Alert.Description />
+                  </Alert.Content>
+                </Alert.Root>
+                ) : ""}
+
+                {error ? ( 
+                  <Alert.Root status="error">
+                  <Alert.Indicator />
+                  <Alert.Content>
+                        <Alert.Title>Error with Registration</Alert.Title>
+                        <Alert.Title>Email may already be registered. Try another email</Alert.Title>
+                    <Alert.Description />
+                  </Alert.Content>
+                </Alert.Root>
+                ) : ""}
 
 
             <div className="flex-sbs flex-gap">

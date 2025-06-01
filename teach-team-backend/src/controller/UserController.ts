@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Users } from "../entity/Users";
+import bcrypt from "bcryptjs";
 
 export class UserController {
 
@@ -197,10 +198,13 @@ export class UserController {
   }
 
   async registerUser(request: Request, response: Response) {
-    //Contains data sent in HTTP request from the api call. //just self notes cuz im learning how this shit works
+    //Contains data sent in HTTP request from the api call. //just self notes cuz im learning how this works
     const email = request.body.email;
     const password = request.body.password;
     const role = request.body.role;
+
+    //hash password
+    const hashed = await bcrypt.hash(password, 10);
 
     try {
       //Get data source
@@ -209,16 +213,14 @@ export class UserController {
       //Check if user exists
       const existingUser = await userRepository.findOneBy({email});
 
-      if (existingUser) {
-        //idk if you are supposed handle it like this.
-        console.log("This works")
-        return response.status(400).json({ message: "User already exists" });
-      }
-
+    if (existingUser) {
+      return response.status(400).json({ success: false, message: "User already exists" });
+    }
+      
       //Create instance of object. email = request.body.email etc from the lines above.
       const newUser = userRepository.create({
         email,
-        password, //TODO Some hashing goes here? Using bcrypyt?? idk
+        password: hashed,
         role, 
       });
       
@@ -226,12 +228,12 @@ export class UserController {
       //Create new user to database
       await userRepository.save(newUser);
       console.log("after save")
-      response.status(201).json({ message: "User registered", user: newUser });
+      return response.status(201).json({ success: true, message: "User registered" });
 
     } 
     catch (error) {
       console.log("Error during save")
-      response.status(500).json({ message: "Error" });
+      return response.status(500).json({ success: false, message: "Server error" });
     }
   };
 }
