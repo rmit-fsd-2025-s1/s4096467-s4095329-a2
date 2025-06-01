@@ -81,6 +81,11 @@ router.get("/classes/:lecturer/courseCandidates/count/", async (req, res) => {
   await classesController.getLecturerCourseDetails(req, res);
 });
 
+// Returns the information searched for in the lecturer's dashboard
+router.get("/classes/search/:sort/:filter/:search/:availability/:type", async (req, res)=>{
+  await classesController.searchClasses(req, res);
+});
+
 //Registers a user 
 //post new reg info 
 router.post("/users", async (req, res) => {
