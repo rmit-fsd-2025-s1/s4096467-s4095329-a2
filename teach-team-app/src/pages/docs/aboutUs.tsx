@@ -58,13 +58,9 @@ export default function AboutUs()
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
             <h1>About Us</h1>
             <h2>Our Founding</h2>
+            <p>The TeachTeam platform and company was founded {daysSince} days ago</p>
             <h2>Database ERD</h2>
-            
-            <Footer isLoggedIn={passwordValid} type=""/>
             <Footer isLoggedIn={passwordValid} type=""/>
         </>
     );
-
-
-    return(<h5>Days since company founding: {daysSince}</h5>);
 }
