@@ -59,7 +59,7 @@ export function loadDB(): localDBInt
     const subjectData: [string, subject][] = Array.from(generateSubjects());    
     const localStorageBD: localDBInt = {users: userData, subjects: subjectData};
 
-    console.log("local storage BD", localStorageBD)
+    // console.log("local storage BD", localStorageBD)
 
     return localStorageBD;
 }
