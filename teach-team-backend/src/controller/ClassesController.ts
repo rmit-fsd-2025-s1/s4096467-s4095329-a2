@@ -3,6 +3,21 @@ import { AppDataSource } from "../data-source";
 import { Classes } from "../entity/Classes";
 import { Users } from "../entity/Users";
 import { Tutors } from "../entity/Tutors";
+import { emit } from "process";
+
+interface userSearchResults{
+  person: Users;
+  applied: classSearchResults[],
+  accepted: classSearchResults[],
+  timesAccepted: number
+}
+
+interface classSearchResults{
+  courseCode: string,
+  courseName: string,
+  tutorStatus: boolean,
+  labStatus: boolean
+}
 
 export class ClassesController {
 
@@ -296,6 +311,134 @@ export class ClassesController {
         labApplicants:[],
         labAccepted:[],
       });
+    }
+  }
+
+  async searchClasses(request: Request, response: Response) {
+    try{
+      // Whether to show only people with 0, ascending != 0, descending != 0, unsorted
+      const sort: string = request.params.sort;
+      const filter: string = request.params.filter;
+      const search: string = request.params.search;
+      // const availability: string = request.params.availability;
+      // const type: string = request.params.type;
+
+      
+      
+      // Get users that meet the search criteria
+      const returnedUsers: Users[] = await AppDataSource.getRepository(Users)
+      .createQueryBuilder("users")
+      .leftJoinAndSelect("users.tutorJoin", "tutorJoin")
+      .leftJoinAndSelect("users.certifications", "certifications")
+      .leftJoinAndSelect("users.educations", "eductions")
+      .leftJoinAndSelect("users.languages", "languages")
+      .leftJoinAndSelect("users.previous_roles", "previous_roles")
+      .leftJoinAndSelect("users.skills", "skills")
+      .getMany();
+      
+    let returnedData: userSearchResults[] = await Promise.all(
+      // Then for each of the users
+      returnedUsers.map(async (user: Users) => {
+        // Variables to be pushed to the returnedData
+        const tempFormatApplied: classSearchResults[] = [];
+        const tempFormatAccepted: classSearchResults[] = [];
+        // Get class code, subject name, tutor and lab_assitant for applied
+        const tempAp = await AppDataSource.manager.query(`
+          SELECT DISTINCT c.class_code, 
+          c.subject_name, 
+          IF(EXISTS(
+            SELECT *
+            FROM tutors
+            WHERE class_code = c.class_code
+            AND email = t.email
+            AND role_name = "tutor"
+            AND accepted = false
+            ), 1, 0) as tutor, 
+            IF(EXISTS(
+              SELECT *
+              FROM tutors
+              WHERE class_code = c.class_code
+              AND email = t.email
+              AND role_name = "lab_assistant"
+              AND accepted = false
+          ), 1, 0) as lab_assistant
+          FROM classes c
+          LEFT JOIN tutors t
+          ON c.class_code = t.class_code
+          WHERE t.email = ?
+          AND accepted = false;`, [user.email]);
+          
+        // Get class code, subject name, tutor and lab_assitant for accepted
+        const tempAcc = await AppDataSource.manager.query(`
+          SELECT DISTINCT c.class_code, 
+          c.subject_name, 
+          IF(EXISTS(
+            SELECT *
+            FROM tutors
+            WHERE class_code = c.class_code
+            AND email = t.email
+            AND role_name = "tutor"
+            AND accepted = true
+            ), 1, 0) as tutor, 
+            IF(EXISTS(
+              SELECT *
+              FROM tutors
+              WHERE class_code = c.class_code
+              AND email = t.email
+              AND role_name = "lab_assistant"
+              AND accepted = true
+              ), 1, 0) as lab_assistant
+              FROM classes c
+              LEFT JOIN tutors t
+              ON c.class_code = t.class_code
+              WHERE t.email = ?
+              AND accepted = true;`, [user.email]);
+
+        tempAp.forEach((ap) => {
+          tempFormatApplied.push(
+            {
+              "courseCode": ap.class_code,
+              "courseName": ap.subject_name,
+              "tutorStatus": Boolean(ap.tutor),
+              "labStatus": Boolean(ap.lab_assistant)
+            }
+          )
+        });
+
+        let acceptedCount: number = 0;
+        
+        tempAcc.forEach((ap) => {
+          tempFormatAccepted.push(
+            {
+              "courseCode": ap.class_code,
+              "courseName": ap.subject_name,
+              "tutorStatus": Boolean(ap.tutor),
+              "labStatus": Boolean(ap.lab_assistant)
+            }
+          );
+          if(ap.tutor)
+            acceptedCount++;
+          if(ap.lab_assistant)
+            acceptedCount++;
+        });
+        
+        
+
+        return {
+          "person": user,
+          "applied": tempFormatApplied,
+          "accepted": tempFormatAccepted,
+          "timesAccepted": acceptedCount
+        };
+      })
+    );
+      
+      return response.status(200).json(returnedData);
+    }
+    catch(e)
+    {
+      console.log(e);
+      return response.status(400).json([]);
     }
   }
 
