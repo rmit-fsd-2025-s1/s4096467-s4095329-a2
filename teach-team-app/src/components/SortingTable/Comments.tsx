@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Card} from "@chakra-ui/react"
 import { userState, generateUsers, getLectureClasses} from "../../helpers/validate";
 
@@ -41,7 +41,8 @@ export default function Comments() {
     }, []);
 
     //generate list of users
-    const db: Map<string, userState> = generateUsers();
+    //TODO I changed this just in case anything breaks come back here
+    const db = useMemo<Map<string, userState>>(() => generateUsers(), []);
     //use state for the objs
     const [lecturerComments, setLecturerComments] = useState<commentsFromL[]>([]);
     const [commentFound, setCommentFound] = useState(false);
@@ -76,7 +77,7 @@ export default function Comments() {
         //Update array
         setLecturerComments(getComment);
 
-    }, [db, localEmail]);
+    }, [localEmail]);
 
     return (
         <>

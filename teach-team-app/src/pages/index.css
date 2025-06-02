@@ -1,0 +1,124 @@
+.bodybox {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display: flex;
+  height: 85vh;
+  font-family: sans-serif;
+  background-image: url('/meeting.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.textside {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  flex: 1;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5%;
+  background: linear-gradient(to right, rgba(7, 45, 85, 0.9), rgba(7, 45, 85, 0.6));
+}
+
+.textside h1 {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.textside p {
+  font-size: 20px;
+}
+
+.uniquefooter {
+    height: 10vh;
+    background-color: white;
+    border-bottom: 5px rgb(59, 189, 91) solid;
+}
+
+/* basically copypasted from the header */
+.login-btn {
+  width: 20%;
+  height: 60px;
+  color:  #00c853;
+  padding: 10px 20px;
+  border: #00c853 3px solid;
+  border-radius: 10px;
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+.login-btn::before {
+  color: white;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  background: linear-gradient(to right, rgb(59, 189, 91), #00ff62);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.2s ease-out;
+  z-index: -1;
+}
+
+.login-btn:hover::before {
+  transform: scaleY(1);
+}
+
+.login-btn:hover {
+  color: white;
+}
+
+.reg-btn {
+  width: 20%;
+  height: 60px;
+  color:   rgba(22, 121, 226, 0.9);
+  padding: 10px 20px;
+  border:  rgba(30, 139, 255, 0.9) 3px solid;
+  border-radius: 10px;
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+  margin-top: 2cqmax;
+  margin-bottom: 30px;
+}
+
+.reg-btn::before {
+  color: white;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 60px;
+  width: 100%;
+  background: linear-gradient(to right,  rgba(15, 118, 179, 0.9),rgba(11, 73, 139, 0.6));
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.2s ease-out;
+  z-index: -1;
+}
+
+.reg-btn:hover::before {
+  transform: scaleY(1);
+}
+
+.reg-btn:hover {
+  color: white;
+}

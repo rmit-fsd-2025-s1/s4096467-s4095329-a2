@@ -1,0 +1,43 @@
+import bcrypt from "bcryptjs";
+import { userApi } from "../services/api";
+import { userState} from "./validate"
+import { User } from "./validate";
+
+//idk why this is here perhaps I migrate it somewhere else?
+export async function registerUser(newUser: Partial<User>){
+    console.log("Called register user")
+    try
+    {   
+        const result = await userApi.createUser(newUser);
+        console.log("reg", result)
+        //Not proud of this code but hey it works
+        if (result.message === "User registered") {
+            return true;
+        } 
+        else {
+            return false;
+        }
+    }
+    catch(e)
+    {   
+        console.error("Error");
+        return false;
+    }
+}
+
+export async function getUser(email: String){
+    console.log("Called get userInfo")
+    try
+    {   
+        //There shouldnt be any errors here. Should be handled by controller
+        const result = await userApi.getUserByEmail(email);
+        return result;
+    }
+    catch(e)
+    {   
+        console.error("Error");
+        return false;
+    }
+}
+
+

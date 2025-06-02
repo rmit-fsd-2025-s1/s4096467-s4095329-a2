@@ -1,5 +1,6 @@
 import { SubjectProps, tutorClassObj } from "@/components/Home/Home";
 import { classTable, saveClassTable } from "@/helpers/validate";
+import { User } from "../helpers/validate";
 import axios from "axios";
 
 export const api = axios.create({
@@ -73,4 +74,19 @@ export const userApi = {
     const response = await api.get(`/users/${id}`);
     return response.data;
   },
+
+  getUserByEmail: async (email: String) => {
+    const response = await api.get(`/users/${email}`);
+    return response.data;
+  },
+
+  createUser: async (newUser: Partial<User>) => {
+    const response = await api.post('/users', newUser);
+    return response.data;
+  }
+
+  // editField: async (text: string) => {
+  //   const response = await api.put("/users");
+  //   return response.data
+  // }
 };

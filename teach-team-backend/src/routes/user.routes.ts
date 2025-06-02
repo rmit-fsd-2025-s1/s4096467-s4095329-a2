@@ -34,6 +34,12 @@ router.get("/users/type/:email", async (req, res) => {
   await userController.userType(req, res);
 });
 
+//Get a specific user via email
+// to call this, run /api/users/yourEmailHere
+router.get("/users/:email", async (req, res) => {
+  await userController.userInfo(req, res);
+});
+
 // Gets the status of application for the tutor apply to classes page
 // to call this, run /api/users/appliedClasses/tutorEmailHere
 router.get("/users/appliedClasses/:email", async (req, res) => {
@@ -89,7 +95,6 @@ router.get("/classes/search/:sort/:filter/:search/:availability/:type", async (r
 //Registers a user 
 //post new reg info 
 router.post("/users", async (req, res) => {
-  console.log("are you running")
   await userController.registerUser(req, res);
 });
 
