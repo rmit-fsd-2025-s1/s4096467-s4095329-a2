@@ -8,7 +8,7 @@ import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import { useEffect, useState, useMemo} from "react";
 import Link from "next/link";
 import { Button, Input, InputGroup } from "@chakra-ui/react"
-import { SearchTable } from "@/components/SortingTable/SearchTable";
+import { SearchTable, userData } from "@/components/SortingTable/SearchTable";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
 import { getLocalCandidates } from "@/helpers/localStorageGet";

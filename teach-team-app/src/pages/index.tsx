@@ -2,14 +2,11 @@ import {Header} from "../components/Header/Header";
 import {Footer} from "../components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
-import {useRouter} from "next/navigation";
-import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
-import { Image, Link} from "@chakra-ui/react"
+import { Link} from "@chakra-ui/react"
 import "./index.css";
 
 
 export default function Home() {
-  const router = useRouter();
   
   const[localEmail, setLocalEmail] = useState<string>("");
       const[localPassword, setLocalPassword] = useState<string>("");
@@ -76,7 +73,7 @@ export default function Home() {
       <div className="uniquefooter">
 
       </div>
-      {/* <Footer isLoggedIn={passwordValid} type={loginType}/> */}
+      <Footer isLoggedIn={passwordValid} type={loginType}/>
     </>
   );
 }
