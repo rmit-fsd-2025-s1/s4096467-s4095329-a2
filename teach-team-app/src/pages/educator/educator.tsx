@@ -94,6 +94,17 @@ export default function EducatorDashboard()
         else setSortingMethod("none Accepted");
     };
 
+    const[searchVar, setSearchVar] = useState<userData[]>([]);
+
+    useEffect(()=>{
+        const searchPing = async () => {
+            const searchResults = await userApi.searchData("sort", "filter", "searchbar", "availability", currentButton);
+            setSearchVar(searchResults);
+            console.log("SearchReturn",searchResults);
+        }
+        searchPing();
+    }, [currentButton, searchBar, sortingMethod]);
+
     //TODO Do we ask the user to fill in a form for their full name and other credentials? Like display a different page??
     return(
         <>
@@ -145,7 +156,7 @@ export default function EducatorDashboard()
                             </InputGroup>
                         </div>
                     </div>
-                    <SearchTable tableArr={localDB.users.map(([, value]) => value)} classes={localDB.subjects.map(([, value]) => value)} sort={sortingMethod} type={currentButton} keyword={searchBar} order=""/>
+                    <SearchTable tableDataIn={searchVar}/>
                 </div>)}
                 
             </div>)}
