@@ -135,7 +135,7 @@ export default function EducatorDashboard()
                     <HomeContent educatorEmail={user.email} isLoggedIn={passwordValid} accountType={loginType||""}/>
                 </div>
                 {passwordValid &&(<div className="lecturers-list-box">
-                    <div className="bar"><p>Tutor Search</p></div>
+                    <div className="bar"><p>Educator Search</p></div>
                     <div className="flex-sbs-stock green-top no-gap flex-wrap either-end">
                         <div className="flex-sbs-stock" style={{ width: 'auto' }}>
                             <p>Sort</p>
