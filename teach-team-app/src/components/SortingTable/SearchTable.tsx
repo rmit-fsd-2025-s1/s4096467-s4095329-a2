@@ -1,3 +1,4 @@
+import { toSentenceCase } from "@/helpers/stringHelper";
 import { subject, User, userState } from "@/helpers/validate";
 import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
 
@@ -168,7 +169,7 @@ export function SearchTable({ tableDataIn }: searchTableProps)
                             <Table.Cell p="4" fontSize="md">{tut.person.email??"Not Provided"}</Table.Cell> {/*Tutor Email*/}
                             <Table.Cell p="4" fontSize="md">{tut.applied.length >= 1 ? tut.applied.map((x, i) => <tr key={i}>{ x.courseName + " - " + x.courseCode}</tr>) : "Not Provided"}</Table.Cell> {/*Applied Courses*/}
                             <Table.Cell p="4" fontSize="md">{tut.accepted.length >= 1 ? tut.accepted.map((x, i) => <tr key={i}>{x.courseName + " - " + x.courseCode}</tr>) : "Not Provided"}</Table.Cell> {/*Accepted Courses*/}
-                            <Table.Cell p="4" fontSize="md">{tut.person.availability.length >= 1 ? tut.person.availability : ["Not Provided"].map((x)=><tr key={x}>{x}</tr>)}</Table.Cell> {/*Availability*/}
+                            <Table.Cell p="4" fontSize="md">{tut.person.availability.length >= 1 ? toSentenceCase(tut.person.availability) : ["Not Provided"].map((x)=><tr key={x}>{x}</tr>)}</Table.Cell> {/*Availability*/}
                             <Table.Cell p="4" fontSize="md">{Array.isArray(tut.person.skills) && tut.person.skills.length >= 1 ? tut.person.skills.map((x, i) => <tr key={i}>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Skills*/}
                             <Table.Cell p="4" fontSize="md">{tut.timesAccepted??"# Not Calculated"}</Table.Cell> {/*Accepted*/}
                         </Table.Row>
@@ -181,7 +182,7 @@ export function SearchTable({ tableDataIn }: searchTableProps)
                                     <h2>{tut.person.full_name??"No Name Provided"}</h2>
                                     <h3>Summary: {tut.person.summary??"No Summary Provided"}</h3>
                                     <h3>Previous Roles: {tut.person.previous_roles??"No Previous Roles"}</h3>
-                                    <h3>Availability: {tut.person.availability??"No Availability Provided"}</h3>
+                                    <h3>Availability: {toSentenceCase(tut.person.availability)??"No Availability Provided"}</h3>
                                     <h3>Education: {tut.person.educations??"No Education Provided"}</h3>
                                     <h3>Certifications: {tut.person.certifications??"No Certifications Provided"}</h3>
                                     <h3>Skills: {tut.person.skills??"No Skills Provided"}</h3>
