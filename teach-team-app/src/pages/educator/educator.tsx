@@ -87,20 +87,27 @@ export default function EducatorDashboard()
     //Input Hook
     const[searchBar, setSearchBar] = useState<string>("");
 
-    const[sortingMethod, setSortingMethod] = useState("none Accepted");
+    const[sortingMethod, setSortingMethod] = useState("@all");
     const toggleSort = () => {
-        if (sortingMethod === "none Accepted") setSortingMethod("ascending");
-        else if (sortingMethod === "ascending") setSortingMethod("descending");
-        else setSortingMethod("none Accepted");
+        if (sortingMethod === "@all") 
+            setSortingMethod("none");
+        else if (sortingMethod === "none") 
+            setSortingMethod("desc");
+        else if (sortingMethod === "desc") 
+            setSortingMethod("asc");
+        else
+            setSortingMethod("@all")
     };
 
+
+    // Sets the values for the search table
     const[searchVar, setSearchVar] = useState<userData[]>([]);
 
     useEffect(()=>{
         const searchPing = async () => {
             const searchResults = await userApi.searchData("sort", "filter", "searchbar", "availability", currentButton);
             setSearchVar(searchResults);
-            console.log("SearchReturn",searchResults);
+            // console.log("SearchReturn",searchResults);
         }
         searchPing();
     }, [currentButton, searchBar, sortingMethod]);
@@ -140,7 +147,7 @@ export default function EducatorDashboard()
                         <div className="flex-sbs-stock" style={{ width: 'auto' }}>
                             <p>Sort</p>
                             <div className="flex-column2">
-                                <Button p="4" width="300px" variant={"solid"} onClick={() => toggleSort()}>{sortingMethod === "None Accepted" ? "None Accepted" : sortingMethod === "ascending" ? "Sorted by acceptance ascending" : "Sorted by acceptance descending"}</Button>
+                                <Button p="4" width="300px" variant={"solid"} onClick={() => toggleSort()}>{sortingMethod === "@all" ? "All Acceptance" : sortingMethod === "none" ? "Never Accepted" : sortingMethod === "asc" ? "Accepted Smallest to largest" : "Accepted largest to smallest"}</Button>
                             </div>
                         </div>
                         <div className="flex-sbs-stock" style={{ width: 'auto' }}>
@@ -148,8 +155,8 @@ export default function EducatorDashboard()
                             <div className="flex-column1">
                                 <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={()=>{setCurrentButton("Name")}}>Tutor Name</Button>
                                 <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={()=>{setCurrentButton("Course")}}>Course Name</Button>
-                                <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={()=>{setCurrentButton("Availability")}}>Availability</Button>
                                 <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={()=>{setCurrentButton("Skill")}}>Skillset</Button>
+                                <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={()=>{setCurrentButton("Availability")}}>Availability</Button>
                             </div>
                             <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
                                 <Input placeholder="Search" onChange={(e)=>{setSearchBar(e.target.value)}}/>
