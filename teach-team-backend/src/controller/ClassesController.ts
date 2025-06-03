@@ -5,8 +5,23 @@ import { Users } from "../entity/Users";
 import { Tutors } from "../entity/Tutors";
 import { emit } from "process";
 
+interface clientUsers{
+  email: string,
+  full_name: string,
+  password: string,
+  role: string,
+  availability: string,
+  summary: string,
+  active: boolean,
+  certifications: string[],
+  educations: string[],
+  languages: string[],
+  previous_roles: string[],
+  skills: string[]
+}
+
 interface userSearchResults{
-  person: Users;
+  person: clientUsers;
   applied: classSearchResults[],
   accepted: classSearchResults[],
   timesAccepted: number
@@ -425,7 +440,14 @@ export class ClassesController {
         
 
         return {
-          "person": user,
+          "person": {
+            ...user,
+            certifications: user.certifications?.map(c => c.certification) ?? [],
+            educations: user.educations?.map(e => e.education) ?? [],
+            languages: user.languages?.map(l => l.language) ?? [],
+            previous_roles: user.previous_roles?.map(p => p.prev_role) ?? [],
+            skills: user.skills?.map(s => s.skill) ?? [],
+          },
           "applied": tempFormatApplied,
           "accepted": tempFormatAccepted,
           "timesAccepted": acceptedCount
