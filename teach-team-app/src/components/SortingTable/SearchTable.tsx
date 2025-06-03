@@ -178,15 +178,16 @@ export function SearchTable({ tableDataIn }: searchTableProps)
                         <HoverCard.Positioner>
                             <HoverCard.Content>
                                 <HoverCard.Arrow/>
+                                {/* I don't know why I used ul here, but it works. Usually I don't do that. */}
                                 <Box p="4" className="lecturerBox">
-                                    <h2>{tut.person.full_name??"No Name Provided"}</h2>
-                                    <h3>Summary: {tut.person.summary??"No Summary Provided"}</h3>
-                                    <h3>Previous Roles: {tut.person.previous_roles??"No Previous Roles"}</h3>
-                                    <h3>Availability: {toSentenceCase(tut.person.availability)??"No Availability Provided"}</h3>
-                                    <h3>Education: {tut.person.educations??"No Education Provided"}</h3>
-                                    <h3>Certifications: {tut.person.certifications??"No Certifications Provided"}</h3>
-                                    <h3>Skills: {tut.person.skills??"No Skills Provided"}</h3>
-                                    <h3>Languages: {tut.person.languages??"No Languages Provided"}</h3>
+                                    <h2><strong>{tut.person.full_name??"No Name Provided"}</strong></h2>
+                                    <h3><strong>Summary:</strong><ul>{tut.person.summary??"No Summary Provided"}</ul></h3>
+                                    <h3><strong>Previous Roles:</strong> {tut.person.previous_roles.length >= 1 ? tut.person.previous_roles.map((x,i) => <ul key={i}>{x}</ul>) :<ul>No Previous Roles</ul>}</h3>
+                                    <h3><strong>Availability:</strong> <ul>{toSentenceCase(tut.person.availability)??"No Availability Provided"}</ul></h3>
+                                    <h3><strong>Education:</strong> {tut.person.educations.length >= 1 ? tut.person.educations.map((x,i)=> <ul key={i}>{x}</ul>) : <ul>No Education Provided</ul>}</h3>
+                                    <h3><strong>Certifications:</strong> {tut.person.certifications.length >= 1 ? tut.person.certifications.map((x,i) => <ul key={i}>{x}</ul>) : <ul>No Certifications Provided</ul>}</h3>
+                                    <h3><strong>Skills:</strong> {tut.person.skills.length >= 1 ? tut.person.skills.map((x,i) => <ul key={i}>{x}</ul>) : <ul>No Skills Provided</ul>}</h3>
+                                    <h3><strong>Languages:</strong> {tut.person.languages.length >= 1 ? tut.person.languages.map((x,i) => <ul key={i}>{x}</ul>) : <ul>No Languages Provided</ul>}</h3>
                                 </Box>
                             </HoverCard.Content>
                         </HoverCard.Positioner>
