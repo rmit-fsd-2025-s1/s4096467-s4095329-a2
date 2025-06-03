@@ -64,6 +64,11 @@ export const userApi = {
         const response = await api.post(`/users/applyToClass`, {email: emailIn, subject: subjectIn, role: roleIn});
         return response;
     },
+  
+  searchData: async (sort: string, filter: string, search: string, availability: string, type: string) =>{
+    const response = await api.get(`/classes/search/${sort}/${filter}/${search}/${availability}/${type}`);
+    return response.data;
+  },
 
   getAllUsers: async () => {
     const response = await api.get("/users");
@@ -75,7 +80,7 @@ export const userApi = {
     return response.data;
   },
 
-  getUserByEmail: async (email: String) => {
+  getUserByEmail: async (email: string) => {
     const response = await api.get(`/users/${email}`);
     return response.data;
   },
