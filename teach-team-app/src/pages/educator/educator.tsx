@@ -9,9 +9,6 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Button, Input, InputGroup } from "@chakra-ui/react";
 import { SearchTable, userData } from "@/components/SortingTable/SearchTable";
-import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
-import { loadDB } from "@/helpers/loadStorage";
-import { getLocalCandidates } from "@/helpers/localStorageGet";
 
 export default function EducatorDashboard()
 {
@@ -63,7 +60,6 @@ export default function EducatorDashboard()
 
     const name = data?.name??"";
     //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
-    const[localDB,] = useIfLocalStorage("localDB", loadDB());
     const [candidates, setCandidates] = useState<number>(0);
     useEffect(() => {
         const getCountVal = async () => {
@@ -80,7 +76,6 @@ export default function EducatorDashboard()
         };
         getCountVal();
     }, [user]);
-    getLocalCandidates(user.email, localDB.subjects);
 
     //Button manager for lecturer
     const[currentButton, setCurrentButton] = useState<string>("Name");
