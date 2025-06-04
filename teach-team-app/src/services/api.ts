@@ -71,7 +71,7 @@ export const userApi = {
     // Availability is the <select> for availability
     // Type is the <select> for roles tutor / lab-assistant
   searchData: async (sort: string, filter: string, search: string, availability: string, type: string) =>{
-    const response = await api.get(`/classes/search/${sort}/${filter}/${search}/${availability}/${type}`);
+    const response = await api.get(`/classes/search/${sort}/${filter}/${search.length == 0? "@undef": search}/${availability}/${type}`);
     return response.data;
   },
 
