@@ -7,7 +7,8 @@ import React, { useEffect, useState , useMemo} from "react";
 import { Button } from "@chakra-ui/react"
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
-import { getUser } from '../../helpers/frontendHelper'
+import { getUser, deleteField, postField } from '../../helpers/frontendHelper'
+import { IntegerType } from "typeorm";
 
 
 export interface details {
@@ -20,6 +21,12 @@ export interface details {
     languages: string;
 }
 
+//Will add more 
+interface Language {
+    language_key: number;
+    language: string;
+}
+
 export interface detailsDB {
     summary: string;
     prevRoles: string[];
@@ -27,7 +34,7 @@ export interface detailsDB {
     certifications: string[];
     education: string[];
     skills: string[];
-    languages: string[];
+    languages: Language[];
 }
 
 const detailsTitle = ['summary', 'prevRoles', 'avail', 'certifications', 'education', 'skills', 'languages'];
@@ -152,6 +159,7 @@ export default function UserProfile()
     }    
 
     //THE DATABASE INTEGRATION HERE
+    //NEW WORKSPACE HERE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const [userData, setUserData] = useState<detailsDB>({
         summary: "",
         prevRoles: [],
@@ -178,12 +186,12 @@ export default function UserProfile()
             if (getdata && getdata.userData) {
                 setUserData({
                     summary: getdata.userData.summary ?? "",
-                    prevRoles: Array.isArray(getdata.userData.previous_roles) ? getdata.userData.previous_roles.map((item: { prev_role: string }) => item.prev_role) : [],
+                    prevRoles: getdata.userData.previous_roles ?? [],
                     avail: getdata.userData.availability ?? "",
-                    certifications: Array.isArray(getdata.userData.certifications) ? getdata.userData.certifications.map((item: { certification: string }) => item.certification) : [],
-                    education: Array.isArray(getdata.userData.educations) ? getdata.userData.educations.map((item: { education: string }) => item.education) : [],
-                    skills: Array.isArray(getdata.userData.skills) ? getdata.userData.skills.map((item: { skill: string }) => item.skill) : [],
-                    languages: Array.isArray(getdata.userData.languages) ? getdata.userData.languages.map((item: { language: string }) => item.language) : [],
+                    certifications: getdata.userData.certifications ?? [],
+                    education: getdata.userData.educations ?? [],
+                    skills: getdata.userData.skills ?? [],
+                    languages: getdata.userData.languages ?? [],
                 });
             }
         };
@@ -202,16 +210,39 @@ export default function UserProfile()
             console.log("Languages:", userData.languages);
     })
 
+    const [editEntry, setEditEntry] = useState<keyof detailsDB | null>(null);
+    const [visible, setVisible] = useState(true);
+    //Dont forget to +1 for database
+    //Instead of Editing I should look into delete + POST. No need for PUT
+    //This one does the deletion
+    const del = (field: keyof detailsDB, index: IntegerType) => {
+        console.log(index)
+        setEditEntry(field);
+        setVisible(false);
+    }
 
-    //Save input to database using PUT
-    const saveTest = (field: keyof details) => {
-        //appends the temp string to the userData.field
-        setUserData((prev) => ({ ...prev, [field]: temp})); 
+    //This one does the post
+    //Temp = the input of the person
+    const saveEntry = (field: keyof detailsDB) => {
+        //appends the temp string to the userData.field??
+        // setUserData((prev) => ({ ...prev, [field]: temp})); 
         
-        //REST API PUT
+        //REST API POST
 
-        setEditField(null);
+        setEditEntry(null);
+        setVisible(true);
     }    
+
+    //Same as saveEntry but no deleting occurs here.
+    const createEntry = (field: keyof detailsDB) => {
+        //appends the temp string to the userData.field??
+        // setUserData((prev) => ({ ...prev, [field]: temp})); 
+        setEditEntry(field);
+        setVisible(false);
+        //REST API POST
+    }    
+
+    
 
     return(
         <>
@@ -226,12 +257,9 @@ export default function UserProfile()
                     <div className="box1">
                         <div className="about">            
                             <h2>Summary</h2>
-                            <p>{/*summary !== "" && if the user already had data*/ userData.summary !== "" ? (
+                            <p>{userData.summary !== "" ? (
                                userData.summary
                             ) : "Add your introduction here"}</p>
-                            {/* <p>{formData.summary !== "" ? (
-                               formData.summary
-                            ) : "Add your introduction here"}</p> */}
                             {editField === 'summary' ? (
                             <label>
                                 <textarea
@@ -254,9 +282,7 @@ export default function UserProfile()
                         </div>
                         <div className="prevRoles">
                         <h2>Career History</h2>
-                            <p>{userData.prevRoles !== null ? (
-                               userData.prevRoles
-                            ) : "Add your introduction here"}</p>
+                        {/* <p>{userData.prevRoles}</p> */}
                             {editField === 'prevRoles' ? (
                             <label>
                                 <textarea
@@ -278,9 +304,7 @@ export default function UserProfile()
                         </div>
                         <h2>Education</h2>                        
                         <div className="education">
-                        <p>{userData.education !== null ? (
-                               userData.education
-                            ) : "Add your education here"}</p>
+                        
                             {editField === 'education' ? (
                             <label>
                                 <textarea
@@ -302,9 +326,7 @@ export default function UserProfile()
                         </div>
                         <div className="skills">
                             <h2>Skills</h2>
-                            <p>{userData.skills !== null ? (
-                               userData.skills
-                            ) : "Add your skills here"}</p>
+                            
                             {editField === 'skills' ? (
                             <label>
                                 <textarea
@@ -328,9 +350,7 @@ export default function UserProfile()
                     <div className="box2">
                         <div className="cert">
                             <h2>Certifications</h2>
-                            <p>{userData.certifications !== null ? (
-                               userData.certifications
-                            ) : "Add your certifications here"}</p>
+                            
                             {editField === 'certifications' ? (
                             <label>
                                 <textarea
@@ -353,9 +373,9 @@ export default function UserProfile()
                         </div>
                         <div className="avail">
                             <h2>Availability</h2>
-                            <p>{userData.avail !== null ? (
+                            <p>{userData.avail !== "" ? (
                                userData.avail
-                            ) : "Add your availibility here"}</p>
+                            ) : "Add your introduction here"}</p>
                             {editField === 'avail' ? (
                             <label>
                                 <textarea
@@ -378,26 +398,37 @@ export default function UserProfile()
                         </div>
                         <div className="languages">
                             <h2>Languages</h2>
-                            <p>{userData.languages !== null ? (
-                               userData.languages
-                            ) : "Add your languages here"}</p>
-                            {editField === 'languages' ? (
-                            <label>
-                                <textarea
-                                value={temp}
-                                onChange={(e) => setTemp(e.target.value)}
-                                placeholder="Enter your languages"
-                                />
-                                <div className="save">
-                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('languages')}>Save</Button>
-                                </div>
-                                <br/>
-                            </label>
+
+                            {userData.languages.length > 0 ? (
+                            <>
+                                <ul>
+                                {userData.languages.map((obj, index) => (
+                                    <li key={obj.language_key}> {obj.language} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('languages', index)}>
+                                    <span className="material-symbols-outlined">edit</span></Button></li>
+                                ))}
+                                </ul>
+
+                                {editEntry === 'languages' ? (
+                                <label>
+                                    <textarea
+                                    value={temp}
+                                    onChange={(e) => setTemp(e.target.value)}
+                                    placeholder="Enter your language"
+                                    />
+                                    <div className="save">
+                                        <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('languages')}> Save </Button>
+                                    </div>
+                                    <br />
+                                </label>
+                                ) : ""}
+                            </>
                             ) : (
                             <>
-                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('languages')}>Edit languages</Button>
-                                <br/>
-                            </>
+                                <p>No languages added yet.</p>
+                            </>                            
+                            )}
+                            {visible && (
+                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('languages')}>Add a language</Button>
                             )}
                         </div>
                     </div>
