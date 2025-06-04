@@ -226,3 +226,20 @@
     justify-content: flex-start;
     margin-right: 0;
 }
+
+.search-dropdown{
+    background-color: #18181b;
+    color: #FFFFFF;
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.875rem;
+    width: 150px;
+    padding: 0px 10px;
+    border-radius: 0.25rem;
+    transition: 0.2s;
+}
+
+.search-dropdown:hover{
+    background-color: #3bbd5b;
+    cursor: pointer;
+}

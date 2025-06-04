@@ -5,9 +5,9 @@ import { isPasswordValid, userCred, getUserType, getUserData } from "../../helpe
 import { userApi } from "../../services/api";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
-import { useEffect, useState, useMemo} from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
-import { Button, Input, InputGroup } from "@chakra-ui/react"
+import { Button, Input, InputGroup } from "@chakra-ui/react";
 import { SearchTable, userData } from "@/components/SortingTable/SearchTable";
 import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
@@ -86,6 +86,10 @@ export default function EducatorDashboard()
     const[currentButton, setCurrentButton] = useState<string>("Name");
     //Input Hook
     const[searchBar, setSearchBar] = useState<string>("");
+    //Availability Selector
+    const[availabilitySelect, setAvailabilitySelect] = useState<string>("Any Availability");
+    //Role Selector
+    const[roleSelect, setRoleSelect] = useState<string>("Any Position");
 
     const[sortingMethod, setSortingMethod] = useState("@all");
     const toggleSort = () => {
@@ -105,12 +109,12 @@ export default function EducatorDashboard()
 
     useEffect(()=>{
         const searchPing = async () => {
-            const searchResults = await userApi.searchData("sort", "filter", "searchbar", "availability", currentButton);
+            const searchResults = await userApi.searchData(sortingMethod, currentButton, searchBar, availabilitySelect, roleSelect);
             setSearchVar(searchResults);
             // console.log("SearchReturn",searchResults);
         }
         searchPing();
-    }, [currentButton, searchBar, sortingMethod]);
+    }, [currentButton, searchBar, sortingMethod, availabilitySelect, roleSelect]);
 
     //TODO Do we ask the user to fill in a form for their full name and other credentials? Like display a different page??
     return(
@@ -156,7 +160,29 @@ export default function EducatorDashboard()
                                 <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={()=>{setCurrentButton("Name")}}>Tutor Name</Button>
                                 <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={()=>{setCurrentButton("Course")}}>Course Name</Button>
                                 <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={()=>{setCurrentButton("Skill")}}>Skillset</Button>
-                                <Button width="100px" variant={currentButton === "Availability" ? "outline":"solid"} onClick={()=>{setCurrentButton("Availability")}}>Availability</Button>
+
+                                {/* I Hate Chakra v3 Select components, why are they like 3x harder to use than the v2 Select components */}
+                                <select
+                                name="availabilityDropdown"
+                                value={availabilitySelect}
+                                onChange={(e)=>{setAvailabilitySelect(e.target.value)}}
+                                className="search-dropdown">
+                                    <option>Any Availability</option>
+                                    <option>None</option>
+                                    <option>Full-time</option>
+                                    <option>Part-time</option>
+                                    <option>Casual</option>
+                                </select>
+                                <select
+                                name="roleDropdown"
+                                value={roleSelect}
+                                onChange={(e)=>{setRoleSelect(e.target.value)}}
+                                className="search-dropdown">
+                                    <option>Any Position</option>
+                                    <option>Tutor</option>
+                                    <option>Lab-Assistant</option>
+                                </select>
+
                             </div>
                             <InputGroup width="50%" startElement={<span className="material-symbols-outlined">search</span>}>
                                 <Input placeholder="Search" onChange={(e)=>{setSearchBar(e.target.value)}}/>
