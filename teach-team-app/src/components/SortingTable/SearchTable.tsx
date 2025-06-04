@@ -53,8 +53,8 @@ export function SearchTable({ tableDataIn }: searchTableProps)
                             {/* Display other information in body */}
                             <Table.Cell p="4" fontSize="md">{tut.person.full_name??"Not Provided"}</Table.Cell> {/*Tutor Name*/}
                             <Table.Cell p="4" fontSize="md">{tut.person.email??"Not Provided"}</Table.Cell> {/*Tutor Email*/}
-                            <Table.Cell p="4" fontSize="md">{tut.applied.length >= 1 ? tut.applied.map((x, i) => <tr key={i}>{ x.courseName + " - " + x.courseCode}</tr>) : "Not Provided"}</Table.Cell> {/*Applied Courses*/}
-                            <Table.Cell p="4" fontSize="md">{tut.accepted.length >= 1 ? tut.accepted.map((x, i) => <tr key={i}>{x.courseName + " - " + x.courseCode}</tr>) : "Not Provided"}</Table.Cell> {/*Accepted Courses*/}
+                            <Table.Cell p="4" fontSize="md">{tut.applied.length >= 1 ? tut.applied.map((x, i) => <tr key={i}>{ x.courseName + " - " + x.courseCode} ({x.tutorStatus? "T":""}{x.tutorStatus && x.labStatus ? "+":""}{x.labStatus ? "L":""})</tr>) : "None"}</Table.Cell> {/*Applied Courses*/}
+                            <Table.Cell p="4" fontSize="md">{tut.accepted.length >= 1 ? tut.accepted.map((x, i) => <tr key={i}>{ x.courseName + " - " + x.courseCode} ({x.tutorStatus? "T":""}{x.tutorStatus && x.labStatus ? "+":""}{x.labStatus ? "L":""})</tr>) : "None"}</Table.Cell> {/*Accepted Courses*/}
                             <Table.Cell p="4" fontSize="md">{tut.person.availability.length >= 1 ? toSentenceCase(tut.person.availability) : ["Not Provided"].map((x)=><tr key={x}>{x}</tr>)}</Table.Cell> {/*Availability*/}
                             <Table.Cell p="4" fontSize="md">{Array.isArray(tut.person.skills) && tut.person.skills.length >= 1 ? tut.person.skills.map((x, i) => <tr key={i}>{x}</tr>) : "Not Provided"}</Table.Cell> {/*Skills*/}
                             <Table.Cell p="4" fontSize="md">{tut.timesAccepted??"# Not Calculated"}</Table.Cell> {/*Accepted*/}
