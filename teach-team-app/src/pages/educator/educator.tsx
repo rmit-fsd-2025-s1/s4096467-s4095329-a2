@@ -78,7 +78,7 @@ export default function EducatorDashboard()
     }, [user]);
 
     //Button manager for lecturer
-    const[currentButton, setCurrentButton] = useState<string>("Name");
+    const[currentButton, setCurrentButton] = useState<string>("tname");
     //Input Hook
     const[searchBar, setSearchBar] = useState<string>("");
     //Availability Selector
@@ -152,9 +152,9 @@ export default function EducatorDashboard()
                         <div className="flex-sbs-stock" style={{ width: 'auto' }}>
                             <p>Filters</p>
                             <div className="flex-column1">
-                                <Button width="100px" variant={currentButton === "Name" ? "outline":"solid"} onClick={()=>{setCurrentButton("Name")}}>Tutor Name</Button>
-                                <Button width="100px" variant={currentButton === "Course" ? "outline":"solid"} onClick={()=>{setCurrentButton("Course")}}>Course Name</Button>
-                                <Button width="100px" variant={currentButton === "Skill" ? "outline":"solid"} onClick={()=>{setCurrentButton("Skill")}}>Skillset</Button>
+                                <Button width="100px" variant={currentButton === "tname" ? "outline":"solid"} onClick={()=>{setCurrentButton("tname")}}>Tutor Name</Button>
+                                <Button width="100px" variant={currentButton === "course" ? "outline":"solid"} onClick={()=>{setCurrentButton("course")}}>Course Name</Button>
+                                <Button width="100px" variant={currentButton === "skills" ? "outline":"solid"} onClick={()=>{setCurrentButton("skills")}}>Skillset</Button>
 
                                 {/* I Hate Chakra v3 Select components, why are they like 3x harder to use than the v2 Select components */}
                                 <select
