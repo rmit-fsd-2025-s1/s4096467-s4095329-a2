@@ -334,13 +334,13 @@ export class ClassesController {
       const sort: string = request.params.sort;
       const filter: string = request.params.filter;
       const search: string = request.params.search;
-      // const availability: string = request.params.availability;
-      // const type: string = request.params.type;
+      const availability: string = request.params.availability;
+      const type: string = request.params.type;
 
       
       
       // Get users that meet the search criteria
-      const returnedUsers: Users[] = await AppDataSource.getRepository(Users)
+      let returnedUsers = await AppDataSource.getRepository(Users)
       .createQueryBuilder("users")
       .leftJoinAndSelect("users.tutorJoin", "tutorJoin")
       .leftJoinAndSelect("users.certifications", "certifications")
@@ -348,11 +348,46 @@ export class ClassesController {
       .leftJoinAndSelect("users.languages", "languages")
       .leftJoinAndSelect("users.previous_roles", "previous_roles")
       .leftJoinAndSelect("users.skills", "skills")
-      .getMany();
+      .where("users.role = :role", {role: "candidate"});
+
+
+      
+      // If the filter is tname
+      if(filter === "tname" && search !== "@undef"){
+        returnedUsers.andWhere("users.full_name like :name", { name: `%${search}%`});
+      }
+      // Else if the filter is course
+      else if(filter === "course" && search !== "@undef"){
+        // const returnedClassLookup = await AppDataSource.getRepository(Classes)
+        // .createQueryBuilder("classes")
+        // .leftJoinAndSelect("classes.tutors", "tutorClassJoin")
+        // .where("classes.class_code like :code", { code: search })
+        // .orWhere("classes.subject_name like : codeName", { codeName: search })
+        // .getMany()
+      }
+      // Else if the filter is skills
+      else if(filter === "skills" && search !== "@undef"){
+        returnedUsers.andWhere("skills.skill like :skill", { skill: `%${search}%` });
+      }
+
+      // If the availability is a valid set availability
+      if(availability === "weekdays" || availability === "part-time" || availability === "full-time" || availability === "casual" || availability === "None"){
+        returnedUsers.andWhere("availability = :available", { available: availability });
+      }
+      // Else @any
+      
+      // If the type is tutor or lab_assistant
+      if(type === "tutor" || type === "lab-assistant"){
+        returnedUsers.andWhere("tutorJoin.role_name = :roleName", { roleName: type });
+      }
+      // Else @any
+      
+
+    const usersList = await returnedUsers.getMany();
       
     let returnedData: userSearchResults[] = await Promise.all(
       // Then for each of the users
-      returnedUsers.map(async (user: Users) => {
+      usersList.map(async (user: Users) => {
         // Variables to be pushed to the returnedData
         const tempFormatApplied: classSearchResults[] = [];
         const tempFormatAccepted: classSearchResults[] = [];
@@ -453,6 +488,23 @@ export class ClassesController {
         };
       })
     );
+
+      // Sort it based on the sort key
+      if(sort === "none"){
+        // Remove data entries where timesAccepted does not equal 0
+        returnedData = returnedData.filter(item => (item.timesAccepted === 0));
+      }
+      else if(sort === "asc"){
+        // Remove timesAccepted === 0 and then filter with lowest at the top
+        returnedData = returnedData.filter(item => !(item.timesAccepted === 0));
+        returnedData = returnedData.sort((a,b) => a.timesAccepted - b.timesAccepted);
+      }
+      else if(sort === "desc"){
+        // Remove timesAccepted === 0 and then filter with highest at the top
+        returnedData = returnedData.filter(item => !(item.timesAccepted === 0));
+        returnedData = returnedData.sort((a,b) => b.timesAccepted - a.timesAccepted);
+      }
+      
       
       return response.status(200).json(returnedData);
     }
