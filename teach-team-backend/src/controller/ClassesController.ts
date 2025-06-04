@@ -3,7 +3,6 @@ import { AppDataSource } from "../data-source";
 import { Classes } from "../entity/Classes";
 import { Users } from "../entity/Users";
 import { Tutors } from "../entity/Tutors";
-import { emit } from "process";
 
 interface clientUsers{
   email: string,
