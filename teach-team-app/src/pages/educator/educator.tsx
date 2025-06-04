@@ -166,6 +166,7 @@ export default function EducatorDashboard()
                                     <option>None</option>
                                     <option>Full-time</option>
                                     <option>Part-time</option>
+                                    <option>Weekdays</option>
                                     <option>Casual</option>
                                 </select>
                                 <select
