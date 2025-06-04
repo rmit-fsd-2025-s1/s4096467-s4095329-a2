@@ -65,6 +65,11 @@ export const userApi = {
         return response;
     },
   
+    // Sort is the sort button that changes the order depending on the accepted count
+    // Filter is the three buttons that change the search filtering
+    // Search is the text input
+    // Availability is the <select> for availability
+    // Type is the <select> for roles tutor / lab-assistant
   searchData: async (sort: string, filter: string, search: string, availability: string, type: string) =>{
     const response = await api.get(`/classes/search/${sort}/${filter}/${search}/${availability}/${type}`);
     return response.data;
