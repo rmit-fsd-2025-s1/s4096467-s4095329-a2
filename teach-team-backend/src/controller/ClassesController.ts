@@ -386,11 +386,6 @@ export class ClassesController {
       }
       // Else @any
       
-      // If the type is tutor or lab_assistant
-      if(type === "tutor" || type === "lab-assistant"){
-        returnedUsers.andWhere("tutorJoin.role_name = :roleName", { roleName: type });
-      }
-      // Else @any
       
 
     const usersList = await returnedUsers.getMany();
@@ -498,6 +493,50 @@ export class ClassesController {
         };
       })
     );
+
+      // If the type is tutor or lab_assistant
+      if(type === "tutor" || type === "lab_assistant"){
+        // For each of the returned table rows
+        returnedData = returnedData.map((x) => {
+          // Remove the entries from accepted where tutor and lab status are false
+          x.accepted = x.accepted.map((y) => {
+            if(type === "tutor"){
+              y.labStatus = false;
+            } else {
+              y.tutorStatus = false;
+            }
+            if(y.labStatus || y.tutorStatus){
+              return y;
+            }
+            return null;
+          })
+          .filter(y => y !== null);
+          // Remove the entries from applied where tutor and lab status are false
+          x.applied = x.applied.map((z) => {
+            if(type === "tutor"){
+              z.labStatus = false;
+            } else {
+              z.tutorStatus = false;
+            }
+            if(z.labStatus || z.tutorStatus){
+              return z;
+            }
+            return null;
+          })
+          .filter(z => z !== null);
+
+          // Recalculate timesAccepted off of the number of accepted courses
+          x.timesAccepted = x.accepted.length;
+
+          // If the accepted courses and applied courses have anything in the arrays, return the table entry
+          if(x.accepted.length > 0 || x.applied.length > 0){
+            return x;
+          }
+          // Return null if nothing is there
+          return null;
+        // Filter out null values to prevent undefined issues onm the client side 
+        }).filter(x => x !== null);
+      }
 
       // Sort it based on the sort key
       if(sort === "none"){
