@@ -358,12 +358,22 @@ export class ClassesController {
       }
       // Else if the filter is course
       else if(filter === "course" && search !== "@undef"){
-        // const returnedClassLookup = await AppDataSource.getRepository(Classes)
-        // .createQueryBuilder("classes")
-        // .leftJoinAndSelect("classes.tutors", "tutorClassJoin")
-        // .where("classes.class_code like :code", { code: search })
-        // .orWhere("classes.subject_name like : codeName", { codeName: search })
-        // .getMany()
+        const dataSearch = await AppDataSource.manager.query(`SELECT DISTINCT t.email 
+                                    FROM classes c 
+                                    LEFT JOIN tutors t 
+                                    ON c.class_code = t.class_code
+                                    WHERE c.class_code LIKE "%${search}%"
+                                    OR c.subject_name LIKE "%${search}%";`);
+        const formatData = dataSearch.map(row => row.email);
+        // console.log(dataSearch.map(row => row.email));
+
+        if(formatData.length > 0){
+          returnedUsers.andWhere("users.email in (:...emails)", { emails: formatData });
+        }
+        else{
+          // Return Nothing, 0 responses
+          returnedUsers.andWhere("1=0");
+        }
       }
       // Else if the filter is skills
       else if(filter === "skills" && search !== "@undef"){
