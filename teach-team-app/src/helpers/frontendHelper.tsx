@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { userApi } from "../services/api";
 import { userState} from "./validate"
 import { User } from "./validate";
+import { detailsDB } from "@/pages/educator/userProfile";
 
 //idk why this is here perhaps I migrate it somewhere else?
 export async function registerUser(newUser: Partial<User>){
@@ -25,7 +26,7 @@ export async function registerUser(newUser: Partial<User>){
     }
 }
 
-export async function getUser(email: String){
+export async function getUser(email: string){
     console.log("Called get userInfo")
     try
     {   
@@ -39,5 +40,30 @@ export async function getUser(email: String){
         return false;
     }
 }
+
+export async function postField(field: keyof detailsDB){
+    console.log("Called get postField")
+    try
+    {   
+        // const result = await userApi.postField(field);
+    }
+    catch(e)
+    {   
+
+    }
+}
+
+export async function deleteField(field: keyof detailsDB){
+    console.log("Called get deleteField")
+    try
+    {   
+        // const result = await userApi.deleteField(field);
+    }
+    catch(e)
+    {   
+
+    }
+}
+
 
 
