@@ -41,11 +41,12 @@ export async function getUser(email: string){
     }
 }
 
-export async function postField(field: keyof detailsDB){
+export async function postField(field: keyof detailsDB, text: string, email: string){
     console.log("Called get postField")
     try
     {   
-        // const result = await userApi.postField(field);
+        const result = await userApi.postField(field, text, email);
+        return result;
     }
     catch(e)
     {   
@@ -53,11 +54,12 @@ export async function postField(field: keyof detailsDB){
     }
 }
 
-export async function deleteField(field: keyof detailsDB){
+export async function deleteField(field: keyof detailsDB, key: number, email: string){
     console.log("Called get deleteField")
     try
     {   
-        // const result = await userApi.deleteField(field);
+        const result = await userApi.deleteField(field, key, email);
+        return result;
     }
     catch(e)
     {   

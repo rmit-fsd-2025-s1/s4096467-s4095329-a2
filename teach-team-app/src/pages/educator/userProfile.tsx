@@ -27,13 +27,33 @@ interface Language {
     language: string;
 }
 
+interface Certification {
+    certification_key: number;
+    certification: string; 
+}
+
+interface Skills {
+    skill_key: number;
+    skill: string;
+}
+
+interface Education {
+    education_key: number;
+    education: string;
+}
+
+interface PreviousRoles {
+    role_key: number;
+    prev_role: string;
+}
+
 export interface detailsDB {
     summary: string;
-    prevRoles: string[];
+    previous_roles: PreviousRoles[];
     avail: string;
-    certifications: string[];
-    education: string[];
-    skills: string[];
+    certifications: Certification[];
+    educations: Education[];
+    skills: Skills[];
     languages: Language[];
 }
 
@@ -162,15 +182,19 @@ export default function UserProfile()
     //NEW WORKSPACE HERE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     const [userData, setUserData] = useState<detailsDB>({
         summary: "",
-        prevRoles: [],
+        previous_roles: [],
         avail: "",
         certifications: [],
-        education: [],
+        educations: [],
         skills: [],
         languages: [],
     });
 
+    //Definitely Can optimize this
+    const [saved, setSaved] = useState(false);
     //Basically this prevents undefined behaviour if some synchronous or asynchronous shenanigans happens
+    
+    //Some janky stuff happening here
     useEffect(() => {
         const fetchData = async () => {
             // Prevents getting info when user email is not found yet.
@@ -186,41 +210,53 @@ export default function UserProfile()
             if (getdata && getdata.userData) {
                 setUserData({
                     summary: getdata.userData.summary ?? "",
-                    prevRoles: getdata.userData.previous_roles ?? [],
+                    previous_roles: getdata.userData.previous_roles ?? [],
                     avail: getdata.userData.availability ?? "",
                     certifications: getdata.userData.certifications ?? [],
-                    education: getdata.userData.educations ?? [],
+                    educations: getdata.userData.educations ?? [],
                     skills: getdata.userData.skills ?? [],
                     languages: getdata.userData.languages ?? [],
                 });
             }
+
+            setSaved(false);
         };
 
         fetchData();
-    }, [user.email]);
+    }, [user.email, saved]);
 
     useEffect(() => {
-            console.log("Updated userData:");
-            console.log("Summary:", userData.summary);
-            console.log("Previous Roles:", userData.prevRoles);
-            console.log("Availability:", userData.avail);
-            console.log("Certifications:", userData.certifications);
-            console.log("Education:", userData.education);
-            console.log("Skills:", userData.skills);
-            console.log("Languages:", userData.languages);
+            // console.log("Updated userData:");
+            // console.log("Summary:", userData.summary);
+            // console.log("Previous Roles:", userData.previous_roles);
+            // console.log("Availability:", userData.avail);
+            // console.log("Certifications:", userData.certifications);
+            // console.log("Education:", userData.education);
+            // console.log("Skills:", userData.skills);
+            // console.log("Languages:", userData.languages);
+            // console.log("Previous Roles:", JSON.stringify(userData.previous_roles, null, 2));
     })
 
     const [editEntry, setEditEntry] = useState<keyof detailsDB | null>(null);
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
+    const [whilstEdit, setWhilstEdit] = useState(false)
     //Dont forget to +1 for database
     //Instead of Editing I should look into delete + POST. No need for PUT
     //This one does the deletion
-    const del = (field: keyof detailsDB, index: IntegerType) => {
-        console.log(index)
+    const del = (field: keyof detailsDB, key: number) => {
         setEditEntry(field);
         setVisible(false);
+        const c = rem(field, key)
     }
 
+    const rem = (field: keyof detailsDB, key: number) => {
+        setVisible(false);
+        const b = deleteField(field, key, user.email)
+        setSaved(true);
+        
+    }
+
+    // console.log(index)
     //This one does the post
     //Temp = the input of the person
     const saveEntry = (field: keyof detailsDB) => {
@@ -228,21 +264,24 @@ export default function UserProfile()
         // setUserData((prev) => ({ ...prev, [field]: temp})); 
         
         //REST API POST
-
+        setSaved(true);
+        const a = postField(field, temp, user.email);
         setEditEntry(null);
-        setVisible(true);
+        setTemp("")
+        // setVisible(true);
     }    
 
+    //Need some bug fixing
     //Same as saveEntry but no deleting occurs here.
     const createEntry = (field: keyof detailsDB) => {
-        //appends the temp string to the userData.field??
-        // setUserData((prev) => ({ ...prev, [field]: temp})); 
         setEditEntry(field);
+        const a = postField(field, temp, user.email);
         setVisible(false);
-        //REST API POST
+        setSaved(true);
+        setTemp("")
     }    
 
-    
+    //TODO ADD SOME BUG FIXING. ADD BUTTONS. FIX SUMMARY AND AVAILABILITY
 
     return(
         <>
@@ -282,92 +321,149 @@ export default function UserProfile()
                         </div>
                         <div className="prevRoles">
                         <h2>Career History</h2>
-                        {/* <p>{userData.prevRoles}</p> */}
-                            {editField === 'prevRoles' ? (
-                            <label>
-                                <textarea
-                                value={temp}
-                                onChange={(e) => setTemp(e.target.value)}
-                                placeholder="Enter your Career History"
-                                />
-                                <div className="save">
-                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('prevRoles')}>Save</Button>
-                                </div>
-                                <br/>
-                            </label>
+                        {userData.previous_roles.length > 0 ? (
+                            <>
+                                <ul>
+                                {/*Naming conventiosn HAVE to be the same as the DB or else it wont work. Its because you are getting RAW entities from the DB with exact naming*/}
+                                {userData.previous_roles.map((obj, index) => (
+                                    <li key={obj.role_key}> {obj.prev_role} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('previous_roles', obj.role_key)}>
+                                    <span className="material-symbols-outlined">edit</span></Button>
+                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('previous_roles', obj.role_key)}>
+                                    <span className="material-symbols-outlined">close</span></Button>
+                                    </li>
+                                ))}
+                                </ul>
+
+                                {editEntry === 'previous_roles' ? (
+                                <label>
+                                    <textarea
+                                    value={temp}
+                                    onChange={(e) => setTemp(e.target.value)}
+                                    placeholder="Enter your previous roles"
+                                    />
+                                    <div className="save">
+                                        <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('previous_roles')}> Save </Button>
+                                    </div>
+                                    <br />
+                                </label>
+                                ) : ""}
+                            </>
                             ) : (
                             <>
-                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('prevRoles')}>Edit Roles</Button>
-                                <br/>
-                            </>
+                                <p>No previous roles added yet.</p>
+                            </>                            
                             )}
+                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('previous_roles')}>Add previous role</Button>
                         </div>
                         <h2>Education</h2>                        
                         <div className="education">
-                        
-                            {editField === 'education' ? (
-                            <label>
-                                <textarea
-                                value={temp}
-                                onChange={(e) => setTemp(e.target.value)}
-                                placeholder="Enter your education"
-                                />
-                                <div className="save">
-                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('education')}>Save</Button>
-                                </div>
-                                <br/>
-                            </label>
+                        {userData.educations.length > 0 ? (
+                            <>
+                                <ul>
+                                {userData.educations.map((obj, index) => (
+                                    <li key={obj.education_key}> {obj.education} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('educations', obj.education_key)}>
+                                    <span className="material-symbols-outlined">edit</span></Button>
+                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('educations', obj.education_key)}>
+                                    <span className="material-symbols-outlined">close</span></Button></li>
+                                ))}
+                                </ul>
+
+                                {editEntry === 'educations' ? (
+                                <label>
+                                    <textarea
+                                    value={temp}
+                                    onChange={(e) => setTemp(e.target.value)}
+                                    placeholder="Enter your education"
+                                    />
+                                    <div className="save">
+                                        <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('educations')}> Save </Button>
+                                    </div>
+                                    <br />
+                                </label>
+                                ) : ""}
+                            </>
                             ) : (
                             <>
-                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('education')}>Edit Education</Button>
-                                <br/>
-                            </>
+                                <p>No education added yet.</p>
+                            </>                            
+                            )}
+                            {visible && (
+                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('educations')}>Add Education</Button>
                             )}
                         </div>
                         <div className="skills">
                             <h2>Skills</h2>
-                            
-                            {editField === 'skills' ? (
-                            <label>
-                                <textarea
-                                value={temp}
-                                onChange={(e) => setTemp(e.target.value)}
-                                placeholder="Enter your skills"
-                                />
-                                <div className="save">
-                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('skills')}>Save</Button>
-                                </div>
-                                <br/>
-                            </label>
+                            {userData.skills.length > 0 ? (
+                            <>
+                                <ul>
+                                {userData.skills.map((obj, index) => (
+                                    <li key={obj.skill_key}> {obj.skill} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('skills', obj.skill_key)}>
+                                    <span className="material-symbols-outlined">edit</span></Button>
+                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('skills', obj.skill_key)}>
+                                    <span className="material-symbols-outlined">close</span></Button></li>
+                                ))}
+                                </ul>
+
+                                {editEntry === 'skills' ? (
+                                <label>
+                                    <textarea
+                                    value={temp}
+                                    onChange={(e) => setTemp(e.target.value)}
+                                    placeholder="Enter your skills"
+                                    />
+                                    <div className="save">
+                                        <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('skills')}> Save </Button>
+                                    </div>
+                                    <br />
+                                </label>
+                                ) : ""}
+                            </>
                             ) : (
                             <>
-                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('skills')}>Edit Skills</Button>
-                                <br/>
-                            </>
+                                <p>No skills added yet.</p>
+                            </>                            
+                            )}
+                            {visible && (
+                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('skills')}>Add a Skill</Button>
                             )}
                         </div>
                     </div>
                     <div className="box2">
                         <div className="cert">
                             <h2>Certifications</h2>
-                            
-                            {editField === 'certifications' ? (
-                            <label>
-                                <textarea
-                                value={temp}
-                                onChange={(e) => setTemp(e.target.value)}
-                                placeholder="Enter your certifications"
-                                />
-                                <div className="save">
-                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('certifications')}>Save</Button>
-                                </div>
-                                <br/>
-                            </label>
+                            {userData.certifications.length > 0 ? (
+                            <>
+                                <ul>
+                                {userData.certifications.map((obj, index) => (
+                                    <li key={obj.certification_key}> {obj.certification} 
+                                    <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('certifications', obj.certification_key)}>
+                                    <span className="material-symbols-outlined">edit</span></Button>
+                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('certifications', obj.certification_key)}>
+                                    <span className="material-symbols-outlined">close</span></Button></li>
+                                ))}
+                                </ul>
+
+                                {editEntry === 'certifications' ? (
+                                <label>
+                                    <textarea
+                                    value={temp}
+                                    onChange={(e) => setTemp(e.target.value)}
+                                    placeholder="Enter your certifications"
+                                    />
+                                    <div className="save">
+                                        <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('certifications')}> Save </Button>
+                                    </div>
+                                    <br />
+                                </label>
+                                ) : ""}
+                            </>
                             ) : (
                             <>
-                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('certifications')}>Edit certifications</Button>
-                                <br/>
+                                <p>No certifications added yet.</p>
                             </>
+                            )}
+                            {visible && (
+                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('certifications')}>Add a certification</Button>
                             )}
                             <hr className="divider"/>
                         </div>
@@ -403,8 +499,10 @@ export default function UserProfile()
                             <>
                                 <ul>
                                 {userData.languages.map((obj, index) => (
-                                    <li key={obj.language_key}> {obj.language} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('languages', index)}>
-                                    <span className="material-symbols-outlined">edit</span></Button></li>
+                                    <li key={obj.language_key}> {obj.language} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('languages', obj.language_key)}>
+                                    <span className="material-symbols-outlined">edit</span></Button>
+                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('languages', obj.language_key)}>
+                                    <span className="material-symbols-outlined">close</span></Button></li>
                                 ))}
                                 </ul>
 

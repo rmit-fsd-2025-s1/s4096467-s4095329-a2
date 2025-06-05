@@ -2,6 +2,8 @@ import { SubjectProps, tutorClassObj } from "@/components/Home/Home";
 import { classTable, saveClassTable } from "@/helpers/validate";
 import { User } from "../helpers/validate";
 import axios from "axios";
+import { detailsDB } from "@/pages/educator/userProfile";
+import { deleteField } from "@/helpers/frontendHelper";
 
 export const api = axios.create({
   baseURL: "http://localhost:3001/api", // Adjust this to match your backend URL
@@ -93,10 +95,15 @@ export const userApi = {
   createUser: async (newUser: Partial<User>) => {
     const response = await api.post('/users', newUser);
     return response.data;
-  }
+  },
 
-  // editField: async (text: string) => {
-  //   const response = await api.put("/users");
-  //   return response.data
-  // }
+  postField: async (field: keyof detailsDB, text: string, email: string) => {
+    const response = await api.post(`/users/${email}`, {field, text, email});
+    return response.data;
+  },
+
+  deleteField: async (field: keyof detailsDB, key: number, email: string) => {
+    const response = await api.delete(`/users/${email}`, {params: {field, key, email}});
+    return response.data;
+  }
 };

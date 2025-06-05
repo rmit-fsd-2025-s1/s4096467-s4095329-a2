@@ -1,6 +1,12 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Users } from "../entity/Users";
+import { Languages } from "../entity/Languages";
+import { Certifications } from "../entity/Users";
+import { Comments } from "../entity/Comments";
+import { Previous_Roles } from "../entity/Previous_Roles";
+import { Skills } from "../entity/Skills";
+import { Educations } from "../entity/Educations";
 import bcrypt from "bcryptjs";
 
 export class UserController {
@@ -268,4 +274,146 @@ export class UserController {
       return response.status(500).json({ success: false, message: "Server error" });
     }
   };
+
+  async postField(request: Request, response: Response) {
+    try {
+      const { email } = request.params; 
+      const { field, text } = request.body;
+
+      const userRepository = AppDataSource.getRepository(Users);
+
+      console.log("TESTING")
+      console.log(email)
+      console.log(field)
+      console.log(text)
+    
+      //This will causes errors if not defined correctly
+      // Find user with their existing field
+
+      const user = await userRepository.findOne({ 
+        where: { email },
+        relations: [field] 
+      });
+
+      //Most unscalable code ive writte lol. 
+      if (field === "languages") {
+        //Get languages repo
+        const repo = AppDataSource.getRepository(Languages);
+        
+        //Create an new instance of a Language, and set new fields to push.
+        const newEntry = new Languages();
+          newEntry.language = text;
+          newEntry.user_key = email; //Since we have no ID i think Id use email
+
+        //Save the language. Language_key is automatically set. (we dont use it) (we would use the array element index to delete a specific element)
+        await repo.save(newEntry);
+      } 
+      else if (field === "certifications") {
+        const repo = AppDataSource.getRepository(Certifications);
+        const newEntry = new Certifications();
+          newEntry.certification = text;
+          newEntry.user_key = email; 
+        await repo.save(newEntry);
+      }
+      else if (field === "previous_roles") {
+        const repo = AppDataSource.getRepository(Previous_Roles);
+        const newEntry = new Previous_Roles();
+          newEntry.prev_role = text;
+          newEntry.user_key = email; 
+        await repo.save(newEntry);
+      }
+      else if (field === "educations") {
+        const repo = AppDataSource.getRepository(Educations);
+        const newEntry = new Educations();
+          newEntry.education = text;
+          newEntry.user_key = email; 
+        await repo.save(newEntry);
+      }
+      else if (field === "skills") {
+        const repo = AppDataSource.getRepository(Skills);
+        const newEntry = new Skills();
+          newEntry.skill = text;
+          newEntry.user_key = email; 
+        await repo.save(newEntry);
+      }
+      else {
+        return response.status(500).json({ success: false, message: "Field Error" });
+      }
+
+      //Retrieve and return
+      const updatedUser = await userRepository.findOne({
+        where: { email },
+        relations: [field]
+      });
+
+      return response.status(200).json(updatedUser);
+    } 
+    catch (error) {
+      console.log("Error during save")
+      return response.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+
+  async deleteField(request: Request, response: Response) {
+    try {
+      //Must case as string to prevent ParsedQs error
+      const email = request.params.email; 
+      const field = request.query.field as string;
+      const key = request.query.key as string;
+
+      if (!field || !key) {
+        return response.status(400).json({ success: false, message: "Missing field or key" });
+      }
+
+      //Get specific user field
+      const userRepository = AppDataSource.getRepository(Users);
+      const user = await userRepository.findOne({ 
+        where: { email },
+        relations: [field] 
+      });
+
+      let repo: any;
+      let keyName: string;
+
+      //switch statement to get key names 
+      switch (field) {
+      case "certifications":
+        repo = AppDataSource.getRepository(Certifications);
+        keyName = "certification_key";
+        break;
+      case "languages":
+        repo = AppDataSource.getRepository(Languages);
+        keyName = "language_key";
+        break;
+      case "skills":
+        repo = AppDataSource.getRepository(Skills);
+        keyName = "skill_key";
+        break;
+      case "educations":
+        repo = AppDataSource.getRepository(Educations);
+        keyName = "education_key";
+        break;
+      case "previous_roles":
+        repo = AppDataSource.getRepository(Previous_Roles);
+        keyName = "role_key";
+        break;
+      default:
+        return response.status(400).json({ success: false, message: "Invalid field" });
+    }
+
+    //Delete entry from the database
+    const deleted = await repo.delete({ [keyName]: Number(key) });
+
+    const updatedUser = await userRepository.findOne({
+      where: { email },
+      relations: [field],
+    });
+
+    return response.status(200).json(updatedUser);
+    } 
+    catch (error) {
+      console.log("Error")
+      return response.status(500).json({ success: false, message: "Server error" });
+    }
+  }
 }

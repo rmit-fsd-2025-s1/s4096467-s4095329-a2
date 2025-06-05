@@ -98,5 +98,13 @@ router.post("/users", async (req, res) => {
   await userController.registerUser(req, res);
 });
 
+router.post("/users/:email", async (req, res) => {
+  await userController.postField(req, res);
+});
+
+router.delete("/users/:email", async (req, res) => {
+  await userController.deleteField(req, res);
+})
+
 export default router;
 
