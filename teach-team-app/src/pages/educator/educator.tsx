@@ -9,6 +9,7 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Button, Input, InputGroup } from "@chakra-ui/react";
 import { SearchTable, userData } from "@/components/SortingTable/SearchTable";
+import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
 export default function EducatorDashboard()
 {
@@ -186,6 +187,20 @@ export default function EducatorDashboard()
                         </div>
                     </div>
                     <SearchTable tableDataIn={searchVar}/>
+
+                    <div className="bar"><p>Visual Displays</p></div>
+                    <div className="flex-sbs-stock green-top no-gap flex-wrap either-end">
+                        <div>
+                            <p>{roleSelect} with number of times accepted {sortingMethod === "@all" ? "is anything" : sortingMethod === "none" ? "is none" : sortingMethod === "desc" ? "is largest to smallest excluding 0" : "is smallest to largest excluding 0"}</p>
+                            <BarChart data={searchVar} width={500} height={400} style={{marginBottom: "10px"}}>
+                                <XAxis dataKey="person.email" tick={{fontSize:"0.5rem"}}/>
+                                <YAxis allowDecimals={false} minTickGap= {1} />
+                                <Tooltip />
+                                <Bar dataKey="timesAccepted" label="person.full_name" />
+                            </BarChart>
+                            {searchVar.length <= 0 ? <p>No data returned</p> : ""}
+                        </div>
+                    </div>
                 </div>)}
                 
             </div>)}
