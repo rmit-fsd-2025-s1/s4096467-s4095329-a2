@@ -60,6 +60,7 @@ export default function AboutUs()
             <h2>Our Founding</h2>
             <p>The TeachTeam platform and company was founded {daysSince} days ago</p>
             <h2>Database ERD</h2>
+            <img src="/docs/erd.jpg" alt="ER diagram" />
             <Footer isLoggedIn={passwordValid} type=""/>
         </>
     );
