@@ -50,7 +50,7 @@ interface PreviousRoles {
 export interface detailsDB {
     summary: string;
     previous_roles: PreviousRoles[];
-    avail: string;
+    availability: string;
     certifications: Certification[];
     educations: Education[];
     skills: Skills[];
@@ -183,7 +183,7 @@ export default function UserProfile()
     const [userData, setUserData] = useState<detailsDB>({
         summary: "",
         previous_roles: [],
-        avail: "",
+        availability: "",
         certifications: [],
         educations: [],
         skills: [],
@@ -211,7 +211,7 @@ export default function UserProfile()
                 setUserData({
                     summary: getdata.userData.summary ?? "",
                     previous_roles: getdata.userData.previous_roles ?? [],
-                    avail: getdata.userData.availability ?? "",
+                    availability: getdata.userData.availability ?? "",
                     certifications: getdata.userData.certifications ?? [],
                     educations: getdata.userData.educations ?? [],
                     skills: getdata.userData.skills ?? [],
@@ -248,27 +248,32 @@ export default function UserProfile()
     const rem = (field: keyof detailsDB, key: number) => {
         const b = deleteField(field, key, user.email)
         setSaved(true);
-        
     }
 
     // console.log(index)
     //This one does the post
     //Temp = the input of the person
-    const saveEntry = (field: keyof detailsDB) => {
+    const saveEntry = async (field: keyof detailsDB) => {
         //appends the temp string to the userData.field??
         // setUserData((prev) => ({ ...prev, [field]: temp})); 
         
         //REST API POST
-        setSaved(true);
         if (!temp.trim()) {
             console.warn("Empty input. Skipping creation.");
             setEditEntry(null);
             return;
         }   
 
-        const a = postField(field, temp, user.email);
-        setEditEntry(null);
-        setTemp("")
+        //Added this so fetching, fetches correctly after you edit
+        try {
+            await postField(field, temp, user.email);
+            setSaved(true);
+            setEditEntry(null);
+            setTemp("")
+        } 
+        catch (error) {
+            console.error("Failed to save:", error);
+        }
     }    
 
     const createEntry = (field: keyof detailsDB) => {
@@ -293,8 +298,8 @@ export default function UserProfile()
                             <h2>Summary</h2>
                             <p>{userData.summary !== "" ? (
                                userData.summary
-                            ) : "Add your introduction here"}</p>
-                            {editField === 'summary' ? (
+                            ) : "Add your summary here"}</p>
+                            {editEntry === 'summary' ? (
                             <label>
                                 <textarea
                                 value={temp}
@@ -302,13 +307,13 @@ export default function UserProfile()
                                 placeholder="Enter your Summary"
                                 />
                                 <div className="save">
-                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('summary')}>Save</Button>
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('summary')}>Save</Button>
                                 </div>
                                 <br/>
                             </label>
                             ) : (
                             <>
-                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('summary')}>Edit Summary</Button>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => createEntry('summary')}>Edit Summary</Button>
                                 <br/>
                             </>
                             )}
@@ -454,24 +459,25 @@ export default function UserProfile()
                         </div>
                         <div className="avail">
                             <h2>Availability</h2>
-                            <p>{userData.avail !== "" ? (
-                               userData.avail
+                            <p>{userData.availability !== "" ? (
+                               userData.availability
                             ) : "Add your introduction here"}</p>
-                            {editField === 'avail' ? (
+                            {editEntry === 'availability' ? (
                             <label>
                                 <textarea
+                                maxLength={9}
                                 value={temp}
                                 onChange={(e) => setTemp(e.target.value)}
-                                placeholder="Enter your availibility"
+                                placeholder="Enter your availability"
                                 />
                                 <div className="save">
-                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => save('avail')}>Save</Button>
+                                    <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('availability')}>Save</Button>
                                 </div>
                                 <br/>
                             </label>
                             ) : (
                             <>
-                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => edit('avail')}>Edit availibility</Button>
+                                <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => createEntry('availability')}>Edit availibility</Button>
                                 <br/>
                             </>
                             )}

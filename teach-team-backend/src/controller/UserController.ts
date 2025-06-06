@@ -289,11 +289,12 @@ export class UserController {
     
       //This will causes errors if not defined correctly
       // Find user with their existing field
-
-      const user = await userRepository.findOne({ 
+      if (field !== "summary" && field !== "availability") {
+        const user = await userRepository.findOne({ 
         where: { email },
         relations: [field] 
-      });
+        });
+      }
 
       //Most unscalable code ive writte lol. 
       if (field === "languages") {
@@ -307,6 +308,29 @@ export class UserController {
 
         //Save the language. Language_key is automatically set. (we dont use it) (we would use the array element index to delete a specific element)
         await repo.save(newEntry);
+      } 
+      else if (field === "summary") {
+        //Slight modifications to languages
+        const repo = AppDataSource.getRepository(Users);
+        const user = await repo.findOneBy({email});
+                
+        if (user) {
+          user.summary = text;
+          await repo.save(user);
+          //We dont want to use updatedUser
+          return response.status(200).json({ message: 'Summary updated' });
+        }
+      } 
+      else if (field === "availability") {
+        const repo = AppDataSource.getRepository(Users);
+        const user = await repo.findOneBy({email});
+                
+        if (user) {
+          user.availability = text;
+          await repo.save(user);
+          //We dont want to use updatedUser
+          return response.status(200).json({ message: 'Availability updated' });
+        }
       } 
       else if (field === "certifications") {
         const repo = AppDataSource.getRepository(Certifications);
