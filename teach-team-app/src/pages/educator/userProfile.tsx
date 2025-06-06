@@ -238,19 +238,14 @@ export default function UserProfile()
     })
 
     const [editEntry, setEditEntry] = useState<keyof detailsDB | null>(null);
-    const [visible, setVisible] = useState(false);
-    const [whilstEdit, setWhilstEdit] = useState(false)
-    //Dont forget to +1 for database
-    //Instead of Editing I should look into delete + POST. No need for PUT
+
     //This one does the deletion
     const del = (field: keyof detailsDB, key: number) => {
         setEditEntry(field);
-        setVisible(false);
         const c = rem(field, key)
     }
 
     const rem = (field: keyof detailsDB, key: number) => {
-        setVisible(false);
         const b = deleteField(field, key, user.email)
         setSaved(true);
         
@@ -274,25 +269,14 @@ export default function UserProfile()
         const a = postField(field, temp, user.email);
         setEditEntry(null);
         setTemp("")
-        // setVisible(true);
     }    
 
-    //Need some bug fixing
-    //Same as saveEntry but no deleting occurs here.
     const createEntry = (field: keyof detailsDB) => {
         setEditEntry(field);
-        if (!temp.trim()) {
-            console.warn("Empty input. Skipping creation.");
-            return;
-        }   
-
-        const a = postField(field, temp, user.email);
-        setVisible(false);
-        setSaved(true);
         setTemp("")
     }    
 
-    //TODO ADD SOME BUG FIXING. ADD BUTTONS. FIX SUMMARY AND AVAILABILITY
+    //TODO ADD SOME BUG FIXING. FIX SUMMARY AND AVAILABILITY
 
     return(
         <>
@@ -339,13 +323,18 @@ export default function UserProfile()
                                 {userData.previous_roles.map((obj, index) => (
                                     <li key={obj.role_key}> {obj.prev_role} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('previous_roles', obj.role_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
-                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('previous_roles', obj.role_key)}>
+                                    <Button color="red" colorPalette="white" size="xs" onClick={() => rem('previous_roles', obj.role_key)}>
                                     <span className="material-symbols-outlined">close</span></Button>
                                     </li>
                                 ))}
                                 </ul>
-
-                                {editEntry === 'previous_roles' ? (
+                            </>
+                            ) : (
+                            <>
+                                <p>No previous roles added yet.</p>
+                            </>                            
+                            )}
+                            {editEntry === 'previous_roles' ? (
                                 <label>
                                     <textarea
                                     value={temp}
@@ -358,12 +347,6 @@ export default function UserProfile()
                                     <br />
                                 </label>
                                 ) : ""}
-                            </>
-                            ) : (
-                            <>
-                                <p>No previous roles added yet.</p>
-                            </>                            
-                            )}
                             <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('previous_roles')}>Add previous role</Button>
                         </div>
                         <h2>Education</h2>                        
@@ -374,12 +357,17 @@ export default function UserProfile()
                                 {userData.educations.map((obj, index) => (
                                     <li key={obj.education_key}> {obj.education} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('educations', obj.education_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
-                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('educations', obj.education_key)}>
+                                    <Button color="red" colorPalette="white" size="xs" onClick={() => rem('educations', obj.education_key)}>
                                     <span className="material-symbols-outlined">close</span></Button></li>
                                 ))}
                                 </ul>
-
-                                {editEntry === 'educations' ? (
+                            </>
+                            ) : (
+                            <>
+                                <p>No education added yet.</p>
+                            </>                            
+                            )}
+                            {editEntry === 'educations' ? (
                                 <label>
                                     <textarea
                                     value={temp}
@@ -392,15 +380,7 @@ export default function UserProfile()
                                     <br />
                                 </label>
                                 ) : ""}
-                            </>
-                            ) : (
-                            <>
-                                <p>No education added yet.</p>
-                            </>                            
-                            )}
-                            {visible && (
-                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('educations')}>Add Education</Button>
-                            )}
+                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('educations')}>Add education</Button>
                         </div>
                         <div className="skills">
                             <h2>Skills</h2>
@@ -410,12 +390,17 @@ export default function UserProfile()
                                 {userData.skills.map((obj, index) => (
                                     <li key={obj.skill_key}> {obj.skill} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('skills', obj.skill_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
-                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('skills', obj.skill_key)}>
+                                    <Button color="red" colorPalette="white" size="xs" onClick={() => rem('skills', obj.skill_key)}>
                                     <span className="material-symbols-outlined">close</span></Button></li>
                                 ))}
                                 </ul>
-
-                                {editEntry === 'skills' ? (
+                            </>
+                            ) : (
+                            <>
+                                <p>No skills added yet.</p>
+                            </>                            
+                            )}
+                            {editEntry === 'skills' ? (
                                 <label>
                                     <textarea
                                     value={temp}
@@ -428,15 +413,7 @@ export default function UserProfile()
                                     <br />
                                 </label>
                                 ) : ""}
-                            </>
-                            ) : (
-                            <>
-                                <p>No skills added yet.</p>
-                            </>                            
-                            )}
-                            {visible && (
-                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('skills')}>Add a Skill</Button>
-                            )}
+                            <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('skills')}>Add skills</Button>
                         </div>
                     </div>
                     <div className="box2">
@@ -449,12 +426,17 @@ export default function UserProfile()
                                     <li key={obj.certification_key}> {obj.certification} 
                                     <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('certifications', obj.certification_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
-                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('certifications', obj.certification_key)}>
+                                    <Button color="red" colorPalette="white" size="xs" onClick={() => rem('certifications', obj.certification_key)}>
                                     <span className="material-symbols-outlined">close</span></Button></li>
                                 ))}
                                 </ul>
-
-                                {editEntry === 'certifications' ? (
+                            </>
+                            ) : (
+                            <>
+                                <p>No certifications added yet.</p>
+                            </>
+                            )}                               
+                            {editEntry === 'certifications' ? (
                                 <label>
                                     <textarea
                                     value={temp}
@@ -467,15 +449,7 @@ export default function UserProfile()
                                     <br />
                                 </label>
                                 ) : ""}
-                            </>
-                            ) : (
-                            <>
-                                <p>No certifications added yet.</p>
-                            </>
-                            )}
-                            {visible && (
                             <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('certifications')}>Add a certification</Button>
-                            )}
                             <hr className="divider"/>
                         </div>
                         <div className="avail">
@@ -512,12 +486,17 @@ export default function UserProfile()
                                 {userData.languages.map((obj, index) => (
                                     <li key={obj.language_key}> {obj.language} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('languages', obj.language_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
-                                    <Button color="red" colorPalette="white" size="xs" marginLeft="5" onClick={() => rem('languages', obj.language_key)}>
+                                    <Button color="red" colorPalette="white" size="xs" onClick={() => rem('languages', obj.language_key)}>
                                     <span className="material-symbols-outlined">close</span></Button></li>
                                 ))}
                                 </ul>
-
-                                {editEntry === 'languages' ? (
+                            </>
+                            ) : (
+                            <>
+                                <p>No languages added yet.</p>
+                            </>                            
+                            )}
+                            {editEntry === 'languages' ? (
                                 <label>
                                     <textarea
                                     value={temp}
@@ -530,15 +509,7 @@ export default function UserProfile()
                                     <br />
                                 </label>
                                 ) : ""}
-                            </>
-                            ) : (
-                            <>
-                                <p>No languages added yet.</p>
-                            </>                            
-                            )}
-                            {visible && (
                             <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => createEntry('languages')}>Add a language</Button>
-                            )}
                         </div>
                     </div>
                 </div>

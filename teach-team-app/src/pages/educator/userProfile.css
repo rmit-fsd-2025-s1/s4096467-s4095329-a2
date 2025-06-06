@@ -146,7 +146,23 @@ textarea {
     font-size: 20px;
 }
 
+.skills li {
+    padding: 5 0 5 0;
+}
+
+.prevRoles li {
+    padding: 5 0 5 0;
+}
+
+.education li {
+    padding: 5 0 5 0;
+}
+
 .languages li {
+    padding: 5 0 5 0;
+}
+
+.cert li {
     padding: 5 0 5 0;
 }
 
