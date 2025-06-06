@@ -246,6 +246,19 @@ export class UserController {
     //hash password
     const hashed = await bcrypt.hash(password, 10);
 
+    //Validation
+    const specialChars = /[\\|,.<>\/?~ `!@#$%^&*(){}_\-+=:;"'\[\]]/;
+    const letters = /[a-zA-Z]/;
+    const hasLetter = letters.test(password);
+    const hasUpper = /[A-Z]/.test(password);
+    const hasSymbol = specialChars.test(password);
+    const length = password.length;
+    const isStrong = length >= 8 && hasSymbol && hasUpper && hasLetter;
+
+    if (!isStrong) {
+      return response.status(500).json({ success: false, message: "Password Mismatch" });
+    }
+
     try {
       //Get data source
       const userRepository = AppDataSource.getRepository(Users);
