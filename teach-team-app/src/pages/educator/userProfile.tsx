@@ -265,6 +265,12 @@ export default function UserProfile()
         
         //REST API POST
         setSaved(true);
+        if (!temp.trim()) {
+            console.warn("Empty input. Skipping creation.");
+            setEditEntry(null);
+            return;
+        }   
+
         const a = postField(field, temp, user.email);
         setEditEntry(null);
         setTemp("")
@@ -275,6 +281,11 @@ export default function UserProfile()
     //Same as saveEntry but no deleting occurs here.
     const createEntry = (field: keyof detailsDB) => {
         setEditEntry(field);
+        if (!temp.trim()) {
+            console.warn("Empty input. Skipping creation.");
+            return;
+        }   
+
         const a = postField(field, temp, user.email);
         setVisible(false);
         setSaved(true);
