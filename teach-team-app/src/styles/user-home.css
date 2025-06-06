@@ -175,10 +175,6 @@
     color: white;
 }
 
-.lectures-list-box .flex-sbs-stock {
-
-}
-
 .green-top
 {
     border-top: 2px rgb(59, 189, 91) solid;
@@ -242,4 +238,12 @@
 .search-dropdown:hover{
     background-color: #3bbd5b;
     cursor: pointer;
+}
+
+.custom-tooltip{
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.7em;
+    border: 1px solid gray;
 }
