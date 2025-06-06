@@ -166,3 +166,44 @@ textarea {
     padding: 5 0 5 0;
 }
 
+.nameEdit textarea {
+    width: 100%;
+    font-size: 50px;
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+}
+
+.nameEdit .save {
+    display: flex;
+    left: 0;
+    justify-content: flex-end;
+}
+
+.nameEdit .save .chakra-button:hover{
+    background: rgba(0, 3, 161, 0.61);
+    outline: 3px solid rgb(249, 249, 249);
+    color: rgb(241, 241, 241);
+}
+
+.userHeader h1 .chakra-button {
+}
+
+.userHeader h1 .chakra-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    outline: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.userHeader h1 span {
+    color: white;
+}
+
+.delete .chakra-button{
+    display: inline-flex;
+}
+
+.delete .chakra-button:hover{
+    display: inline-flex;
+    background: rgba(250, 0, 0, 0.568);
+}

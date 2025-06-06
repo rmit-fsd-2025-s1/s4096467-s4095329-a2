@@ -9,6 +9,7 @@ import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
 import { loadDB } from "@/helpers/loadStorage";
 import { getUser, deleteField, postField } from '../../helpers/frontendHelper'
 import { IntegerType } from "typeorm";
+import { get } from "http";
 
 
 export interface details {
@@ -48,6 +49,7 @@ interface PreviousRoles {
 }
 
 export interface detailsDB {
+    full_name: string;
     summary: string;
     previous_roles: PreviousRoles[];
     availability: string;
@@ -110,77 +112,11 @@ export default function UserProfile()
     }, [user]);
     const name = data?.name??"";
 
-    // Maybe For later usuage in further assignments
-    // let userName = localEmail.substring(0, localEmail.indexOf("@"));
-    //We dont need to format the data yet maybe in further assignments
-    // let summary = data?.summary??"";
-    // let roles = data?.prevRoles??"";
-    // let availability  = data?.avail??"";
-    // let cert = data?.certifications??""; 
-    // let skills = data?.skills??"";
-    // let languages = data?.languages??"";
-    // let education = data?.education??"";    
-
-    //Create form data using state hook
-    const [formData, setFormData] = useState<details>({
-        summary: "",
-        prevRoles: "",
-        avail: "",
-        certifications: "",
-        education: "",
-        skills: "",
-        languages: "",
-    });
-    
-    // //testing for lag
-    // console.time('getUserData Execution Time');
-    // console.timeEnd('getUserData Execution Time');
-
-    //Keeps track of the button you click edit. If null then no field is being edited.
-    const [editField, setEditField] = useState<keyof details | null>(null);
-    const [temp, setTemp] = useState("");
-    
-    //Field: keyof makes this dynamic
-    //https://www.w3schools.com/typescript/typescript_keyof.php
-    const edit = (field: keyof details) => {
-        setTemp(formData[field] || "");
-        setEditField(field);
-    }
-
-    //gets the user input from local storage
-    useEffect(() => {
-        //makes all the details optional
-        const updatedData: Partial<details> = {};
-        detailsTitle.forEach((field) => {
-            //${} makes it dynamic for each user so that each user doesnt use others formdata
-            const userKey = `${field}_${user.email}`;
-            updatedData[field as keyof details] = localStorage.getItem(userKey) || "";
-        });
-        //appends the saved summary to the updated summary
-        setFormData((prev) => ({ ...prev, ...updatedData }));
-    }, [user.email]);
-
-    //Save input to local storage
-    const save = (field: keyof details) => {
-        //appends the temp string to the formdata summary
-        setFormData((prev) => ({ ...prev, [field]: temp}));   
-        const userKey = `${field}_${user.email}`;
-
-        //This is a patch fix. This may be some of the worst code I have ever written, sorry.
-        const db = { ...localDB };
-        db.users.filter((userKeyPair) => userKeyPair[0] === localEmail)[0][1][field] = [temp];
-
-        setLocalDB(db);
-        //END PATCH FIX
-
-        //Sets temp to local storage.
-        localStorage.setItem(userKey, temp);
-        setEditField(null);
-    }    
-
     //THE DATABASE INTEGRATION HERE
     //NEW WORKSPACE HERE ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const [temp, setTemp] = useState("");
     const [userData, setUserData] = useState<detailsDB>({
+        full_name: "",
         summary: "",
         previous_roles: [],
         availability: "",
@@ -209,6 +145,7 @@ export default function UserProfile()
             //The long code gets from the database and formats it accordingly
             if (getdata && getdata.userData) {
                 setUserData({
+                    full_name: getdata.userData.full_name ?? "",
                     summary: getdata.userData.summary ?? "",
                     previous_roles: getdata.userData.previous_roles ?? [],
                     availability: getdata.userData.availability ?? "",
@@ -225,20 +162,9 @@ export default function UserProfile()
         fetchData();
     }, [user.email, saved]);
 
-    useEffect(() => {
-            // console.log("Updated userData:");
-            // console.log("Summary:", userData.summary);
-            // console.log("Previous Roles:", userData.previous_roles);
-            // console.log("Availability:", userData.avail);
-            // console.log("Certifications:", userData.certifications);
-            // console.log("Education:", userData.education);
-            // console.log("Skills:", userData.skills);
-            // console.log("Languages:", userData.languages);
-            // console.log("Previous Roles:", JSON.stringify(userData.previous_roles, null, 2));
-    })
-
     const [editEntry, setEditEntry] = useState<keyof detailsDB | null>(null);
 
+    //Basicallty there is only delete and Post here. Buttons just lead to either of those but are necessary in some way.
     //This one does the deletion
     const del = (field: keyof detailsDB, key: number) => {
         setEditEntry(field);
@@ -250,7 +176,6 @@ export default function UserProfile()
         setSaved(true);
     }
 
-    // console.log(index)
     //This one does the post
     //Temp = the input of the person
     const saveEntry = async (field: keyof detailsDB) => {
@@ -288,8 +213,28 @@ export default function UserProfile()
             <Header isLoggedIn={passwordValid} accountType={loginType}/>
             <div className="profile">
                 <div className="userHeader">
-                    <h1>Hello {name}</h1>
-                    <p>Here you can update your details and see your messages</p>
+                    {editEntry === 'full_name' ? (
+                        <div className="nameEdit">
+                            <label>
+                                <textarea
+                                value={temp}
+                                color="white"
+                                onChange={(e) => setTemp(e.target.value)}
+                                placeholder="Enter your name"
+                                />
+                                <div className="save">
+                                    <Button colorPalette="gray" size="sm" p="4" onClick={() => saveEntry('full_name')}>Save</Button>
+                                </div>
+                                <br/>
+                            </label>
+                        </div>
+                            ) : (
+                            <>
+                                <h1>Hello {userData.full_name}<Button colorPalette="grey" variant="ghost" size="xl" marginLeft="40px" onClick={() => createEntry('full_name')}>
+                                <span className="material-symbols-outlined">edit</span></Button></h1>
+                            </>
+                            )}
+                            <p>Here you can update your details and see your messages</p>
                 </div>
                 {/* I could probably look to optimize this sometime but it works >.> */}
                 <div className="details">
@@ -328,9 +273,9 @@ export default function UserProfile()
                                 {userData.previous_roles.map((obj, index) => (
                                     <li key={obj.role_key}> {obj.prev_role} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('previous_roles', obj.role_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
+                                    <span className="delete">
                                     <Button color="red" colorPalette="white" size="xs" onClick={() => rem('previous_roles', obj.role_key)}>
-                                    <span className="material-symbols-outlined">close</span></Button>
-                                    </li>
+                                    <span className="material-symbols-outlined">close</span></Button></span></li>
                                 ))}
                                 </ul>
                             </>
@@ -362,8 +307,9 @@ export default function UserProfile()
                                 {userData.educations.map((obj, index) => (
                                     <li key={obj.education_key}> {obj.education} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('educations', obj.education_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
+                                    <span className="delete">
                                     <Button color="red" colorPalette="white" size="xs" onClick={() => rem('educations', obj.education_key)}>
-                                    <span className="material-symbols-outlined">close</span></Button></li>
+                                    <span className="material-symbols-outlined">close</span></Button></span></li>
                                 ))}
                                 </ul>
                             </>
@@ -395,8 +341,9 @@ export default function UserProfile()
                                 {userData.skills.map((obj, index) => (
                                     <li key={obj.skill_key}> {obj.skill} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('skills', obj.skill_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
+                                    <span className="delete">
                                     <Button color="red" colorPalette="white" size="xs" onClick={() => rem('skills', obj.skill_key)}>
-                                    <span className="material-symbols-outlined">close</span></Button></li>
+                                    <span className="material-symbols-outlined">close</span></Button></span></li>
                                 ))}
                                 </ul>
                             </>
@@ -431,8 +378,9 @@ export default function UserProfile()
                                     <li key={obj.certification_key}> {obj.certification} 
                                     <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('certifications', obj.certification_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
+                                    <span className="delete">
                                     <Button color="red" colorPalette="white" size="xs" onClick={() => rem('certifications', obj.certification_key)}>
-                                    <span className="material-symbols-outlined">close</span></Button></li>
+                                    <span className="material-symbols-outlined">close</span></Button></span></li>
                                 ))}
                                 </ul>
                             </>
@@ -492,8 +440,9 @@ export default function UserProfile()
                                 {userData.languages.map((obj, index) => (
                                     <li key={obj.language_key}> {obj.language} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('languages', obj.language_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
+                                    <span className="delete">
                                     <Button color="red" colorPalette="white" size="xs" onClick={() => rem('languages', obj.language_key)}>
-                                    <span className="material-symbols-outlined">close</span></Button></li>
+                                    <span className="material-symbols-outlined">close</span></Button></span></li>
                                 ))}
                                 </ul>
                             </>

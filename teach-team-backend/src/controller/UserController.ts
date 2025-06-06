@@ -114,6 +114,7 @@ export class UserController {
       }
 
         const userData = {
+            full_name: user.full_name || "",
             summary: user.summary || "", 
             skills: user.skills || [],  
             certifications: user.certifications || [],
@@ -302,7 +303,7 @@ export class UserController {
     
       //This will causes errors if not defined correctly
       // Find user with their existing field
-      if (field !== "summary" && field !== "availability") {
+      if (field !== "summary" && field !== "availability" && field !== "full_name") {
         const user = await userRepository.findOne({ 
         where: { email },
         relations: [field] 
@@ -343,6 +344,17 @@ export class UserController {
           await repo.save(user);
           //We dont want to use updatedUser
           return response.status(200).json({ message: 'Availability updated' });
+        }
+      } 
+      else if (field === "full_name") {
+        const repo = AppDataSource.getRepository(Users);
+        const user = await repo.findOneBy({email});
+                
+        if (user) {
+          user.full_name = text;
+          await repo.save(user);
+          //We dont want to use updatedUser
+          return response.status(200).json({ message: 'Name updated' });
         }
       } 
       else if (field === "certifications") {

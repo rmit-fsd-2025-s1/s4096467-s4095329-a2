@@ -12,6 +12,8 @@ import { SearchTable, userData } from "@/components/SortingTable/SearchTable";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, TooltipProps } from "recharts";
 import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent"
 import { toSentenceCase } from "@/helpers/stringHelper";
+import { getUser } from "@/helpers/frontendHelper";
+import { detailsDB } from "./userProfile";
 
 // https://recharts.org/en-US/examples/CustomContentOfTooltip
 const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
@@ -82,7 +84,40 @@ export default function EducatorDashboard()
         getTypeVal();
     }, [user]);
 
-    const name = data?.name??"";
+    //Display new message if true
+    const [display, setDisplay] = useState(false)
+    const [fullName, setFullName] = useState<Partial<detailsDB>>({
+        full_name: "",
+    });
+    
+    useEffect(() => {
+            const fetchData = async () => {
+                // Prevents getting info when user email is not found yet.
+                if (!user.email) {
+                    return;
+                }
+                
+                //get data from this specific user via email
+                const getdata = await getUser(user.email);
+                console.log("Raw user data:", getdata);
+
+                if (getdata && getdata.userData) {
+                    setFullName({
+                        full_name: getdata.userData.full_name ?? "",
+                    });
+
+                    if (getdata.userData.full_name === "") {
+                        setDisplay(true);
+                    }
+                    else {
+                        setDisplay(false);
+                    }
+                }
+
+            };
+    
+            fetchData();
+        }, [user.email]);
     //Yes, I know this leaks the data from localStorage, no, this will not be a thing (Hopefully) when we migrate to using databases.
     const [candidates, setCandidates] = useState<number>(0);
     useEffect(() => {
@@ -145,7 +180,7 @@ export default function EducatorDashboard()
             {loginType === "lecturer" &&  (
             <div className="lecturer-interface">
                 {passwordValid && (<><div className="l-header">
-                    <h2>Welcome back {name}!<br/> You have <span className="numCand">{candidates} </span> 
+                    <h2>Welcome back {fullName.full_name}!<br/> You have <span className="numCand">{candidates} </span> 
                     {candidates > 1 ? (
                         <>
                          new applicants
@@ -252,7 +287,11 @@ export default function EducatorDashboard()
                 <>
                 <div className="tutor-interface">
                     <div className = "header-box">
-                        <h1>Hi {name},<br/><span className="questions">What would you like to do today?</span></h1>
+                        {display ? (
+                            <h1>Welcome new user!<br/><span className="questions">Set up your information in the profile page</span></h1>
+                        ) : (
+                            <h1>Hi {fullName.full_name},<br/><span className="questions">What would you like to do today?</span></h1>
+                        )}
                     </div>
                     <div className="body-box">
                         <Link href="/educator/userProfile" className="profile-box">View and Edit your profile<img src="/user.png" alt="User Image"/></Link>
