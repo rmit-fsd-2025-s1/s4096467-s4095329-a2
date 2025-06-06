@@ -1,7 +1,7 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getUserType, getUserData } from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType, getUserData, User } from "../../helpers/validate";
 import { userApi } from "../../services/api";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
@@ -9,7 +9,30 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { Button, Input, InputGroup } from "@chakra-ui/react";
 import { SearchTable, userData } from "@/components/SortingTable/SearchTable";
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, TooltipProps } from "recharts";
+import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent"
+import { toSentenceCase } from "@/helpers/stringHelper";
+
+// https://recharts.org/en-US/examples/CustomContentOfTooltip
+const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
+    if(active && payload && payload.length){
+        const data: User = payload[0].payload.person;
+        return(
+            <div className="custom-tooltip">
+                <p className="label"><strong>{label}</strong> : {data.email}</p>
+                <p><strong>Time Accepted</strong> : {payload[0].value}</p>
+                <p><strong>Summary : </strong><ul>{data.summary??"No Summary Provided"}</ul></p>
+                <p><strong>Previous Roles : </strong> {data.previous_roles.length >= 1 ? data.previous_roles.map((x,i) => <ul key={i}>{x}</ul>) :<ul>No Previous Roles</ul>}</p>
+                <p><strong>Availability:</strong> <ul>{toSentenceCase(data.availability)??"No Availability Provided"}</ul></p>
+                <p><strong>Education:</strong> {data.educations.length >= 1 ? data.educations.map((x,i)=> <ul key={i}>{x}</ul>) : <ul>No Education Provided</ul>}</p>
+                <p><strong>Certifications:</strong> {data.certifications.length >= 1 ? data.certifications.map((x,i) => <ul key={i}>{x}</ul>) : <ul>No Certifications Provided</ul>}</p>
+                <p><strong>Skills:</strong> {data.skills.length >= 1 ? data.skills.map((x,i) => <ul key={i}>{x}</ul>) : <ul>No Skills Provided</ul>}</p>
+                <p><strong>Languages:</strong> {data.languages.length >= 1 ? data.languages.map((x,i) => <ul key={i}>{x}</ul>) : <ul>No Languages Provided</ul>}</p>
+            </div>
+        );
+    }
+    return null;
+} 
 
 export default function EducatorDashboard()
 {
@@ -192,13 +215,33 @@ export default function EducatorDashboard()
                     <div className="flex-sbs-stock green-top no-gap flex-wrap either-end">
                         <div>
                             <p>{roleSelect} with number of times accepted {sortingMethod === "@all" ? "is anything" : sortingMethod === "none" ? "is none" : sortingMethod === "desc" ? "is largest to smallest excluding 0" : "is smallest to largest excluding 0"}</p>
-                            <BarChart data={searchVar} width={1000} height={550} style={{marginBottom: "10px"}} margin={{top: 10, bottom: 150}}>
-                                <XAxis dataKey="person.full_name" allowDuplicatedCategory tick={{textAnchor: "start"}} angle={90}/>
-                                <YAxis allowDecimals={false} minTickGap= {1} />
-                                <Tooltip />
-                                <Bar dataKey="timesAccepted" label="person.full_name" fill="#11bf1b" stroke="black" radius={[10,10,0,0]}/>
-                            </BarChart>
-                            {searchVar.length <= 0 ? <p>No data returned</p> : ""}
+                            
+                            {searchVar.length <= 0 ? <p>No data returned</p> : 
+                            <BarChart data={searchVar} 
+                                width={1000} 
+                                height={550} 
+                                style={{marginBottom: "10px"}} 
+                                margin={{top: 10, bottom: 150}}>
+
+                                <XAxis dataKey="person.full_name" 
+                                    allowDuplicatedCategory 
+                                    tick={{textAnchor: "start"}} 
+                                    angle={90}/>
+
+                                <YAxis allowDecimals={false} 
+                                    minTickGap= {1} />
+
+                                <Tooltip 
+                                    
+                                    content={<CustomTooltip />}/>
+
+                                <Bar 
+                                    dataKey="timesAccepted" 
+                                    label="person.full_name" 
+                                    fill="#11bf1b" 
+                                    stroke="black" 
+                                    radius={[10,10,0,0]}/>
+                            </BarChart>}
                         </div>
                     </div>
                 </div>)}
