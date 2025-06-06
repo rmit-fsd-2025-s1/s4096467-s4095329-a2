@@ -13,6 +13,8 @@ export const typeDefs = gql`
 
     type Query{
         users: [User]
+        validLogin(identifier: String!, passphrase: String!): Boolean!
+        validAdminLogin(identifier: String!, passphrase: String!): Boolean!
     }
 
     type Mutation{

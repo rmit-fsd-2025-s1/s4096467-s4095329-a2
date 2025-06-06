@@ -25,7 +25,7 @@ async function startServer(){
   await apolloServer.start();
 
   app.use("/api", userRoutes);
-  app.use("/graphql", expressMiddleware(apolloServer))
+  app.use("/graphql", expressMiddleware(apolloServer));
 
   AppDataSource.initialize().then(() => app.listen(PORT, () => {
     console.log("Data Source has been initialized!");
