@@ -25,6 +25,7 @@ export const resolvers = {
             }
         },
         validAdminLogin: async (_: any, { identifier, passphrase }: {identifier: string, passphrase: string}) => {
+            console.log(identifier + ":" + passphrase);
             const user: Users[] = await AppDataSource.manager.find(Users,
                 {where:{
                     email: identifier,

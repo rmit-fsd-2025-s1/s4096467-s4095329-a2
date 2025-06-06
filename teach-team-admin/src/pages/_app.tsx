@@ -1,6 +1,19 @@
+import { Provider } from "@/components/ui/provider";
 import "@/styles/globals.css";
+import "@/styles/index.css";
+import "@/styles/user-home.css";
 import type { AppProps } from "next/app";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Head>
+        <></>
+      </Head>
+      <Provider>
+        <Component {...pageProps} />
+      </Provider>
+    </>
+  );
 }
