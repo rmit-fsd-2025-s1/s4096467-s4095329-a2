@@ -48,7 +48,7 @@ export default function RegisterScreen()
         const hasSymbol = specialChars.test(newUser.password);
         const length = newUser.password.length;
         setPassCheck({ length, hasUpper, hasSymbol, hasLetter });
-        const isStrong = length >= 12 && hasSymbol && hasUpper && hasLetter;
+        const isStrong = length >= 8 && hasSymbol && hasUpper && hasLetter;
         setStrength(isStrong);
 
         if(verifyPassword.password === newUser.password){
@@ -115,7 +115,7 @@ export default function RegisterScreen()
                   <Alert.Root status="warning">
                   <Alert.Indicator />
                   <Alert.Content>
-                        {passCheck.length < 12 && (<Alert.Title>Password must contain at least 12 Characters</Alert.Title>)}
+                        {passCheck.length < 12 && (<Alert.Title>Password must contain at least 8 Characters</Alert.Title>)}
                         {!passCheck.hasLetter && (<Alert.Title>Password must contain at least 1 Letter</Alert.Title>)}
                         {!passCheck.hasUpper && (<Alert.Title>Password must contain at least 1 Uppercase</Alert.Title>)}
                         {!passCheck.hasSymbol && (<Alert.Title>Password must contain at least 1 Special Character</Alert.Title>)}
