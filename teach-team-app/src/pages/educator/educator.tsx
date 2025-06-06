@@ -192,11 +192,11 @@ export default function EducatorDashboard()
                     <div className="flex-sbs-stock green-top no-gap flex-wrap either-end">
                         <div>
                             <p>{roleSelect} with number of times accepted {sortingMethod === "@all" ? "is anything" : sortingMethod === "none" ? "is none" : sortingMethod === "desc" ? "is largest to smallest excluding 0" : "is smallest to largest excluding 0"}</p>
-                            <BarChart data={searchVar} width={500} height={400} style={{marginBottom: "10px"}}>
-                                <XAxis dataKey="person.email" tick={{fontSize:"0.5rem"}}/>
+                            <BarChart data={searchVar} width={1000} height={550} style={{marginBottom: "10px"}} margin={{top: 10, bottom: 150}}>
+                                <XAxis dataKey="person.full_name" allowDuplicatedCategory tick={{textAnchor: "start"}} angle={90}/>
                                 <YAxis allowDecimals={false} minTickGap= {1} />
                                 <Tooltip />
-                                <Bar dataKey="timesAccepted" label="person.full_name" />
+                                <Bar dataKey="timesAccepted" label="person.full_name" fill="#11bf1b" stroke="black" radius={[10,10,0,0]}/>
                             </BarChart>
                             {searchVar.length <= 0 ? <p>No data returned</p> : ""}
                         </div>
