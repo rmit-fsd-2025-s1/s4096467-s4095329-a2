@@ -19,7 +19,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
         const data: User = payload[0].payload.person;
         return(
             <div className="custom-tooltip">
-                <p className="label"><strong>{label}</strong> : {data.email}</p>
+                <p className="label"><strong>{label.length > 0 ? label : "Not Provided"}</strong> : {data.email}</p>
                 <p><strong>Time Accepted</strong> : {payload[0].value}</p>
                 <p><strong>Summary : </strong><ul>{data.summary??"No Summary Provided"}</ul></p>
                 <p><strong>Previous Roles : </strong> {data.previous_roles.length >= 1 ? data.previous_roles.map((x,i) => <ul key={i}>{x}</ul>) :<ul>No Previous Roles</ul>}</p>
