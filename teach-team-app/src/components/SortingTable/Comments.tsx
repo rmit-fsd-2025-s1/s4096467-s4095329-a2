@@ -52,8 +52,12 @@ function GenComment({ comment }: { comment: string })
 
 export default function Comments() {
     //Set up state hooks
-    const [localEmail, setLocalEmail] = useState<string>(() => localStorage.getItem("localEmail") || "");
-    
+    const[localEmail, setLocalEmail] = useState<string>("");
+
+    useEffect(() => {
+        setLocalEmail(localStorage.getItem("localEmail")||"");
+    }, []);
+
     //generate list of users
     //TODO I changed this just in case anything breaks come back here
     // const db = useMemo<Map<string, userState>>(() => generateUsers(), []);
