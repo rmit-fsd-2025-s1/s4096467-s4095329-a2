@@ -407,17 +407,16 @@ export default function UserProfile()
                         </div>
                         <div className="avail">
                             <h2>Availability</h2>
-                            <p>{userData.availability !== "" ? (
-                               userData.availability
-                            ) : "Add your introduction here"}</p>
                             {editEntry === 'availability' ? (
                             <label>
-                                <textarea
-                                maxLength={9}
-                                value={temp}
-                                onChange={(e) => setTemp(e.target.value)}
-                                placeholder="Enter your availability"
-                                />
+                                <select className="option" onChange={(e) => setTemp(e.target.value)}> 
+                                    <option value="Weekdays" >Weekdays</option>
+                                    <option value="Weekends">Weekends</option>
+                                    <option value="Anytime">Anytime</option>
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Casual">Casual</option>
+                                </select>
                                 <div className="save">
                                     <Button color="white" colorPalette="green" size="sm" p="4" onClick={() => saveEntry('availability')}>Save</Button>
                                 </div>
@@ -425,6 +424,9 @@ export default function UserProfile()
                             </label>
                             ) : (
                             <>
+                            <p>{userData.availability !== "" ? (
+                               userData.availability
+                            ) : "Add your introduction here"}</p>
                                 <Button color="green" colorPalette="green" variant="outline" size="xl" p="4" onClick={() => createEntry('availability')}>Edit availibility</Button>
                                 <br/>
                             </>
