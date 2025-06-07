@@ -1,7 +1,7 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
 import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getUserType, getUserData, User } from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType, User } from "../../helpers/validate";
 import { userApi } from "../../services/api";
 
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
@@ -56,7 +56,6 @@ export default function EducatorDashboard()
             email: localEmail,
             password: localPassword
         }), [localEmail, localPassword]);
-    const data = useMemo(() => getUserData(user.email), [user.email]);
     
     // Variable hook that checks to see if the user is logged in properly
     const [passwordValid, setPasswordValid] = useState<boolean>(false);
