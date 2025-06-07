@@ -145,6 +145,7 @@ export class UserController {
       const user3Exist = await userRepo.findOneBy({ email: "test3@gmail.com" });
       const user4Exist = await userRepo.findOneBy({ email: "connor@gmail.com" });
       const user5Exist = await userRepo.findOneBy({ email: "will@gmail.com" });
+      const adminExist = await userRepo.findOneBy({ email: "admin" });
 
       if(!user1Exist)
         {
@@ -228,6 +229,19 @@ export class UserController {
               full_name: "Will",
               password: "$2b$10$IVaJqtZuG1oo6xj2lHi/4.20ZWCbYWPgtqA7r0.aBKrxvF699.skq",
               role: "lecturer",
+            }
+          ]);
+        }
+
+        if(!adminExist)
+        {
+          await userRepo
+          .save([
+            {
+              email: "admin",
+              full_name: "Admin",
+              password: "$2a$12$XhoEWP2B59z.UJVTnQgpwO472Qffryq8jFzXwljhcSmTrFTxXCL7q",
+              role: "admin",
             }
           ]);
         }

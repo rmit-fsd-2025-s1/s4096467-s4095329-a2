@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Users } from "../entity/Users";
 import bcrypt from "bcryptjs";
+import { Not } from "typeorm";
 
 export class LoginController {
 
@@ -17,7 +18,8 @@ export class LoginController {
       const inPassword: string = request.params.password;
       const user: Users[] = await AppDataSource.manager.find(Users, {
         where: {
-          email: inEmail
+          email: inEmail,
+          role: Not("admin")
           }
         });
 
