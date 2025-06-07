@@ -553,4 +553,33 @@ export class UserController {
     }
   }
 
+  async getComments(request: Request, response: Response) {
+    try {    
+
+    const email = request.params.email; 
+    const tutorRepo = await AppDataSource.getRepository(Tutors);
+    //Find the tutor with comments
+    const tutor = await tutorRepo.find({
+      where: {email},
+      relations: ["comments"],
+    });
+
+    if (!tutor) {
+      return response.status(404).json({ success: false, message: "Tutor not found" });
+    }
+
+    //Get all the comments from the user
+    const allComments = tutor
+      .flatMap(t => t.comments) //Flattens all comments into a singular array. We can loop through it.
+      .filter(comment => comment) //Filters null/undef
+
+    return response.status(200).json(allComments);
+    } 
+    catch (error) {
+      console.log("Error")
+      return response.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+
+
 }

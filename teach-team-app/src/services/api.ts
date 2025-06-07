@@ -121,6 +121,11 @@ export const userApi = {
   getTutor: async () => {
     const response = await api.get(`/tutors`);
     return response.data;
+  },
+
+  getComments: async (email: string) => {
+    const response = await api.get(`/tutors/${email}`, {params: { email }});
+    return response.data;
   }
 
 };

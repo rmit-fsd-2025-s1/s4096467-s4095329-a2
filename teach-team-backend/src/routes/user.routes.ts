@@ -121,5 +121,9 @@ router.get("/tutors", async (req, res) => {
   await userController.getTutors(req, res);
 })
 
+router.get("/tutors/:email", async (req, res) => {
+  await userController.getComments(req, res);
+})
+
 export default router;
 

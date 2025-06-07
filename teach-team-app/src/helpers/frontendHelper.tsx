@@ -82,10 +82,23 @@ export async function createComment(email: string, text: string, subject: string
 
 
 export async function getTutors(email: string){
-    console.log("Called createComment")
+    console.log("Called getTutors")
     try
     {   
         const result = await userApi.getTutor();
+        return result;
+    }
+    catch(e)
+    {   
+
+    }
+}
+
+export async function getComments(email: string){
+    console.log("Called getComment")
+    try
+    {   
+        const result = await userApi.getComments(email);
         return result;
     }
     catch(e)
