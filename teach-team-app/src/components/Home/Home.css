@@ -46,6 +46,8 @@ Be careful of comma placement */
     border: 2px solid grey;
     border-radius: 8px;
     width: 100%;
+    color: black;
+    background-color: white;
 }
 
 /* chakracard in tutor grid */
@@ -55,6 +57,8 @@ Be careful of comma placement */
     border: 2px solid grey;
     border-radius: 8px;
     width: 45%;
+    color: black;
+    background-color: white;
 }
 
 .courses-format {
