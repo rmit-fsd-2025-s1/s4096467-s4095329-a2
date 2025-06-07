@@ -1,0 +1,16 @@
+
+.load {
+    display: flex;
+    height: 75vh;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: bold;
+    padding: 50px;
+    gap: 30px;
+}
+
+.load p{
+   display: flex; 
+   font-size: 20px;
+}
