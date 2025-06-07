@@ -23,6 +23,11 @@ export interface Skills{
     skill: string
 }
 
+export interface UserCred{
+    email: string,
+    password: string
+}
+
 export interface User{
     email: string,
     full_name?: string,
