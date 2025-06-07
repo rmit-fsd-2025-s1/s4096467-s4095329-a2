@@ -37,7 +37,7 @@ export const userService = {
             passphrase: passwordIn
             }
         });
-        return data.validAdminLogin.validAdminLogin;
+        return data.validAdminLogin;
     }
 
 };
