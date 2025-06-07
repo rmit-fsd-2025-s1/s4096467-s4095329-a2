@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {useRouter} from "next/navigation";
+import { userApi } from '@/services/api';
 
 interface HeaderProps
 {
@@ -20,7 +21,17 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
         {
             setLocalEmail(localStorage.getItem("localEmail")||"");
         }, []);
-    const userName = localEmail.substring(0, localEmail.indexOf("@"));
+
+    const[fullName, setFullName] = useState<string>("No Name");
+    useEffect(() => {
+        if(localEmail && localEmail !== "no"){
+            const returnFullName = async () => {
+                const newFullName = await userApi.getFullName(localEmail||"no");
+                setFullName(newFullName);
+            }
+            returnFullName();
+        }
+    }, [localEmail]);
 
     const logOutRedirect = () => 
         {
@@ -41,7 +52,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
             {isLoggedIn ?<div className="user">
                 <Link href="/educator/userProfile">
                     <span className="user-profile">
-                        <h3>{userName}</h3>
+                        <h3>{fullName}</h3>
                     </span>                    
                 </Link>
             </div>:<></>}

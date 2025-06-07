@@ -14,7 +14,7 @@ export class Users {
     email: string
 
     //May change nullable to mandatory idk
-    @Column({type: "varchar", length: 1000, nullable: true})
+    @Column({type: "varchar", length: 1000, default: "No Name"})
     full_name: string
 
     @Column({type: "char", length: 60})

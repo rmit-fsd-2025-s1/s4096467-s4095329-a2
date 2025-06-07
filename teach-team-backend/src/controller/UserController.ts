@@ -73,6 +73,22 @@ export class UserController {
     }
   }
 
+  async getFullName(request: Request, response: Response){
+    try{
+      const name = await AppDataSource.createQueryBuilder()
+      .select("users")
+      .from(Users, "users")
+      .where("users.email = :email", { email: request.params.email })
+      .getOne();
+
+      return (response.status(200).json(name.full_name||"No Name"));
+    }
+    catch(e){
+      console.log(e);
+      return(response.status(400).json("No Name"));
+    }
+  }
+
   async userType(request: Request, response: Response) {
     try{
       const inEmail: string = request.params.email;

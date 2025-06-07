@@ -22,6 +22,12 @@ router.get("/users", async (req, res) => {
   await userController.all(req, res);
 });
 
+// Returns all users in the database
+// to call this, run /api/users/fullName/yourEmailHere
+router.get("/users/fullName/:email", async (req, res) => {
+  await userController.getFullName(req, res);
+});
+
 // Returns boolean depending on if the login is correct
 // to call this, run /api/users/login/yourEmailHere/yourPasswordHere
 router.get("/users/login/:email/:password", async (req, res) => {

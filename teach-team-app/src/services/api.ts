@@ -66,6 +66,12 @@ export const userApi = {
         const response = await api.post(`/users/applyToClass`, {email: emailIn, subject: subjectIn, role: roleIn});
         return response;
     },
+
+  getFullName: async (emailIn: string) => {
+    const response = await api.get(`/users/fullName/${emailIn}`);
+    const responseData: string = response.data;
+    return responseData;
+  },
   
     // Sort is the sort button that changes the order depending on the accepted count
     // Filter is the three buttons that change the search filtering
