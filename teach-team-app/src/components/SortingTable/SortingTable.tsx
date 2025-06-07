@@ -59,9 +59,9 @@ export function TutorSubjectTable({title, table1, table2, setTable1, setTable2}:
                     </HoverCard.Trigger>
                     <Portal>
                         <HoverCard.Positioner>
-                            <HoverCard.Content width="500px" maxW="90vw" minW="300px">
-                                <HoverCard.Arrow bg="green.50"/>
-                                <Box p="4" className="lecturerBox" fontSize="lg" boxShadow="md" bg="green.50">
+                            <HoverCard.Content width="500px" maxW="90vw" minW="300px" bg="white">
+                                <HoverCard.Arrow bg="white"/>
+                                <Box p="4" className="lecturerBox" fontSize="lg" boxShadow="md" bg="white">
                                     <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Email - </Text>{tut.email ?? "None"}</Text>
                                     <br/>
                                     <Text as="h2"><Text as="span" fontWeight="bold" color="green.600" fontSize="20px" display="inline" mr="1">Summary - </Text>{tut.summary.length >= 1 ? tut.summary : "No summary Provided"}</Text>

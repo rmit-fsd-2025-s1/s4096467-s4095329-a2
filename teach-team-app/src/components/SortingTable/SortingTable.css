@@ -1,3 +1,16 @@
 .chakra-table__root {
     padding: 20px;
 }
+
+.chakra-table__row:hover {
+    background-color: rgb(0, 130, 30);
+    color: white;
+}
+
+.chakra-hover-card__positioner{
+    color: rgb(67, 67, 67);
+}
+
+.lecturerBox {
+    background-color: white;
+}
