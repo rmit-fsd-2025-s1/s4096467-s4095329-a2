@@ -51,7 +51,7 @@ export default function LoginScreen()
             {/* <Header isLoggedIn={true} /> */}
             <form onSubmit={attemptLogin}>
                 <div className="login-title">
-                    <h1>Teach<span className="green">Team</span></h1>
+                    <h1>Teach<span className="purple">Team</span></h1>
                     <h2>Administration Page</h2>
                 </div>
                 <label>

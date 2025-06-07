@@ -77,6 +77,10 @@ form {
     color: purple;
   }
 
+  .purple{
+    color: purple;
+  }
+
   .flex-sbs {
     justify-content: space-between;
     flex-direction: column;
