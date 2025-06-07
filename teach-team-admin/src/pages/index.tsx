@@ -1,5 +1,5 @@
 import {useState, FormEvent } from "react";
-import {useRouter} from "next/navigation";
+import {useRouter} from "next/router";
 import Link from 'next/link';
 import { Alert } from "@chakra-ui/react"
 import { userService } from "@/services/api";
@@ -34,7 +34,7 @@ export default function LoginScreen()
         {
             localStorage.setItem("localEmail", email);
             localStorage.setItem("localPassword", password);
-            Router.push('/educator/educator');
+            Router.push('/adminHome');
         }
         else
         {   
@@ -87,9 +87,7 @@ export default function LoginScreen()
                     <Link href="">Forgot Password?</Link> 
                 </div>
             <div className="flex-sbs flex-gap">
-                <button className="login">Sign In</button>
-                <div className="ac">──────────── New to TeachTeam? ────────────</div>
-                <Link href="./register"><button className="register">Register</button></Link>
+                <button className="login" >Sign In</button>
             </div>
             </form>
             {/* <Footer isLoggedIn={true} type=""/> */}
