@@ -2,6 +2,7 @@ import { Provider } from "@/components/ui/provider";
 import "@/styles/globals.css";
 import "@/styles/index.css";
 import "@/styles/user-home.css";
+import "@/components/Header/Header.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 
