@@ -10,6 +10,22 @@ export const resolvers = {
         users: async () => {
             return await AppDataSource.manager.find(Users);
         },
+
+        user: async (_: any, { identifier }: {identifier: string}) => {
+            const user: Users = await AppDataSource.createQueryBuilder()
+            .select("users")
+            .from(Users, "users")
+            .where("users.email = :email", { email: identifier })
+            .getOne();
+
+            if(user){
+                return (user);
+            }
+            else{
+                return (null);
+            }
+        },
+
         validLogin: async (_: any, { identifier, passphrase }: {identifier: string, passphrase: string}) => {
             const user: Users[] = await AppDataSource.manager.find(Users,
                 {where:{
@@ -24,8 +40,8 @@ export const resolvers = {
                 return (false);
             }
         },
+
         validAdminLogin: async (_: any, { identifier, passphrase }: {identifier: string, passphrase: string}) => {
-            console.log(identifier + ":" + passphrase);
             const user: Users[] = await AppDataSource.manager.find(Users,
                 {where:{
                     email: identifier,
@@ -41,6 +57,7 @@ export const resolvers = {
             }
         }
     },
+
     Mutation:{
         addLecturer: async () => {
             return true;

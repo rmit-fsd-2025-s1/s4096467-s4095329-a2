@@ -13,6 +13,7 @@ export const typeDefs = gql`
 
     type Query{
         users: [User]
+        user(identifier: String!): User
         validLogin(identifier: String!, passphrase: String!): Boolean!
         validAdminLogin(identifier: String!, passphrase: String!): Boolean!
     }
