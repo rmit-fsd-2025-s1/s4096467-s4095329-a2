@@ -67,5 +67,30 @@ export async function deleteField(field: keyof detailsDB, key: number, email: st
     }
 }
 
+export async function createComment(email: string, text: string, subject: string, sender: string){
+    console.log("Called createComment")
+    try
+    {   
+        const result = await userApi.createComment(email, text, subject, sender);
+        return result;
+    }
+    catch(e)
+    {   
 
+    }
+}
+
+
+export async function getTutors(email: string){
+    console.log("Called createComment")
+    try
+    {   
+        const result = await userApi.getTutor();
+        return result;
+    }
+    catch(e)
+    {   
+
+    }
+}
 
