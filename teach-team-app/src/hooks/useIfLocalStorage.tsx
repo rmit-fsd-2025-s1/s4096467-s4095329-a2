@@ -5,15 +5,17 @@ export function useIfLocalStorage<T>(key: string, initialValue: T):
   // State to store our value
   const [storedValue, setStoredValue] = useState<T>(() => {
     // Arrow function to set a different initial value depending on what is in localStorage
-    try {
-      const item = window.localStorage.getItem(key);
-      if (item !== null) {
-        return JSON.parse(item); // Sets the initial value to the one from localStorage if there is one
+    if (typeof window !== "undefined") {
+      try {
+        const item = window.localStorage.getItem(key);
+        if (item !== null) {
+          return JSON.parse(item); // Sets the initial value to the one from localStorage if there is one
+        }
+        return initialValue; // If there isn't one in localStorage, set it to the input default value
+      } catch (error) {
+        console.log(error);
+        return initialValue;
       }
-      return initialValue; // If there isn't one in localStorage, set it to the input default value
-    } catch (error) {
-      console.log(error);
-      return initialValue;
     }
   });
 
