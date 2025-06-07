@@ -80,7 +80,7 @@ export function isPasswordValid(user: userCred)
         {
             try
             {
-                const result: boolean = await userApi.checkLogin(user.email,user.password);
+                const result: boolean = await userApi.checkLogin(user.email||"no",user.password||"no");
                 return result;
             }
             catch(e)
@@ -100,7 +100,7 @@ export function getUserType(email: string)
         {
             try
             {
-                const result: string = await userApi.getType(email);
+                const result: string = await userApi.getType(email||"no");
                 return result;
             }
             catch(e)
