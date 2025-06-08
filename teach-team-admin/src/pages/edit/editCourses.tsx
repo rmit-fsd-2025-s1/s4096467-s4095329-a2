@@ -5,8 +5,7 @@ import { Footer } from "@/components/Footer/Footer";
 import { LoadingScreen } from "@/components/Footer/LoadingScreen/LoadingScreen";
 import { Courses } from "@/data-types/Courses";
 import styles from "./editCourses.module.css";
-import { Alert, Button, Card, Field, Input } from "@chakra-ui/react";
-import { DiBackbone } from "react-icons/di";
+import {  Button, Card } from "@chakra-ui/react";
 
 export default function EditCourses(){
     // Setting up Local storage email and password for identifications
@@ -45,13 +44,13 @@ export default function EditCourses(){
 
     // Get the existing courses in the system
     //Call refresh upon deleting
-    const[updateCourses, setUpdateCourses] = useState(false);
     const [courseList, setCourseList] = useState<Courses[]>([]);
     const getCourseList = async () => {
         try {
             const courses = await userService.getAllCourses();
             console.log("Fetched courses:", courses);
             setCourseList(courses);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             console.error("Failed to get courses");
         }

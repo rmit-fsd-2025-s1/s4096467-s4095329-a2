@@ -296,7 +296,7 @@ export const resolvers = {
                 console.log(e);
                 return { success: false, return: [] };
             }
-        }
+        },
         
         deleteCourse: async (_, { courseCode }) => {
             console.log(courseCode)
