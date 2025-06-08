@@ -46,13 +46,13 @@ export default function AdminHome(){
     return(<>
     <div className="main-container">
         <Header isLoggedIn={passwordValid} accountType={loginType}/>
-        <main>
+        <main className={styles.mainBody}>
             { passwordValid ? 
 
             <div className={styles.optionsBox}>
                 <Link href="/edit/assignLecturer">
-                    <Card.Root _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px">
-                        <Card.Header>
+                    <Card.Root _hover={{bg: "purple.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="purple.200">
+                        <Card.Header color="black">
                             Assign Lecturers
                         </Card.Header>
                         <Card.Body color="grey">
@@ -61,8 +61,8 @@ export default function AdminHome(){
                     </Card.Root>
                 </Link>
                 <Link href="/add/addCourses">
-                    <Card.Root  _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px">
-                        <Card.Header>
+                    <Card.Root  _hover={{bg: "blue.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="blue.200">
+                        <Card.Header color="black">
                             Add Courses
                         </Card.Header>
                         <Card.Body color="grey">
@@ -71,8 +71,8 @@ export default function AdminHome(){
                     </Card.Root>
                 </Link>
                 <Link href="/edit/editCourses">
-                    <Card.Root  _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px">
-                        <Card.Header>
+                    <Card.Root  _hover={{bg: "green.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="green.200">
+                        <Card.Header color="black">
                             Modify / Delete Courses
                         </Card.Header>
                         <Card.Body color="grey">
@@ -81,8 +81,8 @@ export default function AdminHome(){
                     </Card.Root>
                 </Link>
                 <Link href="/edit/suspend">
-                    <Card.Root  _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px">
-                        <Card.Header>
+                    <Card.Root  _hover={{bg: "yellow.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="yellow.200">
+                        <Card.Header color="black">
                             Account Suspension
                         </Card.Header>
                         <Card.Body color="grey">
@@ -91,8 +91,8 @@ export default function AdminHome(){
                     </Card.Root>
                 </Link>
                 <Link href="/edit/promote">
-                    <Card.Root  _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px">
-                        <Card.Header>
+                    <Card.Root  _hover={{bg: "red.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="red.200">
+                        <Card.Header color="black">
                             Change Account Types
                         </Card.Header>
                         <Card.Body color="grey">
@@ -101,8 +101,8 @@ export default function AdminHome(){
                     </Card.Root>
                 </Link>
                 <Link href="/report/reportManager">
-                    <Card.Root  _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px">
-                        <Card.Header>
+                    <Card.Root  _hover={{bg: "teal.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="teal.200">
+                        <Card.Header color="black">
                             Graphing and Reports
                         </Card.Header>
                         <Card.Body color="grey">
