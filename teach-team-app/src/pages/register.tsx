@@ -36,6 +36,12 @@ export default function RegisterScreen()
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
 
+    const today = new Date();
+
+    const month = today.getMonth()+1;
+    const year = today.getFullYear();
+    const date = today. getDate();
+
     const registerUserButton = async (e: FormEvent) => {
         e.preventDefault();
 

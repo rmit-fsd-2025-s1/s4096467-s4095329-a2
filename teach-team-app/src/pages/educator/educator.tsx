@@ -44,13 +44,8 @@ export default function EducatorDashboard()
     useEffect(() => 
     {
         setLocalEmail(localStorage.getItem("localEmail")||"");
-    }, []);
-    
-    useEffect(() => 
-    {
         setLocalPassword(localStorage.getItem("localPassword")||"");
     }, []);
-
     // https://react.dev/reference/react/useMemo prevents lag by only getting data when fields change instead of having it fetch data every search input.
     const user: userCred = useMemo(() => ({
             email: localEmail,
@@ -60,32 +55,46 @@ export default function EducatorDashboard()
     // Variable hook that checks to see if the user is logged in properly
     const [passwordValid, setPasswordValid] = useState<boolean>(false);
     useEffect(() => {
+        //Basically what this does is that
+        //Set true  when page is loaded
+        let isLoaded = true;
+
         const validatePassword = async () => {
             const isValid = await isPasswordValid(user);
-            setPasswordValid(isValid);
+            console.log(isValid)
+            // Only update state if page is still loaded
+            if(isLoaded) {
+                setPasswordValid(isValid);
+            }
         };
         validatePassword();
-    }, [user]);
+
+        return () => {
+            isLoaded = false; //When you use the backbutton React will run this saying that the page is gone. Its a cleanup function
+        };
+    }, [user.email]);
 
     const [loginType, setLoginType] = useState<string>("");
     useEffect(() => {
-        const runOnShow = () => {
+        //Same logic applies here.
+        let isLoaded = true;
+
             const getTypeVal = async () => {
                 console.log(user.email)
                 const type = await getUserType(user.email);
-                if(typeof type === "boolean")
-                {
-                    setLoginType("");
-                }
-                else
-                {
-                    setLoginType(type);
+                if (isLoaded) {
+                    setLoginType(typeof type === "boolean" ? "" : type);
                 }
             };
-            getTypeVal();
-        }
-        runOnShow();
-    }, [user]);
+
+            if (user.email) {
+                getTypeVal();
+            }
+
+            return () => {
+                isLoaded = false;
+            };
+    }, [user.email]);
 
     //Display new message if true
     const [display, setDisplay] = useState(false)

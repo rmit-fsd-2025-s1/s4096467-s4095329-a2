@@ -101,14 +101,18 @@ export default function Comments() {
     const[allComments, setComments] = useState<comment[]>([]);
     
     useEffect(() => {
-        const runOnShow = () => {
+        let isLoaded = true;
             const getAllComments = async () => {
                 const result = await getComments(localEmail);
-                setComments(result)
+                if (isLoaded) {
+                    setComments(result)
+                }
+
             }
             getAllComments();
-        }
-        runOnShow();
+        return () => {
+            isLoaded = false;
+        };
     }, [localEmail])
     
     useEffect(() => {

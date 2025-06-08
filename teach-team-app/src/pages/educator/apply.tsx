@@ -25,27 +25,46 @@ export default function ApplyScreen()
     // Variable hook that checks to see if the user is logged in properly
     const [passwordValid, setPasswordValid] = useState<boolean>(false);
     useEffect(() => {
+        //Basically what this does is that
+        //Set true  when page is loaded
+        let isLoaded = true;
+
         const validatePassword = async () => {
             const isValid = await isPasswordValid(user);
-            setPasswordValid(isValid);
+            console.log(isValid)
+            // Only update state if page is still loaded
+            if(isLoaded) {
+                setPasswordValid(isValid);
+            }
         };
         validatePassword();
-    }, [user]);
+
+        return () => {
+            isLoaded = false; //When you use the backbutton React will run this saying that the page is gone.
+        };
+    }, [user.email]);
+
     const [loginType, setLoginType] = useState<string>("");
     useEffect(() => {
-        const getTypeVal = async () => {
-            const type = await getUserType(user.email);
-            if(typeof type === "boolean")
-            {
-                setLoginType("");
+        //Same logic applies here.
+        let isLoaded = true;
+
+            const getTypeVal = async () => {
+                console.log(user.email)
+                const type = await getUserType(user.email);
+                if (isLoaded) {
+                    setLoginType(typeof type === "boolean" ? "" : type);
+                }
+            };
+
+            if (user.email) {
+                getTypeVal();
             }
-            else
-            {
-                setLoginType(type);
-            }
-        };
-        getTypeVal();
-    }, [user]);
+
+            return () => {
+                isLoaded = false;
+            };
+    }, [user.email]);
 
     return(
         <>

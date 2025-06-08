@@ -43,31 +43,74 @@ export default function SubjectManager()
     }), [localEmail, localPassword]);
 
     // Variable hook that checks to see if the user is logged in properly
-    const [passwordValid, setPasswordValid] = useState<boolean>(false);
+    // const [passwordValid, setPasswordValid] = useState<boolean>(false);
+    // useEffect(() => {
+    //     const validatePassword = async () => {
+    //         const isValid = await isPasswordValid(user);
+    //         setPasswordValid(isValid);
+    //     };
+    //     validatePassword();
+    // }, [user]);
+   
+    // //Get login type from database
+    // const [loginType, setLoginType] = useState<string>("");
+    // useEffect(() => {
+    //     const getTypeVal = async () => {
+    //         const type = await getUserType(user.email);
+    //         if(typeof type === "boolean")
+    //         {
+    //             setLoginType("");
+    //         }
+    //         else
+    //         {
+    //             setLoginType(type);
+    //         }
+    //     };
+    //     getTypeVal();
+    // }, [user]);
+
+        const [passwordValid, setPasswordValid] = useState<boolean>(false);
     useEffect(() => {
+        //Basically what this does is that
+        //Set true  when page is loaded
+        let isLoaded = true;
+
         const validatePassword = async () => {
             const isValid = await isPasswordValid(user);
-            setPasswordValid(isValid);
+            console.log(isValid)
+            // Only update state if page is still loaded
+            if(isLoaded) {
+                setPasswordValid(isValid);
+            }
         };
         validatePassword();
-    }, [user]);
-   
-    //Get login type from database
+
+        return () => {
+            isLoaded = false; //When you use the backbutton React will run this saying that the page is gone.
+        };
+    }, [user.email]);
+
     const [loginType, setLoginType] = useState<string>("");
     useEffect(() => {
-        const getTypeVal = async () => {
-            const type = await getUserType(user.email);
-            if(typeof type === "boolean")
-            {
-                setLoginType("");
+        //Same logic applies here.
+        let isLoaded = true;
+
+            const getTypeVal = async () => {
+                console.log(user.email)
+                const type = await getUserType(user.email);
+                if (isLoaded) {
+                    setLoginType(typeof type === "boolean" ? "" : type);
+                }
+            };
+
+            if (user.email) {
+                getTypeVal();
             }
-            else
-            {
-                setLoginType(type);
-            }
-        };
-        getTypeVal();
-    }, [user]);
+
+            return () => {
+                isLoaded = false;
+            };
+    }, [user.email]);
     let content;
 
     //Checks to see if the lecturer is assigned to the class
