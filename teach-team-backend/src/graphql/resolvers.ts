@@ -103,7 +103,7 @@ export const resolvers = {
         },
 
         tutors: async () => {
-            return await AppDataSource.getRepository(Users).find({ where: { role: "tutor" } });
+            return await AppDataSource.getRepository(Users).find({ where: { role: "candidate" } });
         },
 
         courseLecturers: async (_: any, { courseCode }: {courseCode: string}) => {

@@ -43,6 +43,7 @@ export const typeDefs = gql`
         users: [User]
         user(identifier: String!): User
         lecturers: [Lecturer]
+        tutors: [User]
         courses: [Course]
         courseLecturers(courseCode: String!): [Lecturer]
         validLogin(identifier: String!, passphrase: String!): Boolean!
