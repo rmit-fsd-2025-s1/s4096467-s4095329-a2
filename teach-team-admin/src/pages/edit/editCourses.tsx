@@ -50,6 +50,7 @@ export default function EditCourses(){
             const courses = await userService.getAllCourses();
             console.log("Fetched courses:", courses);
             setCourseList(courses);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
             console.error("Failed to get courses", e);
         }
