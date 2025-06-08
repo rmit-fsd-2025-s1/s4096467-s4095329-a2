@@ -33,6 +33,11 @@ export const typeDefs = gql`
         lectureReturn: [Lecturer]
     }
 
+    type UserConfirmation{
+        success: Boolean
+        userReturn: [User]
+    }
+
     type Course{
         class_code: String
         subject_name: String
@@ -59,5 +64,8 @@ export const typeDefs = gql`
             email: String!
             class_code: String!
         ): AssignmentConfirmation
+        toggleSuspend(
+            email: String!
+        ): UserConfirmation
     }
 `;

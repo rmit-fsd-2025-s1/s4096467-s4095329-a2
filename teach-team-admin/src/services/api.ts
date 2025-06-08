@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { client } from "./apollo-client"
-import { User } from "@/data-types/User";
+import { User, UserReturn } from "@/data-types/User";
 import { Courses, UpdateCourses, UpdateCoursesReturn } from "@/data-types/Courses";
 
 // GraphQL Queries
@@ -117,6 +117,37 @@ const GET_LECTURERS = gql`
     }
 `;
 
+const TOGGLE_SUSPEND = gql`
+    mutation Mutation($email: String!) {
+        toggleSuspend(email: $email) {
+            success
+            userReturn {
+                email
+                full_name
+                password
+                role
+                availability
+                summary
+                active
+            }
+        }
+    }
+`;
+
+const GET_TUTORS = gql`
+    query Query {
+        tutors {
+            email
+            full_name
+            password
+            role
+            availability
+            summary
+            active
+        }
+    }
+`;
+
 const GET_LECTURERS_FOR = gql`
     query getLecturersFor($courseCode: String!) {
         courseLecturers(courseCode: $courseCode) {
@@ -187,6 +218,14 @@ export const userService = {
         return data.lecturers;
     },
 
+    //Gets all tutors
+    getAllTutors: async (): Promise<User[]> => {
+        const { data } = await client.query({
+            query: GET_TUTORS
+        });
+        return data.tutors;
+    },
+
     // Gets all lecturers
     getLecturersFor: async (courseName: string): Promise<User[]> => {
         const { data } = await client.query({
@@ -220,6 +259,17 @@ export const userService = {
             }
         });
         return data.addCourse;
+    },
+
+    // Toggles a user's suspension status
+    toggleSuspend: async (emailIn: string): Promise<UserReturn> => {
+        const { data } = await client.mutate({
+            mutation: TOGGLE_SUSPEND,
+            variables: {
+                email: emailIn,
+            }
+        });
+        return data.toggleSuspend
     },
 
     // Checks a user's role

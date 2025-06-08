@@ -45,3 +45,8 @@ export interface User{
     skills?:Skills[]
     lectures?:Courses[]
 }
+
+export interface UserReturn{
+    success: boolean,
+    userReturn: User[]
+}

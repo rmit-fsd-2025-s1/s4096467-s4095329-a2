@@ -1,0 +1,12 @@
+.tutorButton button{
+    margin-right: 20px;
+}
+
+.suspended{
+    background-color: firebrick;
+    color: white;
+}
+
+.unsuspended{
+    background-color: plum;
+}

@@ -274,6 +274,30 @@ export const resolvers = {
                 return ({success: false, return: []});
             }
 
+        },
+
+        toggleSuspend: async (_: any, { email }: {email: string}) => {
+            try{
+                const user: Users = await AppDataSource.getRepository(Users).findOne({ where: { email } });
+                let isSuccessful = true;
+                if(user){
+                    user.active = !user.active; // Toggle the active status
+
+                    await AppDataSource.getRepository(Users).save(user);
+                }
+                else{
+                    isSuccessful = false;
+                }
+                
+                // Return updated data
+                const returnUser = await AppDataSource.getRepository(Users).find({ where: { role: "candidate" } });
+
+                return {success: isSuccessful, userReturn: returnUser};
+            }
+            catch(e){
+                console.log(e);
+                return { success: false, return: [] };
+            }
         }
     },
 };
