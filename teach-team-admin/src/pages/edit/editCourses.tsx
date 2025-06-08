@@ -22,24 +22,37 @@ export default function EditCourses(){
         setLocalPassword(localStorage.getItem("localPassword")||"");
     }, []);
 
-    // Checking to see if the user's login is valid
+// Checking to see if the user's login is valid
     const [passwordValid, setPasswordValid] = useState<boolean>(false);
     useEffect(() => {
+        let isLoaded = true;
         const validatePassword = async () => {
             const isValid = await userService.validateLogin(localEmail, localPassword);
-            setPasswordValid(isValid);
+            if(isLoaded) {
+                setPasswordValid(isValid);
+            }
         };
         validatePassword();
+        return () => {
+            isLoaded = false;
+        }
     }, [localEmail, localPassword]);
 
     // Getting the user's role to change display depending on the role selected
     const [loginType, setLoginType] = useState<string>("");
+    
     useEffect(() => {
+        let isLoaded = true;
         const getTypeVal = async () => {
             const type = await userService.getRole(localEmail)
-            setLoginType(type);
+            if (isLoaded) {
+                setLoginType(type);
+            }
         }
         getTypeVal();
+        return () => {
+            isLoaded = false;
+        }
     });
 
     // Get the existing courses in the system
@@ -60,8 +73,17 @@ export default function EditCourses(){
         getCourseList();
     }, []);
 
+    // const [courseData, setCourseData] = useState<{ class_code: string; subject_name: string } | null>(null);
+
     const edit = async (course: Courses) => {
-        console.log("Edit course:", course);
+        console.log(course)
+        const result = await userService.getCourse(course)
+        console.log(result)
+        if (!result) {
+            return
+        }
+        // setCourseData({class_code: result.class_code, subject_name: result.subject_name});
+        return result;
     };
 
     const del = async (course: Courses) => {
