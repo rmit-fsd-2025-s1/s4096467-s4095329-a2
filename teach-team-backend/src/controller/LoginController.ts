@@ -19,7 +19,8 @@ export class LoginController {
       const user: Users[] = await AppDataSource.manager.find(Users, {
         where: {
           email: inEmail,
-          role: Not("admin")
+          role: Not("admin"),
+          active: true
           }
         });
 
