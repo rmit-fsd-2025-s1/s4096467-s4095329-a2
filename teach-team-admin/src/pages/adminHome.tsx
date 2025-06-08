@@ -90,18 +90,8 @@ export default function AdminHome(){
                         </Card.Body>
                     </Card.Root>
                 </Link>
-                <Link href="/edit/promote">
-                    <Card.Root  _hover={{bg: "red.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="red.200">
-                        <Card.Header color="black">
-                            Change Account Types
-                        </Card.Header>
-                        <Card.Body color="grey">
-                            Promote or demote users
-                        </Card.Body>
-                    </Card.Root>
-                </Link>
                 <Link href="/report/reportManager">
-                    <Card.Root  _hover={{bg: "teal.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="teal.200">
+                    <Card.Root  _hover={{bg: "red.300", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px" bg="red.200">
                         <Card.Header color="black">
                             Graphing and Reports
                         </Card.Header>
