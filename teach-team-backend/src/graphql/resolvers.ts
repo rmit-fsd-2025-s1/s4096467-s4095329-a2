@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import { UserController } from "../controller/UserController";
 import { AppDataSource } from "../data-source";
 import { Users } from "../entity/Users";
 import { Classes } from "../entity/Classes";
@@ -65,8 +64,6 @@ function duplicateCheck(inputString: string){
 
     return tempCheck;
 }
-
-const userController = new UserController();
 
 export const resolvers = {
     Query:{
@@ -140,7 +137,8 @@ export const resolvers = {
         validLogin: async (_: any, { identifier, passphrase }: {identifier: string, passphrase: string}) => {
             const user: Users[] = await AppDataSource.manager.find(Users,
                 {where:{
-                    email: identifier
+                    email: identifier,
+                    active: true
                 }}
             );
 
