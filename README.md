@@ -21,6 +21,7 @@ A tutor management system called TeachTeam, aiming to streamline the process of 
 ## External Components
 - [chakra-ui](https://www.npmjs.com/package/@chakra-ui/react)
 - [GraphQL](https://graphql.org/)
+- [Recharts](https://recharts.org/)
 ## Startup Guide
 - Download the dependencies listed above
    - node.js
