@@ -10,6 +10,7 @@ import { loadDB } from "@/helpers/loadStorage";
 import { getUser, deleteField, postField } from '../../helpers/frontendHelper'
 import { IntegerType } from "typeorm";
 import { get } from "http";
+import { useRouter } from "next/router";
 
 
 export interface details {
@@ -76,6 +77,11 @@ export default function UserProfile()
 
     }, []);
     
+    const router = useRouter();
+    const profileLink = (email: string) => {
+    router.push(`/educator/ProfilePage?email=${(email)}`);
+    };
+
     //https://react.dev/reference/react/useMemo
     //UseMemo stops recalculation on every keypress when typing input. This removes lag.
     const user: userCred = useMemo(() => ({
@@ -474,6 +480,9 @@ export default function UserProfile()
                     <h2>Lecturer Comments:</h2><br/>
                     {/* if not comments... show you have no comments */}
                     <Comments/>
+                </div>
+                <div className="profLink">
+                    <Button color="white" colorPalette="green" size="xl" p="4" onClick={() => profileLink(user.email)}>Visit your profile page</Button>
                 </div>
             </div>
             <Footer isLoggedIn={passwordValid} type=""/>

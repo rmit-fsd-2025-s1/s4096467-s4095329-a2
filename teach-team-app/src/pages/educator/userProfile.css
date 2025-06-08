@@ -231,3 +231,17 @@ textarea {
     justify-content: flex-start;
     margin-top: 10px;
 }
+
+.profLink {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.profLink .chakra-button {
+    background-color: rgb(35, 15, 107);
+}
+
+.profLink .chakra-button:hover {
+    background-color: rgb(26, 172, 123);
+}

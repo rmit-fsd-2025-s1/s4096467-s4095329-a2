@@ -131,6 +131,8 @@ export class UserController {
       }
 
         const userData = {
+            email: user.email || "",
+            role: user.role || "",
             full_name: user.full_name || "",
             summary: user.summary || "", 
             skills: user.skills || [],  

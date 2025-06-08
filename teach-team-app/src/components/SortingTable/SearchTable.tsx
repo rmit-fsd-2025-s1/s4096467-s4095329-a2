@@ -1,6 +1,7 @@
 import { toSentenceCase } from "@/helpers/stringHelper";
 import { User } from "@/helpers/validate";
 import { Box, HoverCard, Portal, Table } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 type searchTableProps = {tableDataIn: userData[]}
 
@@ -23,6 +24,13 @@ export interface userData{
 
 export function SearchTable({ tableDataIn }: searchTableProps)
 {
+
+    const router = useRouter();
+    const profileLink = (email: string) => {
+    router.push(`/educator/ProfilePage?email=${(email)}`);
+    };
+        
+
     return(<Table.Root 
             variant="outline" 
             size="lg" 
@@ -49,7 +57,7 @@ export function SearchTable({ tableDataIn }: searchTableProps)
                 // On hover display tutor information
                 <HoverCard.Root key={tut.person.email} openDelay={500} closeDelay={100}>
                     <HoverCard.Trigger asChild>
-                        <Table.Row key={tut.person.email}>
+                        <Table.Row key={tut.person.email} onClick={() => profileLink(tut.person.email)}>
                             {/* Display other information in body */}
                             <Table.Cell p="4" fontSize="md">{tut.person.full_name??"Not Provided"}</Table.Cell> {/*Tutor Name*/}
                             <Table.Cell p="4" fontSize="md">{tut.person.email??"Not Provided"}</Table.Cell> {/*Tutor Email*/}
