@@ -1,21 +1,10 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
-import {HomeContent} from "../../components/Home/Home";
-import { isPasswordValid, userCred, getUserType, User } from "../../helpers/validate";
-import { userApi } from "../../services/api";
-
+import { isPasswordValid, userCred, getUserType} from "../../helpers/validate";
 import { LoadingScreen } from "@/components/LoadingScreen/LoadingScreen";
 import { useEffect, useState, useMemo } from "react";
-import Link from "next/link";
-import { Button, Input, InputGroup } from "@chakra-ui/react";
-import { SearchTable, userData } from "@/components/SortingTable/SearchTable";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, TooltipProps } from "recharts";
-import { ValueType, NameType } from "recharts/types/component/DefaultTooltipContent"
-import { toSentenceCase } from "@/helpers/stringHelper";
 import { getUser } from "@/helpers/frontendHelper";
-import { detailsDB } from "./userProfile";
 import { useRouter } from "next/router";
-import "./ProfilePage.css";
 
 interface Language {
     language_key: number;
@@ -166,7 +155,7 @@ export default function ProfilePage() {
         <>
         <Header isLoggedIn={passwordValid} accountType={loginType}/>
         <div className="profileBody">
-            <div className="profHeader"><h1>{userData.full_name}'s Profile</h1></div>
+            <div className="profHeader"><h1>{`${userData.full_name}'s Profile`}</h1></div>
 
             <h1>Email: {userData.email}
             <br/>Role: {userData.role}</h1>

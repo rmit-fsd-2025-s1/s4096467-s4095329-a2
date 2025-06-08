@@ -1,8 +1,5 @@
-import { verify } from 'crypto';
 import Link from 'next/link'
-import { useState, useEffect, FormEvent } from "react";
-import { PiCoinsBold } from 'react-icons/pi';
-import { userApi } from '../services/api';
+import { useState, FormEvent } from "react";
 import { registerUser } from '../helpers/frontendHelper'
 import { Alert } from "@chakra-ui/react"
 export default function RegisterScreen()
@@ -36,11 +33,11 @@ export default function RegisterScreen()
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(false)
 
-    const today = new Date();
+    // const today = new Date();
 
-    const month = today.getMonth()+1;
-    const year = today.getFullYear();
-    const date = today. getDate();
+    // const month = today.getMonth()+1;
+    // const year = today.getFullYear();
+    // const date = today. getDate();
 
     const registerUserButton = async (e: FormEvent) => {
         e.preventDefault();

@@ -1,15 +1,11 @@
 import {Header} from "../../components/Header/Header";
 import {Footer} from "../../components/Footer/Footer";
-import { isPasswordValid, userCred, getUserType, getUserData} from "../../helpers/validate";
+import { isPasswordValid, userCred, getUserType} from "../../helpers/validate";
 
 import Comments from "@/components/SortingTable/Comments";
 import React, { useEffect, useState , useMemo} from "react";
 import { Button } from "@chakra-ui/react"
-import { useIfLocalStorage } from "@/hooks/useIfLocalStorage";
-import { loadDB } from "@/helpers/loadStorage";
 import { getUser, deleteField, postField } from '../../helpers/frontendHelper'
-import { IntegerType } from "typeorm";
-import { get } from "http";
 import { useRouter } from "next/router";
 
 
@@ -60,21 +56,17 @@ export interface detailsDB {
     languages: Language[];
 }
 
-const detailsTitle = ['summary', 'prevRoles', 'avail', 'certifications', 'education', 'skills', 'languages'];
-
 //some function to get username form their email before character '@';
 
 export default function UserProfile()
 {
     const[localEmail, setLocalEmail] = useState<string>("");
     const[localPassword, setLocalPassword] = useState<string>("");
-    const[localDB, setLocalDB] = useIfLocalStorage("localDB", loadDB());
     
     useEffect(() => 
     {
         setLocalEmail(localStorage.getItem("localEmail")||"");
         setLocalPassword(localStorage.getItem("localPassword")||"");
-
     }, []);
     
     const router = useRouter();
@@ -88,7 +80,6 @@ export default function UserProfile()
         email: localEmail,
         password: localPassword
     }), [localEmail, localPassword]);
-    const data = useMemo(() => getUserData(user.email), [user.email]);
 
     const [passwordValid, setPasswordValid] = useState<boolean>(false);
     useEffect(() => {
@@ -189,11 +180,15 @@ export default function UserProfile()
     //This one does the deletion
     const del = (field: keyof detailsDB, key: number) => {
         setEditEntry(field);
-        const c = rem(field, key)
+        rem(field, key)
     }
 
     const rem = (field: keyof detailsDB, key: number) => {
         const b = deleteField(field, key, user.email)
+        if (!b) {
+            console.warn("Operation failed: Something went wrong"); //Maybe UI error?
+            return
+        }
         setSaved(true);
     }
 
@@ -212,7 +207,11 @@ export default function UserProfile()
 
         //Added this so fetching, fetches correctly after you edit
         try {
-            await postField(field, temp, user.email);
+            const result = await postField(field, temp, user.email);
+            if (!result) {
+                console.warn("Operation failed: Something went wrong");
+                return
+            }
             setSaved(true);
             setEditEntry(null);
             setTemp("")
@@ -291,7 +290,7 @@ export default function UserProfile()
                             <>
                                 <ul>
                                 {/*Naming conventiosn HAVE to be the same as the DB or else it wont work. Its because you are getting RAW entities from the DB with exact naming*/}
-                                {userData.previous_roles.map((obj, index) => (
+                                {userData.previous_roles.map((obj) => (
                                     <li key={obj.role_key}> {obj.prev_role} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('previous_roles', obj.role_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
                                     <span className="delete">
@@ -325,7 +324,7 @@ export default function UserProfile()
                         {userData.educations.length > 0 ? (
                             <>
                                 <ul>
-                                {userData.educations.map((obj, index) => (
+                                {userData.educations.map((obj) => (
                                     <li key={obj.education_key}> {obj.education} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('educations', obj.education_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
                                     <span className="delete">
@@ -359,7 +358,7 @@ export default function UserProfile()
                             {userData.skills.length > 0 ? (
                             <>
                                 <ul>
-                                {userData.skills.map((obj, index) => (
+                                {userData.skills.map((obj) => (
                                     <li key={obj.skill_key}> {obj.skill} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('skills', obj.skill_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
                                     <span className="delete">
@@ -395,7 +394,7 @@ export default function UserProfile()
                             {userData.certifications.length > 0 ? (
                             <>
                                 <ul>
-                                {userData.certifications.map((obj, index) => (
+                                {userData.certifications.map((obj) => (
                                     <li key={obj.certification_key}> {obj.certification} 
                                     <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('certifications', obj.certification_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
@@ -460,7 +459,7 @@ export default function UserProfile()
                             {userData.languages.length > 0 ? (
                             <>
                                 <ul>
-                                {userData.languages.map((obj, index) => (
+                                {userData.languages.map((obj) => (
                                     <li key={obj.language_key}> {obj.language} <Button color="green" colorPalette="white" size="xs" marginLeft="5" onClick={() => del('languages', obj.language_key)}>
                                     <span className="material-symbols-outlined">edit</span></Button>
                                     <span className="delete">

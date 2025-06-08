@@ -1,6 +1,5 @@
-import bcrypt from "bcryptjs";
+
 import { userApi } from "../services/api";
-import { userState} from "./validate"
 import { User } from "./validate";
 import { detailsDB } from "@/pages/educator/userProfile";
 
@@ -21,7 +20,7 @@ export async function registerUser(newUser: Partial<User>){
     }
     catch(e)
     {   
-        console.error("Error");
+        console.error("Error in regUser", e);
         return false;
     }
 }
@@ -36,7 +35,7 @@ export async function getUser(email: string){
     }
     catch(e)
     {   
-        console.error("Error");
+        console.error("Error in userInfo", e);
         return false;
     }
 }
@@ -50,7 +49,8 @@ export async function postField(field: keyof detailsDB, text: string, email: str
     }
     catch(e)
     {   
-
+        console.error("Error in postField", e);
+        return false;
     }
 }
 
@@ -63,7 +63,8 @@ export async function deleteField(field: keyof detailsDB, key: number, email: st
     }
     catch(e)
     {   
-
+        console.error("Error in deleteField", e);
+        return false;
     }
 }
 
@@ -76,12 +77,13 @@ export async function createComment(email: string, text: string, subject: string
     }
     catch(e)
     {   
-
+        console.error("Error in createComment", e);
+        return false;
     }
 }
 
 
-export async function getTutors(email: string){
+export async function getTutors(){
     console.log("Called getTutors")
     try
     {   
@@ -90,7 +92,8 @@ export async function getTutors(email: string){
     }
     catch(e)
     {   
-
+        console.error("Error in getTutors", e);
+        return false;
     }
 }
 
@@ -103,7 +106,8 @@ export async function getComments(email: string){
     }
     catch(e)
     {   
-
+        console.error("Error in getComments", e);
+        return false;
     }
 }
 

@@ -3,8 +3,6 @@ import {Footer} from "../components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { getUserType, isPasswordValid, userCred } from "@/helpers/validate";
 import { Link} from "@chakra-ui/react"
-import "./index.css";
-
 
 export default function Home() {
   

@@ -3,7 +3,6 @@ import { classTable, saveClassTable } from "@/helpers/validate";
 import { User } from "../helpers/validate";
 import axios from "axios";
 import { detailsDB } from "@/pages/educator/userProfile";
-import { createComment, deleteField, getUser } from "@/helpers/frontendHelper";
 
 export const api = axios.create({
   baseURL: "http://localhost:3001/api", // Adjust this to match your backend URL

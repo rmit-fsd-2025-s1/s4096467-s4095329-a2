@@ -10,7 +10,7 @@ import { useEffect, useState , useMemo } from "react";
 import { TutorSubjectTable } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { TutorSubjectTableSort} from "@/components/SortingTable/SortingTableOrder";
-import { createComment, getTutors } from "@/helpers/frontendHelper";
+import { createComment } from "@/helpers/frontendHelper";
 
 interface errorProps{
     status: "success" | "info" | "warning" | "error" | "neutral" | undefined,
@@ -247,6 +247,10 @@ export default function SubjectManager()
         //Must be a string
         if (subject !== undefined) {
             const result = await createComment(email, temp, subject, sender);
+            if (!result) {
+                console.warn("Operation failed: Something went wrong");
+                return
+            }
         }   
 
         setCommentEmail(null);

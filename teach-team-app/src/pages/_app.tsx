@@ -8,6 +8,8 @@ import "../components/SortingTable/SortingTable.css";
 import "../pages/sign-in.css";
 import "../pages/educator/subjectManager.css";
 import "../pages/educator/userProfile.css";
+import "../pages/educator/ProfilePage.css";
+import "../pages/index.css"
 import type { AppProps } from "next/app";
 import Head from 'next/head';
 

@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card} from "@chakra-ui/react"
-import { userState, generateUsers, getLectureClasses} from "../../helpers/validate";
 import { getComments } from "@/helpers/frontendHelper";
 
 // interface commentsFromL {
