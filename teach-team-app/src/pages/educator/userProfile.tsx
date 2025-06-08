@@ -430,8 +430,8 @@ export default function UserProfile()
                             <h2>Availability</h2>
                             {editEntry === 'availability' ? (
                             <label>
-                                <select className="option" onChange={(e) => setTemp(e.target.value)}> 
-                                    <option value="Weekdays" >Weekdays</option>
+                                <select className="option" value={temp || userData.availability} onChange={(e) => setTemp(e.target.value)}> 
+                                    <option value="Weekdays">Weekdays</option>
                                     <option value="Weekends">Weekends</option>
                                     <option value="Anytime">Anytime</option>
                                     <option value="Full-time">Full-time</option>

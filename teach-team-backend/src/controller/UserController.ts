@@ -377,7 +377,7 @@ export class UserController {
         const repo = AppDataSource.getRepository(Users);
         const user = await repo.findOneBy({email});
 
-        if (text !== "Weekdays" || text !== "Weekends" || text !== "Anytime" || text !== "Full-time" || text !== "Part-time" || text !== "Casual") {
+        if (text !== "Weekdays" && text !== "Weekends" && text !== "Anytime" && text !== "Full-time" && text !== "Part-time" && text !== "Casual") {
           return response.status(400).json({ success: false, message: "Bad request" });
         }
                 
