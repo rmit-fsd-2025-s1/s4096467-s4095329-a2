@@ -69,18 +69,22 @@ export default function EducatorDashboard()
 
     const [loginType, setLoginType] = useState<string>("");
     useEffect(() => {
-        const getTypeVal = async () => {
-            const type = await getUserType(user.email);
-            if(typeof type === "boolean")
-            {
-                setLoginType("");
-            }
-            else
-            {
-                setLoginType(type);
-            }
-        };
-        getTypeVal();
+        const runOnShow = () => {
+            const getTypeVal = async () => {
+                console.log(user.email)
+                const type = await getUserType(user.email);
+                if(typeof type === "boolean")
+                {
+                    setLoginType("");
+                }
+                else
+                {
+                    setLoginType(type);
+                }
+            };
+            getTypeVal();
+        }
+        runOnShow();
     }, [user]);
 
     //Display new message if true
@@ -168,6 +172,8 @@ export default function EducatorDashboard()
         }
         searchPing();
     }, [currentButton, searchBar, sortingMethod, availabilitySelect, roleSelect]);
+
+    console.log("Login", loginType)
 
     //TODO Do we ask the user to fill in a form for their full name and other credentials? Like display a different page??
     return(

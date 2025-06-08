@@ -3,7 +3,7 @@ import { classTable, saveClassTable } from "@/helpers/validate";
 import { User } from "../helpers/validate";
 import axios from "axios";
 import { detailsDB } from "@/pages/educator/userProfile";
-import { deleteField } from "@/helpers/frontendHelper";
+import { createComment, deleteField, getUser } from "@/helpers/frontendHelper";
 
 export const api = axios.create({
   baseURL: "http://localhost:3001/api", // Adjust this to match your backend URL
@@ -111,5 +111,21 @@ export const userApi = {
   deleteField: async (field: keyof detailsDB, key: number, email: string) => {
     const response = await api.delete(`/users/${email}`, {params: {field, key, email}});
     return response.data;
+  },
+
+  createComment: async (email: string, text: string, subject: string, sender: string) => {
+    const response = await api.post(`/tutors/${email}`, {text, subject, sender});
+    return response.data;
+  },
+
+  getTutor: async () => {
+    const response = await api.get(`/tutors`);
+    return response.data;
+  },
+
+  getComments: async (email: string) => {
+    const response = await api.get(`/tutors/${email}`, {params: { email }});
+    return response.data;
   }
+
 };

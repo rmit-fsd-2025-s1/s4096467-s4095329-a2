@@ -112,5 +112,18 @@ router.delete("/users/:email", async (req, res) => {
   await userController.deleteField(req, res);
 })
 
+router.post("/tutors/:email", async (req, res) => {
+  await userController.createComment(req, res);
+})
+
+//Dont include users in URL cuz tutors is a separate table
+router.get("/tutors", async (req, res) => {
+  await userController.getTutors(req, res);
+})
+
+router.get("/tutors/:email", async (req, res) => {
+  await userController.getComments(req, res);
+})
+
 export default router;
 

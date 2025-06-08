@@ -2,6 +2,7 @@
 .comment-card .chakra-card__root {
     width: 100%;
     min-width: 300px;
+    background-color: white;
 }
 
 .comment-cont {

@@ -10,6 +10,7 @@ import { useEffect, useState , useMemo } from "react";
 import { TutorSubjectTable } from "@/components/SortingTable/SortingTable";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { TutorSubjectTableSort} from "@/components/SortingTable/SortingTableOrder";
+import { createComment, getTutors } from "@/helpers/frontendHelper";
 
 interface errorProps{
     status: "success" | "info" | "warning" | "error" | "neutral" | undefined,
@@ -186,17 +187,25 @@ export default function SubjectManager()
 
 }
 
+    //Flow Post function frontend -> front endhelper -> api.post -> router post -> tutor controller?? using tutor
+
     //Same logic as in the user profile
     const [commentEmail, setCommentEmail] = useState<string | null>(null);
     const [temp, setTemp] = useState("");
+
     const comment = (email: string) => {
         setCommentEmail(email);
         setTemp("");
     }
     
-    const send = (email: string, sender: string) => {
-        const sendTo = `${email}_commentFrom_${sender}_class${subject}`; 
-        localStorage.setItem(sendTo, temp);
+    //Email is the destination user
+    const send = async (email: string, sender: string) => {
+
+        //Must be a string
+        if (subject !== undefined) {
+            const result = await createComment(email, temp, subject, sender);
+        }   
+
         setCommentEmail(null);
     }
 

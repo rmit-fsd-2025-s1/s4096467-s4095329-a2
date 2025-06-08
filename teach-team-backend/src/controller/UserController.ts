@@ -7,6 +7,7 @@ import { Comments } from "../entity/Comments";
 import { Previous_Roles } from "../entity/Previous_Roles";
 import { Skills } from "../entity/Skills";
 import { Educations } from "../entity/Educations";
+import { Tutors } from "../entity/Tutors";
 import bcrypt from "bcryptjs";
 
 export class UserController {
@@ -495,4 +496,90 @@ export class UserController {
       return response.status(500).json({ success: false, message: "Server error" });
     }
   }
+
+  async createComment(request: Request, response: Response) {
+    console.log("TESTING")
+    try {
+
+    const email = request.params.email; 
+    const sender = request.body.sender;
+    const text = request.body.text;
+    const subject = request.body.subject;
+    
+    console.log(email)
+    console.log(sender)
+    console.log(text)
+    console.log(subject)
+    
+    //Get DB
+    const tutorRepo = await AppDataSource.getRepository(Tutors);
+    const commentRepo = await AppDataSource.getRepository(Comments);
+    // Find tutor by email and load the comments relation eagerly
+    const tutor = await tutorRepo.findOne({
+      where: {
+        email: email,
+        class_code: subject,
+      },
+      relations: ["comments"],
+    });
+
+    if (!tutor) {
+      return response.status(404).json({ success: false, message: "Tutor not found" });
+    }
+
+    //Assemble comment
+    const comment = new Comments();
+    comment.comment = `${text} | From ${sender} | Class: ${subject}`;
+    comment.tutor = tutor;
+    
+    await commentRepo.save(comment)
+    return response.status(200).json({ success: true, message: "Comment saved!" });
+    } 
+    catch (error) {
+      console.log("Error")
+      return response.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+
+  async getTutors(request: Request, response: Response) {
+    try {    
+    const tutors: Tutors[] = await AppDataSource.manager.find(Tutors);
+
+    return response.status(200).json(tutors);
+    } 
+    catch (error) {
+      console.log("Error")
+      return response.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+
+  async getComments(request: Request, response: Response) {
+    try {    
+
+    const email = request.params.email; 
+    const tutorRepo = await AppDataSource.getRepository(Tutors);
+    //Find the tutor with comments
+    const tutor = await tutorRepo.find({
+      where: {email},
+      relations: ["comments"],
+    });
+
+    if (!tutor) {
+      return response.status(404).json({ success: false, message: "Tutor not found" });
+    }
+
+    //Get all the comments from the user
+    const allComments = tutor
+      .flatMap(t => t.comments) //Flattens all comments into a singular array. We can loop through it.
+      .filter(comment => comment) //Filters null/undef
+
+    return response.status(200).json(allComments);
+    } 
+    catch (error) {
+      console.log("Error")
+      return response.status(500).json({ success: false, message: "Server error" });
+    }
+  }
+
+
 }
