@@ -204,6 +204,7 @@ export default function AddCourses(){
         <Header isLoggedIn={passwordValid} accountType={loginType}/>
         <main>
             { passwordValid ? <>
+                <h1 className={styles.titleClass}>Create New Classes</h1>
                 <div className={styles.courseListInputBox}>
                     <Field.Root invalid={inputError.course_code.length>0}>
                         <Field.Label>Course Code</Field.Label>

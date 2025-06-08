@@ -93,6 +93,7 @@ export default function AssignLecturer(){
         <Header isLoggedIn={passwordValid} accountType={loginType}/>
         <main>
             { passwordValid ? <>
+                <h1 className={styles.titleClass}>Assign Lecturers</h1>
                     {/* Class Select */}
                 <h2 className={localStyles.boxTitle}>Available Classes</h2>
                 <div className={styles.courseListBox}>

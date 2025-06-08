@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Header } from "@/components/Header/Header";
 import { Footer } from "@/components/Footer/Footer";
 import { LoadingScreen } from "@/components/Footer/LoadingScreen/LoadingScreen";
+import styles from "../add/addCourses.module.css";
+import localStyles from "./suspend.module.css";
 
 export default function Suspend(){
     // Setting up Local storage email and password for identifications
@@ -44,7 +46,11 @@ export default function Suspend(){
     <div className="main-container">
         <Header isLoggedIn={passwordValid} accountType={loginType}/>
         <main>
-            { passwordValid ? "Valid Password": <LoadingScreen /> }
+            { passwordValid ? <>
+                <h1 className={styles.titleClass}>Suspend Tutor Accounts</h1>
+                
+                
+            </>: <LoadingScreen /> }
         </main>
         <Footer isLoggedIn={passwordValid} type={loginType}/>
     </div>
