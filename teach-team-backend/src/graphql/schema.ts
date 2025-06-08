@@ -27,6 +27,12 @@ export const typeDefs = gql`
         return: [Course]
     }
 
+    type CourseConfirmation {
+        success: Boolean
+        message: String
+        return: [Course]
+    }
+
     type AssignmentConfirmation{
         success: Boolean
         courseReturn: [Course]
@@ -64,6 +70,9 @@ export const typeDefs = gql`
             email: String!
             class_code: String!
         ): AssignmentConfirmation
+        deleteCourse(
+            courseCode: String!
+        ): CourseConfirmation
         toggleSuspend(
             email: String!
         ): UserConfirmation

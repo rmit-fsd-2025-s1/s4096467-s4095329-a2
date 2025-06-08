@@ -1,0 +1,43 @@
+.courseListInputBox{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.courseListInputBox button{
+    margin-top: 20px;
+    width: 460px;
+    border-radius: 10px;
+}
+
+.courseListInputBox label{
+    margin-top: 10px;
+}
+
+.courseListBox{
+    border: 1px solid gray;
+    padding: 5px;
+}
+
+.mainC {
+    background-color: white;
+}
+
+
+.buttonGroup {
+  display: flex;
+  gap: 10px; 
+  margin-top: 10px; 
+}
+
+.headC h1{
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 50px
+}
+
+.headC {
+    background-color: rgb(89, 28, 146);
+    color: white;
+}

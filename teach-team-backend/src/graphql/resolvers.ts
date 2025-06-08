@@ -297,5 +297,27 @@ export const resolvers = {
                 return { success: false, return: [] };
             }
         }
+        
+        deleteCourse: async (_, { courseCode }) => {
+            console.log(courseCode)
+            try {
+                const course = await AppDataSource.manager.findOne(Classes, {
+                where: {
+                    class_code: courseCode
+                }
+                });
+
+                if (course) {
+                    await AppDataSource.manager.delete(Classes, { class_code: courseCode });
+                    return ({success: true, message: "Successfully Deleted"});
+                }
+                else {
+                    return ({success: false, message: "Unsuccesfully deleted"});
+                }
+
+            } catch (err) {
+                return ({success: false, message: "Error during deletion"});
+            };
+        },
     },
 };

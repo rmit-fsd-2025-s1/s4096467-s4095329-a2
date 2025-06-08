@@ -166,6 +166,15 @@ const GET_LECTURERS_FOR = gql`
     }
 `;
 
+const DELETE_COURSE = gql`
+    mutation DeleteCourse($courseCode: String!) {
+        deleteCourse(courseCode: $courseCode) {
+            success
+            message
+        }
+    }
+`;
+
 export const userService = {
     // Returns all users
     getAllUsers: async (): Promise<User[]> => {
@@ -288,5 +297,17 @@ export const userService = {
 
         return data.user.role;
     },
+
+    // Delete course
+    deleteCourse: async (course: Courses): Promise<boolean> => {
+        const { data } = await client.mutate({
+            mutation: DELETE_COURSE,
+            variables: {
+                courseCode: course.class_code
+            },
+        });
+
+        return data.deleteCourse?.success?? false;   
+    }
 
 };
