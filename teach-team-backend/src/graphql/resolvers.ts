@@ -131,7 +131,16 @@ export const resolvers = {
         },
 
         courses: async () => {
-            return await AppDataSource.manager.find(Classes);
+            const courses = await AppDataSource.manager.find(Classes, { relations: ["tutors"] });
+            for (const course of courses) {
+                if (course.tutors) {
+                    for (const tutor of course.tutors) {
+                        tutor.accepted = !!(tutor.accepted && tutor.accepted[0] === 1);
+                        tutor.active_tutor = !!(tutor.active_tutor && tutor.active_tutor[0] === 1);
+                    }
+                }
+            }
+            return courses;
         },
 
         validLogin: async (_: any, { identifier, passphrase }: {identifier: string, passphrase: string}) => {

@@ -11,6 +11,16 @@ export const typeDefs = gql`
         active: Boolean
     }
 
+    type Tutor{
+        email: String
+        class_code: String
+        role_name: String
+        accepted: Boolean
+        active_tutor: Boolean
+        ranking: Int
+        user: User
+    }
+
     type Lecturer{
         email: String
         full_name: String
@@ -48,6 +58,7 @@ export const typeDefs = gql`
         class_code: String
         subject_name: String
         lecturers: [User]
+        tutors: [Tutor]
     }
 
     type Query{

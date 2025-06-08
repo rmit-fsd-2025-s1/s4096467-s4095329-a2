@@ -54,6 +54,23 @@ const GET_COURSES = gql`
                 summary
                 active
             }
+            tutors {
+                email
+                class_code
+                role_name
+                accepted
+                active_tutor
+                ranking
+                user {
+                    email
+                    full_name
+                    password
+                    role
+                    availability
+                    summary
+                    active
+                }
+            }
         }
     }
 `;
