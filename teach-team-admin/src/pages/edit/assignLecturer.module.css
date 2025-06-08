@@ -1,0 +1,18 @@
+.boxTitle{
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.lectCheck{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    justify-content: left;
+}
+
+.lectCheck input{
+    display: flex;
+    width: 30px;
+    height: 30px;
+}

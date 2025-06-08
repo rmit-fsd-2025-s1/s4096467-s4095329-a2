@@ -89,6 +89,46 @@ export const resolvers = {
             }
         },
 
+        lecturers: async () => {
+            const lecturers = await AppDataSource.getRepository(Users).find({ where: { role: "lecturer" } });
+            for (const lecturer of lecturers) {
+                lecturer.lectures = await AppDataSource
+                    .getRepository(Classes)
+                    .createQueryBuilder("classes")
+                    .leftJoin("classes.lecturers", "lecturer")
+                    .where("lecturer.email = :email", { email: lecturer.email })
+                    .getMany();
+            }
+            return lecturers;
+        },
+
+        courseLecturers: async (_: any, { courseCode }: {courseCode: string}) => {
+            const lectReturnSort = await AppDataSource.manager.query(`
+                SELECT DISTINCT lc.email 
+                    FROM classes c
+                LEFT JOIN lecturer_classes lc 
+                    ON c.class_code = lc.class_code
+                WHERE c.class_code = ?;
+            `, [courseCode]);
+
+            const excluded = lectReturnSort.map((l) => {return l.email});
+
+            const lecturers = await AppDataSource.getRepository(Users).createQueryBuilder("users")
+            .where("role = \"lecturer\"")
+            .andWhere("email NOT IN (:...emails)", { emails: excluded})
+            .getMany();
+
+            for (const lecturer of lecturers) {
+                lecturer.lectures = await AppDataSource
+                    .getRepository(Classes)
+                    .createQueryBuilder("classes")
+                    .leftJoin("classes.lecturers", "lecturer")
+                    .where("lecturer.email = :email", { email: lecturer.email })
+                    .getMany();
+            }
+            return lecturers;           
+        },
+
         courses: async () => {
             return await AppDataSource.manager.find(Classes);
         },
@@ -126,8 +166,63 @@ export const resolvers = {
     },
 
     Mutation:{
-        addLecturer: async () => {
-            return true;
+        addLecturer: async (_: any, { email, class_code }: {email: string, class_code: string}) => {
+            try{
+                const classRepo = AppDataSource.getRepository(Classes);
+                // Get the class required and join on lecturers
+                const classObj: Classes = await classRepo.findOne({ where: { class_code }, relations: ["lecturers"] });
+                const lecturer = await AppDataSource.getRepository(Users).findOne({ where: { email } });
+
+                // If classObj and lecturer are valid, proceed to adding a lecturer
+                if (classObj && lecturer) {
+                    // Duplicate prevention so that the database is less likely to freak out
+                    if (!classObj.lecturers.find(l => l.email === lecturer.email)) {
+                        classObj.lecturers.push(lecturer);
+                    }
+                    // Save the updated class
+                    await classRepo.save(classObj);
+                }
+
+                // If I don't add this around the end return, it will start throwing errors if the class code is invalid
+                if(classObj){
+
+                    const returnedClasses = await AppDataSource.manager.find(Classes);
+                    
+                    // Copied from other method
+                    const lectReturnSort = await AppDataSource.manager.query(`
+                        SELECT DISTINCT lc.email 
+                        FROM classes c
+                        LEFT JOIN lecturer_classes lc 
+                        ON c.class_code = lc.class_code
+                        WHERE c.class_code = ?;
+                        `, [class_code]);
+                        
+                        const excluded = lectReturnSort.map((l) => {return l.email});
+                        
+                        const lecturers = await AppDataSource.getRepository(Users).createQueryBuilder("users")
+                        .where("role = \"lecturer\"")
+                    .andWhere("email NOT IN (:...emails)", { emails: excluded})
+                    .getMany();
+                    
+                    for (const lecturer of lecturers) {
+                        lecturer.lectures = await AppDataSource
+                        .getRepository(Classes)
+                        .createQueryBuilder("classes")
+                        .leftJoin("classes.lecturers", "lecturer")
+                        .where("lecturer.email = :email", { email: lecturer.email })
+                        .getMany();
+                    }
+                    
+                    return {success: true, courseReturn: returnedClasses, lectureReturn: lecturers};
+                }
+                else{
+                    return { success: false, courseReturn: [], lectureReturn: [] };
+                }
+            }
+            catch(e){
+                console.log(e);
+                return { success: false, courseReturn: [], lectureReturn: [] };
+            }
         },
 
         addCourse: async (_: any, { codeIn, nameIn }: {codeIn: string, nameIn: string}) => {

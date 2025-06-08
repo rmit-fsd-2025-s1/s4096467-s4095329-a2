@@ -11,20 +11,40 @@ export const typeDefs = gql`
         active: Boolean
     }
 
+    type Lecturer{
+        email: String
+        full_name: String
+        password: String
+        role: String
+        availability: String
+        summary: String 
+        active: Boolean   
+        lectures: [Course]
+    }
+
     type CourseConfirmation{
         success: Boolean
         return: [Course]
     }
 
+    type AssignmentConfirmation{
+        success: Boolean
+        courseReturn: [Course]
+        lectureReturn: [Lecturer]
+    }
+
     type Course{
         class_code: String
         subject_name: String
+        lecturers: [User]
     }
 
     type Query{
         users: [User]
         user(identifier: String!): User
+        lecturers: [Lecturer]
         courses: [Course]
+        courseLecturers(courseCode: String!): [Lecturer]
         validLogin(identifier: String!, passphrase: String!): Boolean!
         validAdminLogin(identifier: String!, passphrase: String!): Boolean!
     }
@@ -37,6 +57,6 @@ export const typeDefs = gql`
         addLecturer(
             email: String!
             class_code: String!
-        ): Boolean!
+        ): AssignmentConfirmation
     }
 `;

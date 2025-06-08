@@ -1,3 +1,5 @@
+import { Courses } from "./Courses"
+
 export interface Certifications{
     certification_key?: number,
     certification: string
@@ -36,9 +38,10 @@ export interface User{
     availability?: string,
     summary?: string,
     active?: boolean,
-    certifications: Certifications[],
-    educations: Educations[],
-    languages: Languages[],
-    previous_roles: Previous_Roles[],
-    skills:Skills[]
+    certifications?: Certifications[],
+    educations?: Educations[],
+    languages?: Languages[],
+    previous_roles?: Previous_Roles[],
+    skills?:Skills[]
+    lectures?:Courses[]
 }

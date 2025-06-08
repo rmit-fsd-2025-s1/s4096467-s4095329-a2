@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { client } from "./apollo-client"
 import { User } from "@/data-types/User";
-import { Courses, UpdateCourses } from "@/data-types/Courses";
+import { Courses, UpdateCourses, UpdateCoursesReturn } from "@/data-types/Courses";
 
 // GraphQL Queries
 const GET_USERS = gql`
@@ -45,6 +45,15 @@ const GET_COURSES = gql`
         courses{
             class_code
             subject_name
+            lecturers {
+                email
+                full_name
+                password
+                role
+                availability
+                summary
+                active
+            }
         }
     }
 `;
@@ -61,12 +70,79 @@ const SAVE_COURSE = gql`
     }
 `;
 
+const ADD_LECTURER_CLASS = gql`
+    mutation UpdateClassLecturer($email: String!, $classCode: String!) {
+        addLecturer(email: $email, class_code: $classCode) {
+            success
+            lectureReturn {
+            lectures {
+                class_code
+                subject_name
+            }
+            summary
+            role
+            password
+            full_name
+            email
+            availability
+            active
+            }
+            courseReturn {
+            class_code
+            subject_name
+            lecturers {
+                email
+                full_name
+            }
+            }
+        }
+    }
+`;
+
+const GET_LECTURERS = gql`
+    query getLecturers {
+        lecturers {
+            email
+            full_name
+            password
+            role
+            availability
+            summary
+            active
+            lectures {
+                class_code
+                subject_name
+            }
+        }
+    }
+`;
+
+const GET_LECTURERS_FOR = gql`
+    query getLecturersFor($courseCode: String!) {
+        courseLecturers(courseCode: $courseCode) {
+            email
+            full_name
+            password
+            role
+            availability
+            summary
+            active
+            lectures {
+                class_code
+                subject_name
+            }
+        }
+    }
+`;
+
 export const userService = {
+    // Returns all users
     getAllUsers: async (): Promise<User[]> => {
         const { data } = await client.query({query: GET_USERS});
         return data.users;
     },
 
+    // Returns boolean if login is correct for admin
     validateLogin: async (identifierIn: string, passwordIn: string): Promise<boolean> => {
         const { data } = await client.query({
             query: VALIDATE_LOGIN,
@@ -78,6 +154,7 @@ export const userService = {
         return data.validAdminLogin;
     },
 
+    // Gets a user's full name
     getFullname: async (identifierIn: string): Promise<string> => {
         const { data } = await client.query({
             query: GET_FULLNAME,
@@ -94,6 +171,7 @@ export const userService = {
         return data.user.full_name;
     },
 
+    // Gets all courses
     getAllCourses: async (): Promise<Courses[]> => {
         const { data } = await client.query({
             query: GET_COURSES
@@ -101,6 +179,38 @@ export const userService = {
         return data.courses;
     },
 
+    // Gets all lecturers
+    getAllLecturers: async (): Promise<User[]> => {
+        const { data } = await client.query({
+            query: GET_LECTURERS
+        });
+        return data.lecturers;
+    },
+
+    // Gets all lecturers
+    getLecturersFor: async (courseName: string): Promise<User[]> => {
+        const { data } = await client.query({
+            query: GET_LECTURERS_FOR,
+            variables: {
+                courseCode: courseName,
+            }
+        });
+        console.log(data);
+        return data.courseLecturers||[];
+    },
+
+    addLecturerToClass: async (emailIn: string, classCodeIn: string): Promise<UpdateCoursesReturn> => {
+        const { data } = await client.mutate({
+            mutation: ADD_LECTURER_CLASS,
+            variables: {
+                email: emailIn,
+                classCode: classCodeIn
+            }
+        });
+        return data.addLecturer;
+    },
+
+    // Adds a new course, returning the updated result and a boolean if it has succeeded
     addNewCourse: async (codeAPIin: string, nameAPIin: string): Promise<UpdateCourses> => {
         const { data } = await client.mutate({
             mutation: SAVE_COURSE,
@@ -112,6 +222,7 @@ export const userService = {
         return data.addCourse;
     },
 
+    // Checks a user's role
     getRole: async (identifierIn: string): Promise<string> => {
         const { data } = await client.query({
             query: GET_USER_ROLE,
