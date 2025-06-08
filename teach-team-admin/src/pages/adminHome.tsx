@@ -60,7 +60,7 @@ export default function AdminHome(){
                         </Card.Body>
                     </Card.Root>
                 </Link>
-                <Link href="/add/courses">
+                <Link href="/add/addCourses">
                     <Card.Root  _hover={{bg: "gray.100", boxShadow: "md"}} transition="background 0.05s ease-in-out" boxShadow={"sm"} p="4" width="320px" height="320px">
                         <Card.Header>
                             Add Courses

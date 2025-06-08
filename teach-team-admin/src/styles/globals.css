@@ -57,3 +57,12 @@ h1 .material-symbols-outlined {
 .hidden{
   display: none;
 }
+
+.fixed-bottom{
+    position: fixed;
+    bottom: 0px;
+}
+
+.inv{
+  margin-left: -30px;
+}

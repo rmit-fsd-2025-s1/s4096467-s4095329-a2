@@ -1,0 +1,20 @@
+.courseListInputBox{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.courseListInputBox button{
+    margin-top: 20px;
+    width: 460px;
+    border-radius: 10px;
+}
+
+.courseListInputBox label{
+    margin-top: 10px;
+}
+
+.courseListBox{
+    border: 1px solid gray;
+    padding: 5px;
+}
