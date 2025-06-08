@@ -102,6 +102,10 @@ export const resolvers = {
             return lecturers;
         },
 
+        tutors: async () => {
+            return await AppDataSource.getRepository(Users).find({ where: { role: "tutor" } });
+        },
+
         courseLecturers: async (_: any, { courseCode }: {courseCode: string}) => {
             const lectReturnSort = await AppDataSource.manager.query(`
                 SELECT DISTINCT lc.email 
