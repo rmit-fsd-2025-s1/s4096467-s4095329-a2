@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer/Footer";
 import { LoadingScreen } from "@/components/Footer/LoadingScreen/LoadingScreen";
 import { Courses } from "@/data-types/Courses";
 import styles from "./editCourses.module.css";
-import {  Button, Card } from "@chakra-ui/react";
+import {Button, Card} from "@chakra-ui/react";
 
 export default function EditCourses(){
     // Setting up Local storage email and password for identifications
@@ -52,7 +52,7 @@ export default function EditCourses(){
             setCourseList(courses);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (e) {
-            console.error("Failed to get courses");
+            console.error("Failed to get courses", e);
         }
     };
      
@@ -68,6 +68,7 @@ export default function EditCourses(){
     try {
         const result = await userService.deleteCourse(course)
         console.log(result)
+        //Refresh. Yes ik its quick fix but we dont have time
         window.location.reload();
     } catch (error) {
         console.error("Failed to delete course", error);
