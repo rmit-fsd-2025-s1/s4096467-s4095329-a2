@@ -5,8 +5,7 @@ import { Footer } from "@/components/Footer/Footer";
 import { LoadingScreen } from "@/components/Footer/LoadingScreen/LoadingScreen";
 import { Courses } from "@/data-types/Courses";
 import styles from "./editCourses.module.css";
-import { Alert, Button, Card, Field, Input } from "@chakra-ui/react";
-import { DiBackbone } from "react-icons/di";
+import {Button, Card} from "@chakra-ui/react";
 
 export default function EditCourses(){
     // Setting up Local storage email and password for identifications
@@ -45,7 +44,6 @@ export default function EditCourses(){
 
     // Get the existing courses in the system
     //Call refresh upon deleting
-    const[updateCourses, setUpdateCourses] = useState(false);
     const [courseList, setCourseList] = useState<Courses[]>([]);
     const getCourseList = async () => {
         try {
@@ -53,7 +51,7 @@ export default function EditCourses(){
             console.log("Fetched courses:", courses);
             setCourseList(courses);
         } catch (e) {
-            console.error("Failed to get courses");
+            console.error("Failed to get courses", e);
         }
     };
      
@@ -69,6 +67,7 @@ export default function EditCourses(){
     try {
         const result = await userService.deleteCourse(course)
         console.log(result)
+        //Refresh. Yes ik its quick fix but we dont have time
         window.location.reload();
     } catch (error) {
         console.error("Failed to delete course", error);
