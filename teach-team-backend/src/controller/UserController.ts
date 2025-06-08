@@ -133,6 +133,7 @@ export class UserController {
         const userData = {
             email: user.email || "",
             role: user.role || "",
+            dateJoined: user.dateJoined,
             full_name: user.full_name || "",
             summary: user.summary || "", 
             skills: user.skills || [],  
@@ -293,6 +294,11 @@ export class UserController {
       return response.status(500).json({ success: false, message: "Password Mismatch" });
     }
 
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
+    //Get Date OF LOCAL TIME
+    const localDate = new Date().toLocaleDateString('en-CA', {timeZone: 'Australia/Melbourne'});
+    console.log(localDate)
+    
     try {
       //Get data source
       const userRepository = AppDataSource.getRepository(Users);
@@ -307,6 +313,7 @@ export class UserController {
       //Create instance of object. email = request.body.email etc from the lines above.
       const newUser = userRepository.create({
         email,
+        dateJoined: localDate,
         password: hashed,
         role, 
       });

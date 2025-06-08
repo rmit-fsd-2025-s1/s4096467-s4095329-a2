@@ -118,7 +118,7 @@ export default function EducatorDashboard()
                         full_name: getdata.userData.full_name ?? "",
                     });
 
-                    if (getdata.userData.full_name === "") {
+                    if (getdata.userData.full_name === "No Name" || getdata.userData.full_name === "") {
                         setDisplay(true);
                     }
                     else {

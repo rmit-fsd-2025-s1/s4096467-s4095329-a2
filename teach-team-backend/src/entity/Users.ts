@@ -13,9 +13,11 @@ export class Users {
     @Column({ primary: true, type: "uuid" })
     email: string
 
-    //May change nullable to mandatory idk
     @Column({type: "varchar", length: 1000, default: "No Name"})
     full_name: string
+
+    @Column({ type: "date", default: "2025/05/06"}) //Format of "YYYY-MM-DD" //Default values 
+    dateJoined: string;
 
     @Column({type: "char", length: 60})
     password: string

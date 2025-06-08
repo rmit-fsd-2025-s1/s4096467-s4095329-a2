@@ -34,6 +34,7 @@ interface PreviousRoles {
 export interface info {
     email: string,
     role: string,
+    dateJoined: string;
     full_name: string;
     summary: string;
     previous_roles: PreviousRoles[];
@@ -120,6 +121,7 @@ export default function ProfilePage() {
                 setUserData({
                     email: getdata.userData.email ?? "",
                     role: getdata.userData.role ?? "",
+                    dateJoined: getdata.userData.dateJoined ?? "", //Date Joined will always exist because it gets the current time if no time exists
                     full_name: getdata.userData.full_name ?? "",
                     summary: getdata.userData.summary ?? "",
                     previous_roles: getdata.userData.previous_roles ?? [],
@@ -138,9 +140,12 @@ export default function ProfilePage() {
        getDetails(); 
     }, [email])
 
+    //dateJoined: new Date().toISOString().slice(0, 10),
+
     const [userData, setUserData] = useState<info>({
         email: "",
         role: "",
+        dateJoined: "",
         full_name: "",
         summary: "",
         previous_roles: [],
@@ -227,6 +232,8 @@ export default function ProfilePage() {
                     <div>No skills listed.</div>
                 )}
             </div>
+            {/* {https://www.w3schools.com/jsref/jsref_slice_string.asp} */}
+            <h1>{`Date joined ${userData.dateJoined}`}</h1>
         </div>
         {loginType !== "lecturer" && loginType !== "candidate" && (
             <LoadingScreen/>
