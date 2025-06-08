@@ -333,6 +333,11 @@ export class UserController {
       console.log(email)
       console.log(field)
       console.log(text)
+
+      //More validation
+      if (text === "") {
+        return response.status(400).json({ success: false, message: "Bad request" });
+      }
     
       //This will causes errors if not defined correctly
       // Find user with their existing field
@@ -371,6 +376,10 @@ export class UserController {
       else if (field === "availability") {
         const repo = AppDataSource.getRepository(Users);
         const user = await repo.findOneBy({email});
+
+        if (text !== "Weekdays" || text !== "Weekends" || text !== "Anytime" || text !== "Full-time" || text !== "Part-time" || text !== "Casual") {
+          return response.status(400).json({ success: false, message: "Bad request" });
+        }
                 
         if (user) {
           user.availability = text;
