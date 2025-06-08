@@ -49,11 +49,9 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                 </span>
             </Link>
             {isLoggedIn ?<div className="user">
-                <Link href="/educator/userProfile">
-                    <span className="user-profile">
-                        <h3>{fullName}</h3>
-                    </span>                    
-                </Link>
+                <span className="user-profile">
+                    <h3>{fullName}</h3>
+                </span>                    
             </div>:<></>}
             
             <nav>
@@ -71,7 +69,7 @@ export function Header({isLoggedIn, accountType}: HeaderProps)
                             <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                         </svg>
                     </label>
-                    {isLoggedIn && (<Link className ="home" href="/educator/educator"><span className="material-symbols-outlined">home</span>Home</Link>)}
+                    {isLoggedIn && (<Link className ="home" href="/adminHome"><span className="material-symbols-outlined">home</span>Home</Link>)}
                     {/* Conditional rendering*/}
                     {accountType === "candidate" ? (
                         <Link href="/educator/apply"><span className="material-symbols-outlined">file_copy</span>Apply</Link>

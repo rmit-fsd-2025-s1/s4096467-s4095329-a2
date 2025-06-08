@@ -45,14 +45,6 @@
     margin-left: auto;
 }
 
-.user:hover {
-    color: var(--accent-color);
-}
-
-.user:hover h3 {
-    color: var(--accent-color);
-}
-
 .user-profile img {
     gap: 0 0 5px 0;
 }
