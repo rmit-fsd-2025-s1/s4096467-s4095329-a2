@@ -143,6 +143,18 @@ export const resolvers = {
             return courses;
         },
 
+        course: async (_, { courseCode }) => {
+            try {
+                const course = await AppDataSource.manager.findOne(Classes, {
+                    where: { class_code: courseCode }
+                });
+                return course;
+            } catch (error) {
+                console.error("Error fetching course", error);
+                return null;
+            }
+        },
+
         validLogin: async (_: any, { identifier, passphrase }: {identifier: string, passphrase: string}) => {
             const user: Users[] = await AppDataSource.manager.find(Users,
                 {where:{

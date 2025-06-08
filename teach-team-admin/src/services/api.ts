@@ -75,6 +75,15 @@ const GET_COURSES = gql`
     }
 `;
 
+const GET_COURSE = gql`
+    query GetCourse($courseCode: String!) {
+        course(courseCode: $courseCode) {
+            class_code
+            subject_name
+        }
+    }
+`;
+
 const SAVE_COURSE = gql`
     mutation Mutation($codeIn: String!, $nameIn: String!) {
         addCourse(codeIn: $codeIn, nameIn: $nameIn) {
@@ -234,6 +243,17 @@ export const userService = {
             query: GET_COURSES
         });
         return data.courses;
+    },
+
+    // Gets courses
+    getCourse: async (course: Courses): Promise<Courses> => {
+        const { data } = await client.query({
+            query: GET_COURSE,
+            variables: {
+                courseCode: course.class_code
+            },
+        });
+        return data.course;
     },
 
     // Gets all lecturers

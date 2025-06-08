@@ -28,21 +28,33 @@ export default function AssignLecturer(){
     // Checking to see if the user's login is valid
     const [passwordValid, setPasswordValid] = useState<boolean>(false);
     useEffect(() => {
+        let isLoaded = true;
         const validatePassword = async () => {
             const isValid = await userService.validateLogin(localEmail, localPassword);
-            setPasswordValid(isValid);
+            if(isLoaded) {
+                setPasswordValid(isValid);
+            }
         };
         validatePassword();
+        return () => {
+            isLoaded = false;
+        }
     }, [localEmail, localPassword]);
 
     // Getting the user's role to change display depending on the role selected
     const [loginType, setLoginType] = useState<string>("");
     useEffect(() => {
+        let isLoaded = true;
         const getTypeVal = async () => {
             const type = await userService.getRole(localEmail)
-            setLoginType(type);
+            if (isLoaded) {
+                setLoginType(type);
+            }
         }
         getTypeVal();
+        return () => {
+            isLoaded = false;
+        }
     });
 
     // Hook for holding the selected course in the radion buttons
